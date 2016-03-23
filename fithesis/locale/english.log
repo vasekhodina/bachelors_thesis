@@ -1,0 +1,109 @@
+This is XeTeX, Version 3.14159265-2.6-0.99992 (TeX Live 2015/Arch Linux) (preloaded format=xetex 2015.11.15)  22 NOV 2015 15:13
+entering extended mode
+ restricted \write18 enabled.
+ %&-line parsing enabled.
+**english.ins
+(./english.ins (../LICENSE.tex
+(/usr/share/texmf-dist/tex/latex/base/docstrip.tex
+\blockLevel=\count28
+\emptyLines=\count29
+\processedLines=\count30
+\commentsRemoved=\count31
+\commentsPassed=\count32
+\codeLinesPassed=\count33
+\TotalprocessedLines=\count34
+\TotalcommentsRemoved=\count35
+\TotalcommentsPassed=\count36
+\TotalcodeLinesPassed=\count37
+\NumberOfFiles=\count38
+\inFile=\read1
+\inputcheck=\read2
+\@tempcnta=\count39
+\off@0=\count40
+\off@1=\count41
+\off@2=\count42
+\off@3=\count43
+\off@4=\count44
+\off@5=\count45
+\off@6=\count46
+\off@7=\count47
+\off@8=\count48
+\off@9=\count49
+\off@10=\count50
+\off@11=\count51
+\off@12=\count52
+\off@13=\count53
+\off@14=\count54
+\off@15=\count55
+\@temptokena=\toks13
+\@maxfiles=\count56
+\@maxoutfiles=\count57
+
+Utility: `docstrip' 2.5e <2014/09/29>
+English documentation    <2014/09/29>
+
+**********************************************************
+* This program converts documented macro-files into fast *
+* loadable files by stripping off (nearly) all comments! *
+**********************************************************
+
+********************************************************
+* No Configuration file found, using default settings. *
+********************************************************
+
+))
+
+Generating file(s) fithesis-english.def mu/fithesis-english.def mu/law/fithesis
+-english.def mu/fsps/fithesis-english.def mu/fss/fithesis-english.def mu/econ/f
+ithesis-english.def mu/med/fithesis-english.def mu/fi/fithesis-english.def mu/p
+hil/fithesis-english.def mu/ped/fithesis-english.def mu/sci/fithesis-english.de
+f 
+\openout0 = `fithesis-english.def'.
+
+\openout1 = `mu/fithesis-english.def'.
+
+\openout2 = `mu/law/fithesis-english.def'.
+
+\openout3 = `mu/fsps/fithesis-english.def'.
+
+\openout4 = `mu/fss/fithesis-english.def'.
+
+\openout5 = `mu/econ/fithesis-english.def'.
+
+\openout6 = `mu/med/fithesis-english.def'.
+
+\openout7 = `mu/fi/fithesis-english.def'.
+
+\openout8 = `mu/phil/fithesis-english.def'.
+
+\openout9 = `mu/ped/fithesis-english.def'.
+
+\openout10 = `mu/sci/fithesis-english.def'.
+
+
+Processing file english.dtx (base) -> fithesis-english.def
+                            (mu) -> mu/fithesis-english.def
+                            (mu/law) -> mu/law/fithesis-english.def
+                            (mu/fsps) -> mu/fsps/fithesis-english.def
+                            (mu/fss) -> mu/fss/fithesis-english.def
+                            (mu/econ) -> mu/econ/fithesis-english.def
+                            (mu/med) -> mu/med/fithesis-english.def
+                            (mu/fi) -> mu/fi/fithesis-english.def
+                            (mu/phil) -> mu/phil/fithesis-english.def
+                            (mu/ped) -> mu/ped/fithesis-english.def
+                            (mu/sci) -> mu/sci/fithesis-english.def
+% % % % <*base % . . % . . . . . . % . . . . . . . . . . . . . . . . . . . . .
+. . . % > % % % % % % <*mu % . . . . . . . . % . % > % % % % % % % <*mu/law %
+. . . . % > % % % % % % % <*mu/fsps % . . % . . % . % > % % % % % % <*mu/fss %
+. . % . . . . . % > % % % % % % <*mu/econ % . . . % > % % % % % % % % % % %
+<*mu/med % . . % . . % . . % . . % > % % % % % % % % % % % <*mu/fi % . . % . .
+. . . % . . % > % % % % % % <*mu/phil % . . % > % % % % % % % % % % <*mu/ped %
+. . % . . % . . % > % % % % % % % % % % % <*mu/sci % . . % . . % . . % . . . .
+. . . . . % > %
+Lines  processed: 246
+Comments removed: 124
+Comments  passed: 0
+Codelines passed: 100
+
+ )
+No pages of output.

@@ -1,0 +1,120 @@
+\documentclass[color,table,oneside,nolot,nolof]{fithesis}
+\usepackage[resetfonts]{cmap}
+\usepackage[main=czech,english]{babel}
+\usepackage[utf8]{inputenc}
+\thesissetup{
+		university = mu,
+		faculty = fi,
+		type = bc,
+		author = Václav Hodina,
+		gender = m,
+		advisor = Marek Grác,
+		title = {Nástroj pro konfiguraci datových úložišť OS GNU/Linux},
+		keywords = {vizualizace, instalace, rozdělení disků, linux, LVM},
+}
+\thesislong{abstract}{
+	Práce popisuje vývoj modulu do instalátoru Anaconda, který využívají linuxové distribuce vycházející z~Red Hat Enterprise Linuxu.
+}
+\thesislong{thanks}{
+	Zde chci poděkovat Marku Grácovi za vedení mé práce, Marii Staré za korektury a~své rodinně za podporu.
+}
+\usepackage{csquotes}
+\usepackage[plainpages=false,pdfpagelabels,unicode]{hyperref}
+\usepackage{charter,graphicx}
+\usepackage[top=1in, bottom=1.25in, left=1.25in, right=1.25in]{geometry}
+\usepackage[
+	backend=biber,
+	style=numeric,
+	citestyle=numeric-comp,
+	sorting=none,
+	sortlocale=auto
+	]{biblatex}
+\addbibresource{bak_prace.bib}
+\usepackage{makeidx}
+\makeindex
+\usepackage{paralist} 
+\usepackage{amsmath} 
+\usepackage{amsthm} 
+\usepackage{amsfonts} 
+\usepackage{url} 
+\usepackage{menukeys}
+\hyphenation{graph-viz}
+\begin{document}
+\chapter{Úvod}
+	Bakalářská práce zpracovává řešení problémů s~vizualizací rozdělených disků při instalaci systému. Cílem práce je vytvořit pochopitelnou grafickou nápovědu pro administrátory 
+	počítačů, zvláště serverů s~mnoha disky. 
+	Konkrétněji se jedná o~rozšíření instalátoru Anaconda, které zpracovává informace o~jednotlivých discích, jako je název, velikost a typ disku a~jednotlivé oddíly na disku utvořené. 
+	Samozřejmostí je zahrnutí 
+	diskových polí typu RAID (Redundant Array of Independent Disks)  a~virtualizovaných disků mezi vizualizovaná data; rozšíření počítá se všemi těmito typy. Data jsou uložena 
+	ve vlastních třídách tak, aby programování případné další funcionality 
+	nepředstavovalo problém. Program vytváří graf podobný stromové struktuře a~zobrazuje jej uživateli. Graf se během instalace tvoří dvakrát, poprvé
+	před rozdělením disků a~podruhé pro kontrolu, zda jsou předložené změny korektní, než se zformátují disky. V~současnosti je k~tomuto účelu využíván pouze textový 
+	seznam změn, který je nedostatečný. Člověk dokáže mnohem lépe a~rychleji kontrolovat obrázková data než homogenní text. 
+
+	Práce vznikala nejen na Fakultě informatiky Masarykovy univerzity (FI MUNI), ale i~ve společnosti Red Hat. Tam budou využity její výsledky,
+	integrované do instalátoru Anaconda, který je v~současnosti používán v~linuxových distribucích Red Hat Enterprise Linux (RHEL), CentOs a~Fedora.
+
+	Práci jsem si vybral z~několika důvodů.  Možnost podílet se na vývoji svobodného softwaru je pro mě velmi důležitým hlediskem 
+	při psaní jakéhokoliv programu. Druhý důvod je možný rozsah uplatnitelnosti výsledků mé práce. Každý systém je třeba nejprve nainstalovat, výsledky
+	této práce tedy uvidí velké množství lidí, což je bezpochyby velká motivace pro každého, kdo něco tvoří. Třetím důvodem je výběr programovacího jazyka, který je vyžadován 
+	v~zadání. Jedná se o jazyk Python, který považuji za velmi flexibilní, aniž by byly kladeny přílišné nároky na výkon systému. 
+
+	Jak jsem zmínil výše, hlavním cílem práce je naprogramování aplikace, která vytváří graf stromové struktury rozdělených disků. Data přijímá od instalátoru Anaconda, 
+	přičemž využívá knihovnu blivet. 
+	Vedlejšími cíli je možnost vytvářet grafy ze souborů XML, ne jen z~aplikace, dále integrace do instalátoru s~možností označovat jednotlivé diskové oddíly a~interagovat
+	s~nimi. Posledním doplňkovým cílem je funkcionalita umožňující porovnat stav před instalací a~po ní v~případě, že je systém přeinstalováván.
+
+	Z~cílů vychází také struktura práce. První kapitola popisuje použité knihovny. První knihovna, blivet\cite{blivet}, poskytuje data a mimo jiné může sloužit i~pro změny 
+	nastavení disků (tato funkcionalita je v~mé práci zmíněna jen okrajově). Druhou je knihovna graphviz-python\cite{graphviz-python}, Graphviz je program pro tvorbu grafů. Kromě
+	jednoduchého spojování uzlů hranami dokáže uzly automaticky třídit a~logicky rozmisťovat podle různých přednastavených pravidel. Nabízí také různý vzhled uzlů
+	a~hran a výsledné grafy dokáže exportovat v~několika formátech. Výsledek mé práce operuje především s~formátem škálovatelné vektorové grafiky (SVG). Graphviz-python je 
+	nadstavba Graphvizu pro použití v~jazyce Python.
+
+	Druhá kapitola je o~mém návrhu jednotlivých tříd programu, jejich dokumentaci a~popisu funkcí. Nejdůležitější z tříd jsou ty pro uzly a~hrany. Zmíněny jsou také pomocné třídy 
+	pro načítání z~jiných formátů vstupních dat, jako je již zmiňované XML.
+
+	Třetí kapitola obdobně popisuje návrh vzhledu aplikace a~její chování. Zdůvodňuje, proč jsem se rozhodl pro jednotlivé grafické prvky a~barevná odlišení.
+
+	Čtvrtá kapitola obsahuje ukázky práce programu. Demonstruje několik konfigurací, jež mají za úkol program otestovat a~vyzkoušet i~potenciálně problémové situace. Ukázky  
+	zahrnují situace jak při práci v~prostředí instalátoru, tak mimo něj.
+
+	Pátá kapitola zmiňuje další možná rozšíření mého programu. 
+
+\chapter{Stať}
+\section{Knihovna Blivet}
+	První a nejdůležitější knihovouk která je v mé práci využívána je knihovna blivet. Jde o projekt a bakalářsknou práci Bc. Vojtěcha Trefného. Projekt vznikl, stejně jako moje
+	práce ve firmě Red Hat a slouží k rozšíření již zmiňovaného instalátoru Anaconda. Použití této knihovny je součástí zadání a proto nebudu diskutovat její výhody a nevýhody
+	oproti ostatním knihovnám. 
+
+	Blivet však není knihovnou která by jen četla informace o pevných discích. Mezi její funkce patří i konfigurace různých datových úložišť. Nemusí se ani jednat jen o pevné disky.
+	Ovládá i mnohé další technologie se kterými se lze v dnešní době setkat. Příkladem jsou to vícenásobné pole nezávislých disků (RAID), technologie logických svazků disku (LVM) či 
+	ovládání zašifrovaných modulů pomocí technologie LUKS. Všechny 3 příklady proberu níže.
+
+\subsection{RAID}
+	Vícenásobná pole nezávislých disků jsou velmi elegantní ochranou před selháním disků. Existůjí různé způsoby jak pole realizovat ale základní princip zůstává vždy stejný. Jde v~něm
+	o~několik disků, které nakonec vystupují jako jeden disk. Podle použítí typu vícenásobného diskového pole může mít tento disk kapacitu rovnou součtu disků jej tvořících, anebo také
+	jen kapacitu jednoho disku, přičemž data jsou zrcadlena na ostatní disky.
+
+\subsection{LVM}
+
+\subsection{LUKS}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	\printbibliography
+
+\end{document}

@@ -1,0 +1,14 @@
+[0] Config.pm:327> INFO - This is Biber 2.2
+[0] Config.pm:330> INFO - Logfile is 'bak_prace.blg'
+[26] biber:286> INFO - === Pá pro 18, 2015, 10:42:55
+[26] Biber.pm:334> INFO - Reading 'bak_prace.bcf'
+[94] Biber.pm:677> INFO - Found 2 citekeys in bib section 0
+[107] Biber.pm:3054> INFO - Processing section 0
+[117] Biber.pm:3193> INFO - Looking for bibtex format file 'bak_prace.bib' for section 0
+[118] bibtex.pm:1072> INFO - Decoding LaTeX character macros into UTF-8
+[118] bibtex.pm:935> INFO - Found BibTeX data source 'bak_prace.bib'
+[140] UCollate.pm:66> INFO - Overriding locale 'cs-CZ' defaults 'normalization = NFD' with 'normalization = prenormalized'
+[140] UCollate.pm:66> INFO - Overriding locale 'cs-CZ' defaults 'variable = shifted' with 'variable = non-ignorable'
+[140] Biber.pm:2931> INFO - Sorting list 'none' of type 'entry' with scheme 'none' and locale 'cs-CZ'
+[142] bbl.pm:505> INFO - Writing 'bak_prace.bbl' with encoding 'UTF-8'
+[142] bbl.pm:596> INFO - Output to bak_prace.bbl
