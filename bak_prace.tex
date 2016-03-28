@@ -9,14 +9,14 @@
 		author = Václav Hodina,
 		gender = m,
 		advisor = Marek Grác,
-		title = {Nástroj pro konfiguraci datových úložišť OS GNU/Linux},
-		keywords = {vizualizace, instalace, rozdělení disků, linux, LVM},
+		title = {Vizualizace rozdělování disků},
+		keywords = {vizualizace, instalace, rozdělení disků, linux, LVM, RAID},
 }
 \thesislong{abstract}{
 	Práce popisuje vývoj modulu do instalátoru Anaconda, který využívají linuxové distribuce vycházející z~Red Hat Enterprise Linuxu.
 }
 \thesislong{thanks}{
-	Zde chci poděkovat Marku Grácovi za vedení mé práce, Marii Staré za korektury a~své rodinně za podporu.
+	Zde chci poděkovat Marku Grácovi za vedení mé práce, Marii Staré za korektury.
 }
 \usepackage{csquotes}
 \usepackage[plainpages=false,pdfpagelabels,unicode]{hyperref}
@@ -90,15 +90,51 @@
 	Ovládá i mnohé další technologie se kterými se lze v dnešní době setkat. Příkladem jsou to vícenásobné pole nezávislých disků (RAID), technologie logických svazků disku (LVM) či 
 	ovládání zašifrovaných modulů pomocí technologie LUKS. Všechny 3 příklady proberu níže.
 
+	Dále obsahuje též nástroje pro práci se souborovými systémy diskových oddílů od starších a již používaných jako jsou žurnálovací souborové systémy ext2 až ex4 či ReiserFS po novější
+	jakými jsou btrfs nebo ZFS. Též se stará o bootovací oddíly čili master boot record (MBR) a GUID partition table (GPT). Stručně řečeno stará se o všechny součásti procesu instalace
+	nového systému na počítač.
+
 \subsection{RAID}
 	Vícenásobná pole nezávislých disků jsou velmi elegantní ochranou před selháním disků. Existůjí různé způsoby jak pole realizovat ale základní princip zůstává vždy stejný. Jde v~něm
 	o~několik disků, které nakonec vystupují jako jeden disk. Podle použítí typu vícenásobného diskového pole může mít tento disk kapacitu rovnou součtu disků jej tvořících, anebo také
-	jen kapacitu jednoho disku, přičemž data jsou zrcadlena na ostatní disky.
+	jen kapacitu jednoho disku, přičemž data jsou zrcadlena na ostatní disky. Cílem tohoto nastavení je ochrana před selháním hardware a ztrátou dat. 
+	
+	Blivet obsahuje nástroje pro práci s svobodnou technologií mdadm která slouží k nastavení softwarového RAID pole. Při využití hardwarových technologií, zvláště pak nesvobodných
+	je možné k tomuto RAIDu přistupovat jako k obyčejnému disku, čehož i nesvobodné RAIDy často využívájí a svých mnoho disků schovávají za jednotným rozhraním, které se tváří jako jeden
+	disk. 
+
+	Program mdadm je ale softwarový RAID a proto má počítač celou dobu přehled nejen o finálním zabezpečeném disku proti selhání ale i o všech dílčích discích které ho tvoří. Výhodou je
+	možnost monitoringu redundantních disků nástroji které jsou součástí systému, bez nutnosti využívání aplikací třetích stran u kterých je možnost nekompatibility případně dalších komplikací.
+	Mezi nevýhody se řadí větší nepřehlednost při práci se všemi disky počítače, kdy změna jednoho disky vyvolává řetězovou reakci dalších změn. Právě proto je třeba data uceleně třídit a 
+	pokud možno i přehledně vizualizovat.
 
 \subsection{LVM}
+  LVM neboli logical volume management je metoda, kterou je možno spravovat diskové oddíly. Poskytuje větší flexibilitu volného místa než klasické diskové oddíly. Pracuje se třemi úrovněmi
+	diskových zařízení. Prvnímy jsou fyzické svazky neboli physical volumes (PV). Fyzický svazek je tvořen buď samotným diskem, včetně například RAID disku, nebo diskovým oddílem. Fyzické
+	svazky nenabízí o mnoho více funkcionality než je označení a příparava svazku pro další práci. Příprava spočívá v rozdělení fyzického svazku na fyzické extenty (physical extents, PE).
+
+	Další úrovní jsou skupiny svazků (volume groups, VG), sdružující jak jeden nebo více fyzických svazků tak logických svazků. Skupiny svazků disponují úložným prostorem svých PV, který 
+  rozdělují mezi logické svazky. Výhodou existence VG je možnost libovolně přidávat svazky a to i za plného chodu systému. Za chodu systému lze místo i ubírat ale samozřejmě
+	pouze dosud neobsazenou část. 
+
+	Třetí úrovní jsou již zmíněné logické svazky které jsou dostupné pro uživatele k ukládání jeho dat. Z tohoto pohledu se chovají se stejně jako obyčejné diskové oddíly. Jak již ale
+	bylo zmíněno výhodou oproti obyčejným diskovým oddílům je flexibilita dostupného místa. Na logických svazcích je již možné vytvářet souborové systémy a dále s nimi pracovat.
+
+	Kromě úprav velikosti za chodu je také možné přesouvat data mezi jednotlivými skupinami svazků. LVM také umí vytvářet snímky, tj. zachycovat stav dat v čase. Využítí nachází tato vlastnost
+	při vytváření záloh a jako záchytný bod ke kterému je možné se vrátit. Nevýhodou logical volume managementu je skutečnost, že data na fyzických svazcích mohou být fragmentována a tak
+	dochází ke snížení výkonu. Také je třeba mít na zřeteli fakt, že pokud zmenšujeme logický svazek musí tuto funkci obsahovat i souborový systém který se na něm nachází.
 
 \subsection{LUKS}
+	Linux Unified Key Setup (unifikované nastavení klíčů na linuxu) zkráceně LUKS je specifikace šifrování disků původně vytvořená pro systém Linux. Existují i implementace na jiné systémy
+	těmi se zde ale zabývat nebudu. Slovy autora LUKS vznikl, aby usnadnil proces nastavování šifrovaných dat: "It has initially been developed to remedy the unpleasantness a user 
+	experienced that arise from deriving the encryption setup from changing user space, and forgotten command line arguments. The result of this changes are an unaccessible encryption
+	storage."\cite{on-disk-format} V současné době se používá společně s programem dm-crypt, sloužícím jako prostředek k šifrování.
 
+	Při využití v blivetu lze šifrovat disky, diskové oddíly, logické svazky ale též i fyzické svazky. Tj. celé nastavení LVM může být šifrováno jedním klíčem, aktuálně se takto 
+	standardně šifruje LVM ve Fedora linuxu pokud uživatel nastaví automatické rozdělení disku s šifrováním. Nemusí se jednat jen o pevné disky ale též o odstranitelná média jako
+	CD-ROM nebo USB paměti. Též lze šifrovat odkládací prostor paměti (swap).
+
+\section{Formáty souborového systému}
 
 
 
