@@ -134,22 +134,84 @@
 	standardně šifruje LVM ve Fedora linuxu pokud uživatel nastaví automatické rozdělení disku s šifrováním. Nemusí se jednat jen o pevné disky ale též o odstranitelná média jako
 	CD-ROM nebo USB paměti. Též lze šifrovat odkládací prostor paměti (swap).
 
-\section{Formáty souborového systému}
+\subsection{Formáty souborového systému}
+  Jak již bylo zmíněno blivet umí pracovat i s souborovými systémy. Struktura je následující. Výchozí je seznam zařízení reprezentující jednotlivé disky, jejich oddíly a případně
+	speciální technologie jako RAID, LVM či šifrování LUKS. Každé zařízení má ale možnost mít i formát, čímž se myslí formát souborového systému. Podporována je většina známých souborových
+	systémů které jsou používány dlouhou dobu. Patří mezi ně souborový systém ext, ReiserFS, XFS. Taktéž existuje podpora pro Btrfs (B-tree FS), experimentální souborový systém 
+	vyvíjený společností Oracle. Přestože zatím u btrfs neexistuje stabilní verze je mezi distribucemi podporován, neboť nabízí řešení některých problémů současných filesystémů.
 
+\section{Knihovna Graphviz}
+	Graphviz je program sloužící k vizualizaci dat formou grafů, ve smyslu orientovaných či neorientovaných. Pomocí něj je možné generovat grafy sloužící k znázornění počítačové sítě nebo
+	vztahů mezi určitými objekty. Nelze vytvářet grafy průběhů funkcí či grafy znázorňující vztahy mezi číselnými hodnotami. Jinými slovy graphviz generuje grafy které známe z teorie grafů,
+	ale není schopen generovat grafy známé například z ekonomie.
 
+	Program je z velké části napsán v jazyce C ale ve všech v současnosti používaných jazycích pro něj existují obalovací (wrapper) knihovny. Z těchto knihoven se budeme soustředit hlavně na
+	knihovnu pro Python 3 která je používána v mé práci. Pokud bychom graphviz spouštěli jako program a pracovali s ním přímo například z příkazové řádky, využívali bychom jeho vlastní jazyk
+	na definici grafů nazvaný DOT. Tento jazyk je definovaný následovně:
 
+	"The following is an abstract grammar defining the DOT language. Terminals are shown in bold font and nonterminals in italics. Literal characters are given in single quotes. Parentheses
+	( and ) indicate grouping when needed. Square brackets [ and ] enclose optional items. Vertical bars | separate alternatives.
+	graph			:		[ \textbf{strict} ] (\textbf{graph} | \textbf{digraph}) [ ID ] \textbf{\'\{\'} stmt_list \textbf{\'\}\'}
+	stmt_list :		[ stmt [ \textbf{';'} ] stmt_list ]
+	stmt			:		node_stmt
+	|							edge_stmt
+	|							attr_stmt
+	|							ID '=' ID
+	|							subgraph
+	attr_stmt	:	(\textbf{graph} | \textbf{node} | \textbf{edge}) attr_list
+	attr_list	:	'[' [ a_list ] ']' [ attr_list ]
+	a_list  	:	ID '=' ID [ (';' | ',') ] [ a_list ]
+	edge_stmt	:	(node_id | subgraph) edgeRHS [ attr_list ]
+	edgeRHS		:	edgeop (node_id | subgraph) [ edgeRHS ]
+	node_stmt	:	node_id [ attr_list ]
+	node_id		:	ID [ port ]
+	port			:	':' ID [ ':' compass_pt ]
+	|						':' compass_pt
+	subgraph	:	[ \textbf{subgraph} [ ID ] ] \textbf{'\{'} stmt_list \textbf{'\}'}
+	compass_pt:	(\textbf{n}| \textbf{ne} | \textbf{e} | \textbf{se} | \textbf{s} | \textbf{sw} | \textbf{w}  | \textbf{nw} | \textbf{c} | \textbf{_})"
 
+	Vidíme že hlavnímy elementy při vytváření grafu jsou graph (graf), uzel (node) a hrana (edge). Základní grafy lze tvořit jen s pomocí těchto tří klíčových slov. Nyní je rozeberu detailněji.
 
+\subsection{Graf}
+	Klíčové slovo graph uvádí jakýkoliv graf který bude vytvořen. Včetně prvního kořenového grafu. Každý zápis v jazyce DOT tedy musí začínat slovem graph nebo digraph s výjimkou užití slova
+	strict. Pokud jej použijeme zamezíme vzniku vícenásobných hran, neboli mezi každým počátečním a koncovým uzlem bude maximálně jedna hrana. 
 
+	Rozdíly mezi slovy graph a digraph jsou zřejmé. Graph označuje graf neorientovaný ve kterém jsou hrany bez šipek na koncích. Slovo digraph je zkrácené spojení directed graph (orientovaný
+	graf) a vyjadřuje tedy graf orientovaný ve kterém na koncích hran jsou šipky. Při vizualizaci rozdělení diskového prostoru jsem se rozhodl použít právě orientované grafu neboť považuji za 
+	důležité poskytnout uživateli co nejvíce vodítek ke znázornění vztahu rodič -> potomek a orientované hrany jsou ideálním případem pro tuto pomoc. 
 
+	Speciálním případem grafu je i podgraf (subgraph). Grafy mohou být vkládány do sebe. S pomocí podgrafů lze snížit velikost zdrojového kódu v jazyce DOT. Příkladem budiž situace kdy zápisem
+	hrany vedoucí od uzlu k podgrafu ( A -- \{B C\}) vytvoříme stejný efekt jako při zápisu každé jednotlivé dvojice mezi uzlem A a uzly B a C (A -- B, A -- C). Dále je možné podgrafy využít
+	pro specifikaci odlišných atributů uzlů či hran. V podgrafu lze jednoduše nastavit jiné atributy než ve zbytku grafu.
 
+	Poslední situací pro využití podgrafu je situace kdy chceme uzly shlukovat. V tomto případě je nutné přidat klíčové slovo cluster k názvu podgrafu a určité grafovací stroje tyto uzly 
+	napozicují k sobě do skupiny.
 
+\subsection{Uzly}
+	Uzly jsou základem každého grafu. V graphvizu jsou definovány svým jménem. Základní graf s jedním uzlem definujeme v jazyce DOT jednoduše a to pomocí: graf { A }. Tento zápis vytvoří
+	graf s jedním uzlem uprostřed v jehož středu bude napsán název uzlu, v našem případě "A". Uzly mají mnoho různých atributů od svého jména po url odkazy a atributy HTML formátování. 
+	Nejdůležitějšímy ale jsou ty které jsou definovány v základním nastavení. Jsou to tvar uzlu (shape), barva výplně (fillcolor) a jméno (name) nebo nálepka (label). 
+	
+	Standardně je tvar nastaven na elipsu a barva
+	na bílou. Jméno se bere podle identifikátory při vytváření uzlu. Nálepka je rozšířením jména. Pokud je definována jméno nahrazuje a její obsah je vepsán dovnitř uzlu. Od jména se liší právě
+	tím že její obsah lze libovolně upravovat, avšak do ní zle ukládat pouze text, jakékoliv speciální formátování nebude zohledněno. Pro vkládání obrázků složí atribut image a pro vkládání
+	odkazů atribut url.
 
+	Právě třemi základnímy atributy jsem se rozhodl rozlišovat jednotlivé typy zařízení se kterými pracuje blivet. S pomocí tvaru uzlu odlišuji technologie zařízení. Čím je technologie
+	abstraktnější tím zaoblenější tvar má. Pevné disky a jejich oddíly jsou znázorněny čtverci, LVM čtverci se zaoblenými rohy a disky připojené přes síť či šifrování je znázorněno elipsou.
+	Pro toto dělení jsem se rozhold abych zachoval konzistenci celého grafu a naváděl uživatele ke schopnosti rozlišit rozdíly jen s pomocí krátkého shlédnutí tvaru.
 
+	Druhým odlišovacím prvkem je barva. Jak její odstím tak sytost. Některé odstíny jsou rezervovány pro odlišení akcí které budou provedeny při konfiguraci. Zelenou barvou jsou vyznačeny
+	nově se objevivší prvky, červenou zaniknuvší prvky a oranžovou prvky u kterých došlo ke změnám. Sytost barvy společně s tvarem jasně definují použitou technologii. Barva pomáhá tam kde
+	samotný tvar nestačí. Čili pokud používá jak šifrování tak disk připojený přes internet stejný tvar, tak poté k jejich jednoznačnému odlišení dojde použitím sytější a méně syté barvy.
 
-
-
-
+\subsection{Hrany}
+	Hrany nejsou tak komplikovanými elementy jako uzly. Jejich základnímy atributy jsou počáteční a koncový uzel. U neorientovaného grafu nelze rozeznat který uzel je počáteční. Hrany 
+	nepoužívají tolik atributů jako uzly avšak například nálepku stále mít mohou. Vzhledem k jejich tvaru je u nich zbytečný atribut výplňové barvy (fillcolor) a používá se jen barva "pera".
+	Jak již bylo zmíněno v mé praci jsou všechny grafy orientované a tak záleží na pořadí v jakém jsou uzly předány funkci která tvoří hrany. Nicméně směr je vždy od rodiče k potomkovi a 
+	nikdy naopak.
+	
+\subsection{Rozložení}
 
 	\printbibliography
 
