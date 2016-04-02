@@ -80,7 +80,7 @@
 
 	Pátá kapitola zmiňuje další možná rozšíření mého programu. 
 
-\chapter{Stať}
+\chapter{Použité knihovny}
 \section{Knihovna Blivet}
 	První a nejdůležitější knihovouk která je v mé práci využívána je knihovna blivet. Jde o projekt a bakalářsknou práci Bc. Vojtěcha Trefného. Projekt vznikl, stejně jako moje
 	práce ve firmě Red Hat a slouží k rozšíření již zmiňovaného instalátoru Anaconda. Použití této knihovny je součástí zadání a proto nebudu diskutovat její výhody a nevýhody
@@ -104,28 +104,33 @@
 	disk. 
 
 	Program mdadm je ale softwarový RAID a proto má počítač celou dobu přehled nejen o finálním zabezpečeném disku proti selhání ale i o všech dílčích discích které ho tvoří. Výhodou je
-	možnost monitoringu redundantních disků nástroji které jsou součástí systému, bez nutnosti využívání aplikací třetích stran u kterých je možnost nekompatibility případně dalších komplikací.
-	Mezi nevýhody se řadí větší nepřehlednost při práci se všemi disky počítače, kdy změna jednoho disky vyvolává řetězovou reakci dalších změn. Právě proto je třeba data uceleně třídit a 
-	pokud možno i přehledně vizualizovat.
+	možnost monitoringu redundantních disků nástroji které jsou součástí systému, bez nutnosti využívání aplikací třetích stran u kterých je možnost nekompatibility případně dalších 
+	komplikací.
+	Mezi nevýhody se řadí větší nepřehlednost při práci se všemi disky počítače, kdy změna jednoho disky vyvolává řetězovou reakci dalších změn. Právě proto je třeba data uceleně třídit
+	a pokud možno i přehledně vizualizovat.
 
 \subsection{LVM}
-  LVM neboli logical volume management je metoda, kterou je možno spravovat diskové oddíly. Poskytuje větší flexibilitu volného místa než klasické diskové oddíly. Pracuje se třemi úrovněmi
-	diskových zařízení. Prvnímy jsou fyzické svazky neboli physical volumes (PV). Fyzický svazek je tvořen buď samotným diskem, včetně například RAID disku, nebo diskovým oddílem. Fyzické
+  LVM neboli logical volume management je metoda, kterou je možno spravovat diskové oddíly. Poskytuje větší flexibilitu volného místa než klasické diskové oddíly. Pracuje se třemi
+	úrovněmi
+	diskových zařízení. Prvnímy jsou fyzické svazky neboli physical volumes (PV). Fyzický svazek je tvořen buď samotným diskem, včetně například RAID disku, nebo diskovým oddílem. 
+	Fyzické
 	svazky nenabízí o mnoho více funkcionality než je označení a příparava svazku pro další práci. Příprava spočívá v rozdělení fyzického svazku na fyzické extenty (physical extents, PE).
 
-	Další úrovní jsou skupiny svazků (volume groups, VG), sdružující jak jeden nebo více fyzických svazků tak logických svazků. Skupiny svazků disponují úložným prostorem svých PV, který 
-  rozdělují mezi logické svazky. Výhodou existence VG je možnost libovolně přidávat svazky a to i za plného chodu systému. Za chodu systému lze místo i ubírat ale samozřejmě
+	Další úrovní jsou skupiny svazků (volume groups, VG), sdružující jak jeden nebo více fyzických svazků tak logických svazků. Skupiny svazků disponují úložným prostorem svých PV, 
+	který rozdělují mezi logické svazky. Výhodou existence VG je možnost libovolně přidávat svazky a to i za plného chodu systému. Za chodu systému lze místo i ubírat ale samozřejmě
 	pouze dosud neobsazenou část. 
 
 	Třetí úrovní jsou již zmíněné logické svazky které jsou dostupné pro uživatele k ukládání jeho dat. Z tohoto pohledu se chovají se stejně jako obyčejné diskové oddíly. Jak již ale
 	bylo zmíněno výhodou oproti obyčejným diskovým oddílům je flexibilita dostupného místa. Na logických svazcích je již možné vytvářet souborové systémy a dále s nimi pracovat.
 
-	Kromě úprav velikosti za chodu je také možné přesouvat data mezi jednotlivými skupinami svazků. LVM také umí vytvářet snímky, tj. zachycovat stav dat v čase. Využítí nachází tato vlastnost
+	Kromě úprav velikosti za chodu je také možné přesouvat data mezi jednotlivými skupinami svazků. LVM také umí vytvářet snímky, tj. zachycovat stav dat v čase. Využítí nachází tato 
+	vlastnost
 	při vytváření záloh a jako záchytný bod ke kterému je možné se vrátit. Nevýhodou logical volume managementu je skutečnost, že data na fyzických svazcích mohou být fragmentována a tak
 	dochází ke snížení výkonu. Také je třeba mít na zřeteli fakt, že pokud zmenšujeme logický svazek musí tuto funkci obsahovat i souborový systém který se na něm nachází.
 
 \subsection{LUKS}
-	Linux Unified Key Setup (unifikované nastavení klíčů na linuxu) zkráceně LUKS je specifikace šifrování disků původně vytvořená pro systém Linux. Existují i implementace na jiné systémy
+	Linux Unified Key Setup (unifikované nastavení klíčů na linuxu) zkráceně LUKS je specifikace šifrování disků původně vytvořená pro systém Linux. Existují i implementace na jiné 
+	systémy
 	těmi se zde ale zabývat nebudu. Slovy autora LUKS vznikl, aby usnadnil proces nastavování šifrovaných dat: "It has initially been developed to remedy the unpleasantness a user 
 	experienced that arise from deriving the encryption setup from changing user space, and forgotten command line arguments. The result of this changes are an unaccessible encryption
 	storage."\cite{on-disk-format} V současné době se používá společně s programem dm-crypt, sloužícím jako prostředek k šifrování.
@@ -136,7 +141,8 @@
 
 \subsection{Formáty souborového systému}
   Jak již bylo zmíněno blivet umí pracovat i s souborovými systémy. Struktura je následující. Výchozí je seznam zařízení reprezentující jednotlivé disky, jejich oddíly a případně
-	speciální technologie jako RAID, LVM či šifrování LUKS. Každé zařízení má ale možnost mít i formát, čímž se myslí formát souborového systému. Podporována je většina známých souborových
+	speciální technologie jako RAID, LVM či šifrování LUKS. Každé zařízení má ale možnost mít i formát, čímž se myslí formát souborového systému. Podporována je většina známých 
+	souborových
 	systémů které jsou používány dlouhou dobu. Patří mezi ně souborový systém ext, ReiserFS, XFS. Taktéž existuje podpora pro Btrfs (B-tree FS), experimentální souborový systém 
 	vyvíjený společností Oracle. Přestože zatím u btrfs neexistuje stabilní verze je mezi distribucemi podporován, neboť nabízí řešení některých problémů současných filesystémů.
 
@@ -151,6 +157,7 @@
 
 	"The following is an abstract grammar defining the DOT language. Terminals are shown in bold font and nonterminals in italics. Literal characters are given in single quotes. Parentheses
 	( and ) indicate grouping when needed. Square brackets [ and ] enclose optional items. Vertical bars | separate alternatives.
+	\begin{quotation}
 	graph			:		[ \textbf{strict} ] (\textbf{graph} | \textbf{digraph}) [ ID ] \textbf{\'\{\'} stmt_list \textbf{\'\}\'}
 	stmt_list :		[ stmt [ \textbf{';'} ] stmt_list ]
 	stmt			:		node_stmt
@@ -169,6 +176,7 @@
 	|						':' compass_pt
 	subgraph	:	[ \textbf{subgraph} [ ID ] ] \textbf{'\{'} stmt_list \textbf{'\}'}
 	compass_pt:	(\textbf{n}| \textbf{ne} | \textbf{e} | \textbf{se} | \textbf{s} | \textbf{sw} | \textbf{w}  | \textbf{nw} | \textbf{c} | \textbf{_})"
+	\end{quotation}
 
 	Vidíme že hlavnímy elementy při vytváření grafu jsou graph (graf), uzel (node) a hrana (edge). Základní grafy lze tvořit jen s pomocí těchto tří klíčových slov. Nyní je rozeberu detailněji.
 
@@ -207,11 +215,151 @@
 
 \subsection{Hrany}
 	Hrany nejsou tak komplikovanými elementy jako uzly. Jejich základnímy atributy jsou počáteční a koncový uzel. U neorientovaného grafu nelze rozeznat který uzel je počáteční. Hrany 
-	nepoužívají tolik atributů jako uzly avšak například nálepku stále mít mohou. Vzhledem k jejich tvaru je u nich zbytečný atribut výplňové barvy (fillcolor) a používá se jen barva "pera".
-	Jak již bylo zmíněno v mé praci jsou všechny grafy orientované a tak záleží na pořadí v jakém jsou uzly předány funkci která tvoří hrany. Nicméně směr je vždy od rodiče k potomkovi a 
-	nikdy naopak.
+	nepoužívají tolik atributů jako uzly avšak například nálepku stále mít mohou. Vzhledem k jejich tvaru je u nich zbytečný atribut výplňové barvy (fillcolor) a používá se jen barva 
+	"pera".
+	Jak již bylo zmíněno v mé praci jsou všechny grafy orientované a tak záleží na pořadí v jakém jsou uzly předány funkci která tvoří hrany. Nicméně směr je vždy od rodiče k potomkovi
+	a nikdy naopak.
 	
 \subsection{Rozložení}
+	Ještě se pozastavím nad různými možnostmi rozložení grafu které knihovna nabízí. Základních je 5, dot, neato, fdp, twopi, circo. Ke každému přiložím obrázek a rozeberu jej 
+	podrobněji. U každého příkladu je použit stejný vstupní zápis ale výsledky se velmi liší. Vstupní data vypadají takto:
+	\begin{quotation}
+	graph\{
+		A -- B
+		B -- C
+		C -- D
+		D -- A
+		D -- E
+		D -- F
+		G -- B
+		G -- E
+	\}
+	\end{quotation}
+
+	Prvním rozložením je rozložení dot. Oficiální dokumentace k němu říká:
+	"dot - "hierarchical" or layered drawings of directed graphs. This is the default tool to use if edges have directionality."\cite{graphviz_layout} (dot - hierarchické neboli
+	vrstvené výkresy orientovaných grafů. Jedná se o standardní nástroj použitý pokud jsou hrany orientované.) Rozhraní dot přehledně udržuje hierarchii mezi rodiči a potomky. Skládá
+	své uzly do stromu a proto by mohl být kandidátem na použití v mé práci. Lidé jsou zvyklí vnímat data ohledně úložného prostoru ve formě stromů. Tím pádem jde o intiutivnější
+	reprezentaci.
+
+	\includegraphics[width=0.6\textwidth]{pictures/dot_example.png} 
+	%TODO vysvětli globální energetickou funkci v grafech.
+	"neato - \"spring model\" layouts.  This is the default tool to use if the graph is not too large (about 100 nodes) and you don't know anything else about it. Neato attempts to
+	minimize a global energy function, which is equivalent to statistical multi-dimensional scaling."\cite{graphviz_layout}(neato - grafy s "pérovacím modelem". Toto je základní nástroj
+	používaný pokud je graf malý (má méně než 100 uzlů) a nejsou o něm známy žádné další informace. Neato se pokouší minimalizovat globální energetickou funkci, ekvivalentní
+	statistickému multidimenznímu škálování.) Jinými slovy algoritmus neato se snaží vytvořit celý graf co nejmenší bez ohledu na ostatní faktory. Grafy nejsou hierarchické ani 
+	strukturované. Cílem je co nejmenší zabraná plocha a zároveň nepřekrývání hran a uzlů. Kvůli chaotičnosti a nestrukturalizovanosti se nejedná o grafový algoritmus který bych mohl
+	použít. Ostatně neato je přizpůsobeno na neorinetované grafy.
+	\includegraphics[width=0.6\textwidth]{pictures/neato_example.png} 
+
+	"fdp - \"spring model\" layouts similar to those of neato, but does this by reducing forces rather than working with energy."\cite{graphviz_layout} (fdp - "pružinový model" podobný
+	modelu neato, místo práce s energií redukuje síly.) Fdp je další z rozložení pro neorientované grafy, ještě více zmenšuje plochu grafu tentokrát i s ústupkem ohledně překrývání,
+	uzlů hranami. Pro grafy které potřebuji vytvořit se jedná o ten nejhorší algoritmus z pěti zde zmíněných. V uzlech jsou zapsány data o zařízeních a hrany překrývající tyto uzly
+	působí rušivě. Zároveň není třeba šetřit místem neboť ve výsledné aplikaci je možné přibližovat a popotahovat graf dle libosti uživatele. Fpd tedy není algoritmem vhodným pro tuto
+	situaci.
+	\includegraphics[width=0.6\textwidth]{pictures/fdp_example.png} 
+
+	"twopi - radial layouts\[...\].  Nodes are placed on concentric circles depending their distance from a given root node."\cite{graphviz_layout}(twopi - paprskovité rozložení. Uzly
+	jsou umístěny na soustředných kruzích podle vzdálenosti od kořenového.) Použitím paprskového rozložení dochází k strukturalizaci grafu, tím pádem by se algoritmus twopi mohl zdát 
+	dobrou volbou pro uskutečnění cíle který jsem si vytyčil. Ovšem přidáním dalších 2 uzlů, které způsobí rozvětvení grafu se strukturalizace začne vyvíjet neakceptovatelným směrem.
+	Oba případy jsou vidět na obrázku. Strukturovanost do kruhů by, dle mého názoru, uživatele zbytečně mátla. Je důležité mít kořenový uzel, ovšem jeho umístění doprostřed je špatnou
+	volbou.
+	\includegraphics[width=0.6\textwidth]{pictures/twopi_example.png} 
+	\includegraphics[width=0.6\textwidth]{pictures/twopi_example_2.png} 
+
+	"circo - circular layout \[...\]. This is suitable for certain diagrams of multiple cyclic structures, such as certain telecommunications networks."\cite{graphviz_layout} (circo -
+	kruhové rozložení. Je vhodné pro určité diagramy s několika cyklickými strukturami jako jsou telekomunikační sítě.) Jak už je zmíněno v dokumentaci, grafy používající rozložení 
+	circo se hodí jen k nemálo specifickým účelům. Jak vidíme na obrázku, opět se setkáváme s nehierarchickým grafem. Algoritmus circo rozhodně má své využití ale není to náš případ. V
+	situaci kdy připojujeme úložná zařízení v systému Linux se jen obtížně dostaneme do cyklických odkazů. Samotná podstata připojování úložných jednotek by měla zabraňovat těmto
+	situacím. Pokdu bychom už takovou situaci vytvořili jedná se zcela určitě o chybu buď používaných nástrojů nebo chybu uživatelské konfigurace. 
+	\includegraphics[width=0.6\textwidth]{pictures/circo_example.png} 
+
+	Algoritmem který nakonec zbývá po aplikování vyřazovací metody je algoritmus dot. Po odstranění ostaních možností je jediným co zbývá, bez dalších konkurentů mezi kterými je třeba 
+	rozhodovat. Základem pro mé rozhodnutí je stromová struktura. Ostatní typy rozložení nesplňují tuto podmínku, snad až na rozložení twopi. Twopi ale nelze použít kvůli jeho větvení
+	ke kterému bude docházet velmi často. Navíc má problémy s dměmi a více kořenovými uzly, nezařazuje je k sobě pokud nejsou spojeny hranou. V prostředí kde je využívána technologie
+	RAID jde o zcela nepřijatelnou vlastnost. Je potřebné aby disky logicky náležící k sobě tak také byli vizualizovány. Jen dot splňuje tuto podmínku. Není problém směrovat grafy 
+	vytvářené rozložením dot shora dolů či zleva doprava, zmíněné chování jde nakonfigurovat. Tím odpadá poslední argument pro použití twopi které na prvním příkladě graf situuje jako
+	jdoucí zleva doprava.
+
+\chapter{Návrh aplikace}
+\section{Návrh kódu}
+	Aplikace je napsaná v jazyce Python s částečným využitím objektového paradigmatu. Důvody které mě vedli k výběru programovacího jazyka jsou zmíněny v úvodu práce. Objektové 
+	paradigma jsem zvolil, protože jsem na něj nejvíce zvyklý. Ač je má aplikace pouze malým dílem bez tříd s dědičností přesto je obsahuje. Z několika důvodů. Za prvé, objekty logicky
+	dělí program do částí ve kterých se snadno orientuje a které spolu souvisí. Tak jsou rozděleny i mé třídy. Tj. třída pro načítání dat, pro tvorbu grafu, pro uzly, pro hrany atd.
+	Za druhé, objektové programovaní je dnes defacto standartem a velká část nově vznikajících programů je psána s použitím jazyků podporujících objektové programovaní. Za třetí,
+	objektové programování usnadňuje spoluprácí a čtení kódu ostatnímy programátory. Jelikož rozšiřuji svobodný software je pravděpodobné že na něm někdo bude v budoucnu pracovat
+	a rozšiřovat jej. S použitím objektů bude mít usnadněnou práci.
+	
+\subsection{Třída Visualization}
+	Hlavní třída mého programu je nazvaná Visualization. Obsahuje základní atributy a metody potřebné pro chod aplikace. Můžeme si jí představit jako centrální řídící jednotku. Ostatní
+	třídy na ni navazují ať už přímo nebo nepřímo (přes jinou třídu). 
+
+	Konstruktor třídy visualisation vytváří dva seznamy. Seznam uzlů a seznam hran. Víc není potřeba. S oběma seznamy už pracují hlavně funkce v jiných třídách. Nejdůležitější funkcí
+	je funkce create_graph. Tato funkce se dá volat z příkazové řádky i z grafického rozhraní. Její argumenty jsou jméno a cestake grafu a výsledkem je svg soubor obsahující graf. 
+	V~případě spouštění z grafického rozhraní okamžitě dojde k zobrazení grafu v okně aplikace. V případě spuštění z příkazové řádky jen k jeho uložení v definovaném umístění. 
+
+	Třída obsahuje i pomocnou funkci prepare_nodes, procházející jednotlivě uzly v seznamu uzlů a na každém spouští funkci prepare. Detailně funkci prepare rozeberu u popisu uzlu. Tím
+	přemění data z blivetu na data vhodná pro graphviz. Kromě toho jsou utříděna textová data k vypsání po rozkliknutí uzlu uživatelem. Funkci jsem přidal do této třídy proto, že 
+	seznam uzlů je její atribut. Třída ve funkci načte data, přetvoří je a pak vypíše. Strukturu tohoto procesu bych chtěl nadálezachovat i například po dalším rozšíření.  
+
+\subsection{Třída pro načítání dat}
+	GvInput slouží k načítání dat z blivetu. Jednoduše si blivet naimportuje jako modul, vytvoří si objekt obsahující celou knihovnu. Aktuální nastavení knihovny blivet vyžaduje před 
+	každým načítáním dat spustit funkci reset(). Tato funkce projde dostupné úložné kapacity a vytvoří strom zařízení (device_tree). Stejně tak naplní i seznam (struktura list) těmi
+	stejnými objekty. Můj program projde tímto seznamem (blivet.devices) a u každého prvku nejdříve zkontroluje zda se nenachází na černé listině. Zde se nachází věci jako jsou 
+	výměnná média. Při instalaci jsou zbytečná a jen by na grafu překážela.
+
+	Dalším krokem je vytvoření objektu reprezentujícímu uzel grafu, jeho zpracování a přidání do vlastního seznamu uzlů, fungujícímu jako převodník mezi blivetem a graphvizem. Při
+	přidávání do seznamu se uzly zároveň třídí pomocí přepínače a jsou jim nastavovány barvy a tvary. Vše co potřebujeme pro zobrazení uzlu se ukládá ihned při průchodu seznamem. 
+	Tím dosáhneme pouze jednoho průchodu. Uzly si už pak informace zpracují sami. V případě že by nebyl uzel rozpoznán, nenastane situace kdy by program zhavaroval. Jednoduše 
+	se při vytvoření použije přednastavená barva a tvar (bíla, elipsa).
+
+	Nastavování tvarů a barev je řešeno obdobně jako užití příkazu switch v jazyce C či podobných. Python tento výraz přímo neobsahuje a tak jsem byl nucen použít funkci obsahující 
+	sérii if příkazů. Po vyhodnocení jedné z větví na hodnotu pravda se spustí jiná funkce nastavující vzhled uzlu. Konkrétní příklad, k na seznamu je diskový oddíl. Není na blacklistu,
+	proto postupuje dál. Konstruktoru třídy Node jsou předány informace z blivet.device. Poté je uzel předán funkci process_node která jej rozpozná jako oddíl a spustí funkci 
+	nodeIsPartition. V ní je výsledný uzel obarven světlou barvou a je mu nastaven tvar "box", neboli tvar s ostrými rohy. Poté je uzel přidán do seznamu node_list. Také je na
+	standardní výstup vypsána hláška o přidání nového členu seznamu. Uživatel tak má přehled, které uzly jsou přidány. Zařízení je identifikováno svým jménem a typem.
+
+	Po přidání uzlu se přidávají hrany. U každého uzlu program projde seznam jeho rodičů a vytvoří od nich hrany zpět k aktuálně vytvářenému uzlu. Musím postupovat tímto způsobem, neboť
+	knihovna blivet nemá jiné propojení mezi zařízeními než seznam rodičů. Stále ale stačí projít seznam zařízení jen jednou. Hrana se vývtáří pomocí koncových uzlů které má spojovat.
+	Pokud jeden chybí je vytvořen. Opět nedochází k havárii programu. Pokud už uzel existuje je k němu hrana připojena. Pokud neexistuje je později, až přijde na řadu obarven.
+
+\subsection{Třída Node}
+	Třída pro uzly celkem nekomplikovaná, obsahuje převážně funkce pro nastavení vzhledu. Nejdůležitější informace se ukládají už v konstruktoru, opět jako ochrana slouží nastavení
+	prázdných řetězců tam kde by vstupní informace chyběly. Kromě konstruktoru obsahuje třída Node také funkce change_color a change_shape nastavující vzhled. K funkci change shape 
+	jsem muset vytvořit i pomocnou funkci change_style_safely. Pomáhá vytvořit styl uzlu se zakulacenými rohy. Graphviz řeší tuto situaci přidáním klíčového slova rounded k už 
+	existujícímu stylu. Pokud je styl nastavený na obdélník s ostrými rohy ("box") je třeba přidat slovo rounded a obě slova oddělit čárkou. Výsledek musí vypadat takto "box, rounded"
+	na pořadí slov nezáleží.
+
+	Ukládání atributů a gv_atributů (atributů pro graphviz) je řešeno pomocí slovníků. Použití slovníků umožňuje libovolně přidávat a ubírat počty atributů. Původní návrh s proměnnými
+	pro atributy jsem zavrhl. Atributy rozumíme informace o nastavení úložných zařízení které se později vypisůjí ke každému uzlu. Jedinou výjimku tvoří jméno a typ zařízení neboť jde
+	o identifikační atributy a jejich neexistence by znemožnila fungování programu. Rozhodl jsem se oddělit atributy pro knihovnu graphviz do samostatného slovníku. Díky tomu je při
+	vykreslování grafu možné jen projít záznamy a vytvořit z párů klíč, hodnota páry atribut ulzu, hodnota v grafu. 
+
+	Poslední pomocnou funkcí nacházející se v tříde Node je fukce prepare. Připravuje textová data pro prezentaci na graf. Projde všechny záznamy ve slovníku attributes a spojí je do 
+	jednoho řetězce obsahující znaky nového řádku "\n". Předtím je možné flexibilně měnit počet a data textových informací. Po té co je spuštěna funkce prepare je její výsledný řetězec
+	uložen do atributu gv_atributu label, připraven pro použití Graphvizem.
+
+\subsection{Třída Edge}
+	Třída pro hrany v sobě neskrývá žádná tajemství. Obsahuje akorát konstruktor a funkce pro získání počátečního a koncového uzlu. Konstruktor bere za své argumenty právě tyto dvě 
+	proměnné. Proměnnou node_from, počáteční uzel a proměnnou node_to, koncový uzel. I přesto že neobsahuje moc funkcí jsem se rozhodl vytvořit dedikovanou třídu pro hrany. Z mého 
+	pohledu jde o lepší postup než hrany řešit jinde. Takto je pro každý element v grafu dedikovaná třída se kterou lze pracovat.
+
+\subsection{Třída pro vytváření grafů}
+	Vytváření grafu samotné také není ničím zvlášť složitým, nicméně pro použití v mé aplikaci je potřeba výsledný graf dále upravit. Rozeberme funkce ve ve třídě output chronologicky,
+	tak jak jou použity. Tradičně konstruktor přebírá seznam uzlů a hran. Volá funkci vytvářející graf se jménem createGvGraph a předává jí své argumenty. 
+
+	CreateGvGraph nejprve vytvoří orientovaný graf pomocí graphvizu. Poté projde seznam uzlů a pomocí graphvizu vytvoří každý uzel v nově utvořeném orientovaném grafu. To samé udělá i
+	s hranami. Funkce pro vytváření uzlů graphviz.node bere jako první argument jméno uzlu. První argument je povinný, jméno uzlu. Ze stejného důvodu je povinný i argument jména
+	při vytváření v seznamu uzlů. Druhý argument ze tří je atribut label. Jde o dlouhý string rozdělený znaky dalších řádků ("\n") jak je vysvětleno výše v částí věnující se třídě Node.
+	Poslední argument je seznam zbylých atributů které dokáže graphviz zobrazovat. Je předán jako celý seznam a po jeho rozbalení se aplikují nastavení vzhledu uzlu. Na konci je celý
+	graf vrácen návratovou hodnotou.
+
+	Druhá funkce se nazývá createSvg. Jejím úkolem je přepsat graf do formátu svg. Používá knihovní funkci grafu jménem pipe. Pipe dokáže vytvářet i jiné formáty ale ty nejsou v tuto
+	chvíli důležité. Svg formát byl vybrán prto že v něm lze aplikovat javascript a tím dosáhnout interaktivity. Konkrétně se jedná o možnost zvětšovat uzly, posouvat a zoomovat graf.
+	Tyto funkce jsou implementovány popíšu je později ale postup implementace si popíšeme hned.
+
+	Javascriptový skript vkládá pomocná funkce 
+	
 
 	\printbibliography
 
