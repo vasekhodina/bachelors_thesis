@@ -64,7 +64,8 @@
 	Vedlejšími cíli je možnost vytvářet grafy ze souborů XML, ne jen z~aplikace, dále integrace do instalátoru s~možností označovat jednotlivé diskové oddíly a~interagovat
 	s~nimi. Posledním doplňkovým cílem je funkcionalita umožňující porovnat stav před instalací a~po ní v~případě, že je systém přeinstalováván.
 
-	Z~cílů vychází také struktura práce. První kapitola popisuje použité knihovny. První knihovna, blivet\cite{blivet}, poskytuje data a mimo jiné může sloužit i~pro změny 
+	Z~cílů vychází také struktura práce. Před popisem je přidána přehledová kapitola.
+	První kapitola popisuje použité knihovny. První knihovna, blivet\cite{blivet}, poskytuje data a mimo jiné může sloužit i~pro změny 
 	nastavení disků (tato funkcionalita je v~mé práci zmíněna jen okrajově). Druhou je knihovna graphviz-python\cite{graphviz-python}, Graphviz je program pro tvorbu grafů. Kromě
 	jednoduchého spojování uzlů hranami dokáže uzly automaticky třídit a~logicky rozmisťovat podle různých přednastavených pravidel. Nabízí také různý vzhled uzlů
 	a~hran a výsledné grafy dokáže exportovat v~několika formátech. Výsledek mé práce operuje především s~formátem škálovatelné vektorové grafiky (SVG). Graphviz-python je 
@@ -79,6 +80,100 @@
 	zahrnují situace jak při práci v~prostředí instalátoru, tak mimo něj.
 
 	Pátá kapitola zmiňuje další možná rozšíření mého programu. 
+
+\chapter{Přehledová kapitola}
+\section{Současný stav}
+
+V~současné době je vizualizace rozdělení disků při instalaci systému použita v~minimu případů. Dále v~kapitole rozebírám jednotlivé ukázky programů, které jsem vybral, avšak souhrnně je vidět, 
+že instalátory se drží textového seznamu diskových oddílů uspořádaných do stromové struktury. Systémy jsem vybíral tak, aby bylo možné porovnat alespoň nějakou vizuální stránku. Proto jsem vynechal
+příklady typu Archlinux či Gentoo, které používají pouze instalaci z~příkazové řádky.  Dále uvádím příklady vizualizace, kterou používají nástroje na práci s~disky, jako je 
+například program GParted.
+
+\section{Příklady instalátorů v různých operačních systémech}
+
+\subsection{Debian}
+
+Prvním příkladem je Debian, velmi konzervativní distribuce udržující osvědčené postupy a~programy, snažící se o~maximální stabilitu i~za cenu zastaralosti. 
+Tato distribuce má grafický instalátor, spoléhá ovšem na zkušenosti a~znalosti uživatele. Během instalace se k~žádnému schématu nedostaneme. Jak je vidět na obrázku č. 1, jediný způsob předání 
+informace o~plánovaném stavu disku je textový strom diskových oddílů obohacený o~možnost výběru a~ovládání myší.
+
+\begin{figure}[hb]
+	\caption{Distribuce Debian}
+	\centering
+	\includegraphics[width=.6\columnwidth]{pics/debian1.png}
+\end{figure}
+
+\subsection{Ubuntu}
+
+Ubuntu Linux vychází z~výše zmíněné distribuce Debian, instalátor však používá svůj vlastní. Je také jediným zástupcem linuxové distribuce, která využívá  schéma 
+pro znázornění stavu rozděleného disku. Dříve využívané schéma programu GParted, které detailně rozebírám dále, bylo nahrazeno jednoduchou linkou v~horní oblasti okna instalátoru. Na této lince 
+jsou barevně znázorněny diskové 
+oddíly vytvořené uživatelem. Stejné barvy jsou poté použity u~každého ze záznamů v~seznamu oddílů, jak je možné vidět na obrázku č. 2. Tento jednoduchý diagram umožňuje rychlý odhad poměrů různých 
+částí, které budou vytvořeny.
+
+\begin{figure}[hb]
+	\label{fig:ubuntu}
+	\caption{Distribuce Ubuntu}
+	\centering
+	\includegraphics[width=.6\columnwidth]{pics/ubuntu1.jpg}
+\end{figure}
+
+\subsection{CentOS}
+
+Jako příklad systémů, které využívají instalátor Anaconda, jsem vybral systém CentOS. Tato zkratka znamená Community ENterprise Operating System. Na svých stránkách uvádějí \uv{The CentOS Linux
+distribution is a~stable, predictable, manageable and reproducible platform derived from the sources of Red Hat Enterprise Linux (RHEL).}~\cite{CentOS}. Jedná se v~podstatě o~systém Red Hat Enterprise 
+Linux, ovšem bez podpory a~oprav od společnosti Red Hat. V~současné době instalátor Anaconda používá také pouze textovou reprezentaci rozdělení disku. Rozdíl oproti ostatním distribucím tvoří 
+seznam změn, který je zobrazen před finálním potvrzením a~započetím formátování. Na obrázku č. 3 můžeme vidět příklad tohoto seznamu. Situaci zpřehledňuje ale pouze pro malý počet změn, seznam s~mnoha 
+záznamy o~změnách je nepřehledný. Zlepšením uživatelské přívětivosti při finální kontrole před instalací se zabývá tato práce.
+
+\begin{figure}[h]
+	\label{fig:centos2}
+	\caption{Distribuce CentOS příklad souhrné tabulky}
+	\centering
+	\includegraphics[width=.6\columnwidth]{pics/centos3.jpg}
+\end{figure}
+
+\subsection{Windows 10}
+
+Pro srovnání uvádím i~příklad nejrozšířenějšího systému, MS Windows. Vybral jsem v~současnosti nejnovější verzi, Windows 10. Překvapivě ani zde nejsou využity vizuální pomůcky.
+Tvůrci instalátoru spoléhají na automatickou instalaci a~rozdělení disku s~tím, že pokročilou verzi s~manuálním nastavováním zvolí uživatel, který se zorientuje během instalace i~bez grafické nápovědy. 
+Předchozí verze využívají stejný systém jako má distribuce Ubuntu, tj. obdélník znázorňující disk, v~němž jsou barevně vyznačeny diskové oddíly.
+
+\begin{figure}[h!]
+	\label{fig:win}
+	\caption{Systém Windows}
+	\centering
+	\includegraphics[width=.6\columnwidth]{pics/win1.jpg}
+\end{figure}
+
+\section{Programy sloužící pro manipulaci s~disky}
+
+\subsection{GParted}
+
+Program GParted je zástupcem programů, které je možné spouštět i~mimo fázi instalace systému. Dříve byl součástí instálátoru systému Ubuntu, ale je možné jej spouštět i~samostatně, například 
+ zvětšovat úložnou kapacitu virtuálních disků či disků, jejichž souborový systém umožňuje pozdější modifikaci. Opět je využito dříve zmíněné schéma obdélníku. Každý disk je reprezentovaný 
+ obdélníkem a~další informace jsou zobrazovány barevnými rámci uvnitř těchto obdélníků. Narozdíl od ostatních zmíněných programů obsahuje GParted i~grafické aplikace pro manipulaci s~disky 
+ a~tím dosahuje efektu WYSIWYG editoru (What You See Is What You Get, editor, který přímo ukazuje aktuální změny). Příkladem je aplikace pro zvětšení diskového oddílu, kterou vidíme na obrázku č.~5.
+
+ \begin{figure}[h!]
+	 \label{fig:gparted}
+	 \caption{Ukázka widgetu pro program GParted~\cite{GParted}}
+	 \centering
+	 \includegraphics[width=.6\columnwidth]{pics/gparted-5-big.png}\\
+ \end{figure}
+
+ \subsection{Blivet-gui}
+
+ Druhým příkladem je program na manipulaci s~disky, který je součástí instalátoru Anaconda, využívá knihovnu nazvanou blivet. Knihovna blivet je základem pro všechny systémy vycházející ze systému RHEL. Autoři 
+ se zprvu rozhodli použít známé schéma, avšak brzy narazili na problém s~větším počtem disků včetně virtuálních. Na obrázku č.~6 vidíme, že současné řešení je nedostatečné, jednotlivé úrovně barevných rámců 
+ jsou znázorněny samostatnými uzly grafu s~hranami vyznačujícími vztahy mezi nimi. Mnoho těchto rámců uživatele spíše zmate a~použití grafu by situaci zpřehlednilo.
+
+ \begin{figure}[h!]
+	 \label{fig:blivet}
+	 \caption{Ukázka programu blivet-gui~\cite{blivet-gui}}
+	 \centering
+	 \includegraphics[width=.6\columnwidth]{pics/blivet-gui-1.png}\\
+ \end{figure}
 
 \chapter{Použité knihovny}
 \section{Knihovna Blivet}
@@ -358,8 +453,65 @@
 	chvíli důležité. Svg formát byl vybrán prto že v něm lze aplikovat javascript a tím dosáhnout interaktivity. Konkrétně se jedná o možnost zvětšovat uzly, posouvat a zoomovat graf.
 	Tyto funkce jsou implementovány popíšu je později ale postup implementace si popíšeme hned.
 
-	Javascriptový skript vkládá pomocná funkce 
+	Javascriptový skript vkládá pomocná funkce insert_JS_to_graph, přebírající jeden argument a to řetězec obsahující svg grafu do kterého se má vložit. Zmíněný řetězec je výstupem funkce
+	graphviz.graph.pipe s argumentem format="svg". 
+
+	Funkce insert_JS_to_graph nejprve nastaví defaultní jmenný prostor (namespace, funkcionalita XML jazyků schopná rozlišovat různé elementy se stejným názvem) z "ns0" na "" (prázdný 
+	řetězec). Svg by bylo validní i se jmenným prostorem "ns0" nicméně standartně po vygenerování knihovnou graphviz tento jmenný prostor není přítomný a považuji za lepší do svg 
+	zasahovat co nejméně. 
+
+	Dále se svg nahraje do objektu ElementTree (ET). ET je obsažen v základní knihovně jazyka Python, je jednou ze tříd pro práci s daty ve formátu XML. Vytváří v paměti stromovou
+	strukturu stejnou tak jak je reprezentována načteným XML souborem. Obsahuje funkce pro čtení rodičů i potomků, funkce pro vytváření, přidávání a mazání elementů a vyhledávání pomocí 
+	XPath. Element Tree lze nahrtá ze soubory či z řetězce. Využívám funkci načítání z řetězce. Poté vyberu kořenový element a upravím jeho atributy.
+
+	Úprovou atributů se rozumí přidání odkazu na "xmlns:xlink", kvůli možnosti odkazovat na soubory s Javascriptem. Také je třeba odstranit atribut viewBox aby mohlo fungovat posouvání
+	grafu. Zároveň je třeba připravit atribut "viewport" u prvního potomka elementu svg. První potomej je kořenový uzel zobrazovaného grafu, vždy nese id "graph0". Pomocí XPath výrazu jej
+	najdu a přiřadím mu zmíněný atribut.
+
+	Poté už stačí jen vytvořit nový element s cestou k Javascriptovému souboru a tento element přidat jako prvního potomka kořenového elementu svg. Funkce insert_JS_to_graph vrací celý
+	Element Tree.
+
+	Po návratu z funkce insert_JS_to_graph použijeme metodu write k zapsání svg do souboru kde je připraveno k zobrazení.
+
+\subsection{Třida Gui}
+	Můj program lze používat jak dávkově z příkazové řádky tak interaktivně s pomocí grafického uživatelského prostředí. Dávkový režim nabízí pouze možnost vygenerovat graf v určitém 
+	umístění. Interaktivní režim nabízí možnost graf ihned prohlížet. Variací na interaktivní režim je také okno s grafem které se zobrazuje při instalaci jako vezualizace změn prováděných
+	instalárorem. 
+
+	Třída gui obsahuje vše potřebné pro obsluhu uživatelského rozhraní. Je naprogramována s pomocí nejrozšířenější linuxové knohovny pro uživatelská rozhraní Gnome toolkit (GTK). Jde o 
+	obyčejné okno s pár tlačítky. Jsou v ní obsaženy ovládací prvky potřebné pro nastavení umístění uložení grafu, tlačítko pro vyvolání kontextové
+	nápovědy. A plocha zobrazující samotný graf. Tato plocha je zabrána oknem technologie WebKit. Okno WebKitu je možné vložit do GTK aplikace a tím dosáhnout stejné základní funkcionality
+	jakou májí dnešní moderní prohlížeče. V mém případě jde o schopnost zobrazit svg kód a schopnost spouštět Javascript.
+
+	Rizikem které je nutné přijmout jsou možné známe zranitelnosti prohlížečů a nutnost ukládat soubor svg na disku. WebKit totiž zobrazuje svg s pomocí protokolu "file://". Počítač se
+	tak ptá sám sebe na existenci souboru v určité cestě definované uživatelem a pokud jej najde zobrazí jej uživateli. Pokud by se k systému dostal útočník mohl by soubor upravit a 
+	zanechat v něm škodlivý kód. Nicméně bezpečnost systému není věcí této práce a vychází se z předpokladu, že systém na kterém je vizualizace spouštěna je buď fe fázi instalace nebo
+	je již zabezpečen.
+	má prohlížeč.
+
+	WebKit je de facto prohlížeč, který je možné vložit do GTK aplikace.
+
+\chapter{Návrh vzhledu}
+TBD
+
+\chapter{Ukázky aplikace}
+TBD
+
+\chapter{Další možnosti rozšiřování}
+	Zadání mé práce je schváleno jako dostatečné pro bakalářskou práci. Přesto jsem během vypracování diskutoval další možné nadstavby a pokračování v práci. Nyní je stručně představím.
+
+	První rozšíření by byla možnost vytvářet XML soubory obsahující informace z grafů. Již existuje aplikace schopná vytvářet XML soubory z blivetu a zase je zpět nahrávat. Její zamýšlené
+	použití je vytváření záchytných bodů ke kterým je možné se vrátit v případě havárie instalátoru, přerušení dodávky elektrického proudu či jiné fatální chyby systému. Ideou pro export
+	XML z grafu je možnost na systém dostat přesně tu konfiguraci která mi je prezentována.
+
+	Druhým a ambicióznějším rozšířením je schopnost grafu fungovat jako samostatný konfigurační nástroj. Graf by nejenom zobrazoval data která mu byla poskytnuta ale také je byl
+	schopen upravovat a předávat nová data zpět aplikaci blivet, popřípadě instalátoru. Například by bylo možné přesouvat logické oddíly LVM mezi různými skupinami svazků jednoduchým 
+	přetažením myší stejně jako dnes kopírujeme soubory přetažením jejich ikony. Nové oddíly by byly vytvářeny také přetažením z nějaké nabídky předpřipravených uzlů. Konkrétní velikosti
+	a jména zařízení by se editovaly s pomocí textových polí v každém uzlu.
 	
+	Největším problémem který by bylo třeba vyřešit je načítání svg a informací z něj zpět zároveň s ukládáním informací z prohlížeče. 
+	Jedním z možných postupů by byla úprava XML načítače tak aby fungoval i pro svg graf aktuálně zobrazovaný uživateli. Uživatel by přetvořil graf podle svých představ, poté spustil 
+	konfiguraci a ta by přenesla stav do blivetu a provedla změny v úložném prostoru systému. 
 
 	\printbibliography
 
