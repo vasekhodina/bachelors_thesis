@@ -100,7 +100,7 @@ informace o~plánovaném stavu disku je textový strom diskových oddílů oboha
 \begin{figure}[hb]
 	\caption{Distribuce Debian}
 	\centering
-	\includegraphics[width=.6\columnwidth]{pics/debian1.png}
+	\includegraphics[width=.6\columnwidth]{pictures/debian1.png}
 \end{figure}
 
 \subsection{Ubuntu}
@@ -115,7 +115,7 @@ oddíly vytvořené uživatelem. Stejné barvy jsou poté použity u~každého z
 	\label{fig:ubuntu}
 	\caption{Distribuce Ubuntu}
 	\centering
-	\includegraphics[width=.6\columnwidth]{pics/ubuntu1.jpg}
+	\includegraphics[width=.6\columnwidth]{pictures/ubuntu1.jpg}
 \end{figure}
 
 \subsection{CentOS}
@@ -130,7 +130,7 @@ záznamy o~změnách je nepřehledný. Zlepšením uživatelské přívětivosti
 	\label{fig:centos2}
 	\caption{Distribuce CentOS příklad souhrné tabulky}
 	\centering
-	\includegraphics[width=.6\columnwidth]{pics/centos3.jpg}
+	\includegraphics[width=.6\columnwidth]{pictures/centos3.jpg}
 \end{figure}
 
 \subsection{Windows 10}
@@ -159,7 +159,7 @@ Program GParted je zástupcem programů, které je možné spouštět i~mimo fá
 	 \label{fig:gparted}
 	 \caption{Ukázka widgetu pro program GParted~\cite{GParted}}
 	 \centering
-	 \includegraphics[width=.6\columnwidth]{pics/gparted-5-big.png}\\
+	 \includegraphics[width=.6\columnwidth]{pictures/gparted-5-big.png}\\
  \end{figure}
 
  \subsection{Blivet-gui}
@@ -172,7 +172,7 @@ Program GParted je zástupcem programů, které je možné spouštět i~mimo fá
 	 \label{fig:blivet}
 	 \caption{Ukázka programu blivet-gui~\cite{blivet-gui}}
 	 \centering
-	 \includegraphics[width=.6\columnwidth]{pics/blivet-gui-1.png}\\
+	 \includegraphics[width=.6\columnwidth]{pictures/blivet-gui-1.png}\\
  \end{figure}
 
 \chapter{Použité knihovny}
@@ -253,24 +253,24 @@ Program GParted je zástupcem programů, které je možné spouštět i~mimo fá
 	"The following is an abstract grammar defining the DOT language. Terminals are shown in bold font and nonterminals in italics. Literal characters are given in single quotes. Parentheses
 	( and ) indicate grouping when needed. Square brackets [ and ] enclose optional items. Vertical bars | separate alternatives.
 	\begin{quotation}
-	graph			:		[ \textbf{strict} ] (\textbf{graph} | \textbf{digraph}) [ ID ] \textbf{\'\{\'} stmt_list \textbf{\'\}\'}
-	stmt_list :		[ stmt [ \textbf{';'} ] stmt_list ]
-	stmt			:		node_stmt
-	|							edge_stmt
-	|							attr_stmt
+	graph			:		[ \textbf{strict} ] (\textbf{graph} | \textbf{digraph}) [ ID ] \textbf{\'\{\'} stmt\_list \textbf{\'\}\'}
+	stmt\_list :		[ stmt [ \textbf{';'} ] stmt\_list ]
+	stmt			:		node\_stmt
+	|							edge\_stmt
+	|							attr\_stmt
 	|							ID '=' ID
 	|							subgraph
-	attr_stmt	:	(\textbf{graph} | \textbf{node} | \textbf{edge}) attr_list
-	attr_list	:	'[' [ a_list ] ']' [ attr_list ]
-	a_list  	:	ID '=' ID [ (';' | ',') ] [ a_list ]
-	edge_stmt	:	(node_id | subgraph) edgeRHS [ attr_list ]
-	edgeRHS		:	edgeop (node_id | subgraph) [ edgeRHS ]
-	node_stmt	:	node_id [ attr_list ]
-	node_id		:	ID [ port ]
-	port			:	':' ID [ ':' compass_pt ]
-	|						':' compass_pt
-	subgraph	:	[ \textbf{subgraph} [ ID ] ] \textbf{'\{'} stmt_list \textbf{'\}'}
-	compass_pt:	(\textbf{n}| \textbf{ne} | \textbf{e} | \textbf{se} | \textbf{s} | \textbf{sw} | \textbf{w}  | \textbf{nw} | \textbf{c} | \textbf{_})"
+	attr\_stmt	:	(\textbf{graph} | \textbf{node} | \textbf{edge}) attr\_list
+	attr\_list	:	'[' [ a\_list ] ']' [ attr\_list ]
+	a\_list  	:	ID '=' ID [ (';' | ',') ] [ a\_list ]
+	edge\_stmt	:	(node\_id | subgraph) edgeRHS [ attr\_list ]
+	edgeRHS		:	edgeop (node\_id | subgraph) [ edgeRHS ]
+	node\_stmt	:	node\_id [ attr\_list ]
+	node\_id		:	ID [ port ]
+	port			:	':' ID [ ':' compass\_pt ]
+	|						':' compass\_pt
+	subgraph	:	[ \textbf{subgraph} [ ID ] ] \textbf{'\{'} stmt\_list \textbf{'\}'}
+	compass\_pt:	(\textbf{n}| \textbf{ne} | \textbf{e} | \textbf{se} | \textbf{s} | \textbf{sw} | \textbf{w}  | \textbf{nw} | \textbf{c} | \textbf{\_})"
 	\end{quotation}
 
 	Vidíme že hlavnímy elementy při vytváření grafu jsou graph (graf), uzel (node) a hrana (edge). Základní grafy lze tvořit jen s pomocí těchto tří klíčových slov. Nyní je rozeberu detailněji.
@@ -337,7 +337,10 @@ Program GParted je zástupcem programů, které je možné spouštět i~mimo fá
 	své uzly do stromu a proto by mohl být kandidátem na použití v mé práci. Lidé jsou zvyklí vnímat data ohledně úložného prostoru ve formě stromů. Tím pádem jde o intiutivnější
 	reprezentaci.
 
+\begin{figure}
+	\centering
 	\includegraphics[width=0.6\textwidth]{pictures/dot_example.png} 
+\end{figure}
 	%TODO vysvětli globální energetickou funkci v grafech.
 	"neato - \"spring model\" layouts.  This is the default tool to use if the graph is not too large (about 100 nodes) and you don't know anything else about it. Neato attempts to
 	minimize a global energy function, which is equivalent to statistical multi-dimensional scaling."\cite{graphviz_layout}(neato - grafy s "pérovacím modelem". Toto je základní nástroj
@@ -345,29 +348,44 @@ Program GParted je zástupcem programů, které je možné spouštět i~mimo fá
 	statistickému multidimenznímu škálování.) Jinými slovy algoritmus neato se snaží vytvořit celý graf co nejmenší bez ohledu na ostatní faktory. Grafy nejsou hierarchické ani 
 	strukturované. Cílem je co nejmenší zabraná plocha a zároveň nepřekrývání hran a uzlů. Kvůli chaotičnosti a nestrukturalizovanosti se nejedná o grafový algoritmus který bych mohl
 	použít. Ostatně neato je přizpůsobeno na neorinetované grafy.
+\begin{figure}
+	\centering
 	\includegraphics[width=0.6\textwidth]{pictures/neato_example.png} 
+\end{figure}
 
 	"fdp - \"spring model\" layouts similar to those of neato, but does this by reducing forces rather than working with energy."\cite{graphviz_layout} (fdp - "pružinový model" podobný
 	modelu neato, místo práce s energií redukuje síly.) Fdp je další z rozložení pro neorientované grafy, ještě více zmenšuje plochu grafu tentokrát i s ústupkem ohledně překrývání,
 	uzlů hranami. Pro grafy které potřebuji vytvořit se jedná o ten nejhorší algoritmus z pěti zde zmíněných. V uzlech jsou zapsány data o zařízeních a hrany překrývající tyto uzly
 	působí rušivě. Zároveň není třeba šetřit místem neboť ve výsledné aplikaci je možné přibližovat a popotahovat graf dle libosti uživatele. Fpd tedy není algoritmem vhodným pro tuto
 	situaci.
+\begin{figure}
+	\centering
 	\includegraphics[width=0.6\textwidth]{pictures/fdp_example.png} 
+\end{figure}
 
 	"twopi - radial layouts\[...\].  Nodes are placed on concentric circles depending their distance from a given root node."\cite{graphviz_layout}(twopi - paprskovité rozložení. Uzly
 	jsou umístěny na soustředných kruzích podle vzdálenosti od kořenového.) Použitím paprskového rozložení dochází k strukturalizaci grafu, tím pádem by se algoritmus twopi mohl zdát 
 	dobrou volbou pro uskutečnění cíle který jsem si vytyčil. Ovšem přidáním dalších 2 uzlů, které způsobí rozvětvení grafu se strukturalizace začne vyvíjet neakceptovatelným směrem.
 	Oba případy jsou vidět na obrázku. Strukturovanost do kruhů by, dle mého názoru, uživatele zbytečně mátla. Je důležité mít kořenový uzel, ovšem jeho umístění doprostřed je špatnou
 	volbou.
+\begin{figure}
+	\centering
 	\includegraphics[width=0.6\textwidth]{pictures/twopi_example.png} 
+\end{figure}
+\begin{figure}
+	\centering
 	\includegraphics[width=0.6\textwidth]{pictures/twopi_example_2.png} 
+\end{figure}
 
 	"circo - circular layout \[...\]. This is suitable for certain diagrams of multiple cyclic structures, such as certain telecommunications networks."\cite{graphviz_layout} (circo -
 	kruhové rozložení. Je vhodné pro určité diagramy s několika cyklickými strukturami jako jsou telekomunikační sítě.) Jak už je zmíněno v dokumentaci, grafy používající rozložení 
 	circo se hodí jen k nemálo specifickým účelům. Jak vidíme na obrázku, opět se setkáváme s nehierarchickým grafem. Algoritmus circo rozhodně má své využití ale není to náš případ. V
 	situaci kdy připojujeme úložná zařízení v systému Linux se jen obtížně dostaneme do cyklických odkazů. Samotná podstata připojování úložných jednotek by měla zabraňovat těmto
 	situacím. Pokdu bychom už takovou situaci vytvořili jedná se zcela určitě o chybu buď používaných nástrojů nebo chybu uživatelské konfigurace. 
+\begin{figure}
+	\centering
 	\includegraphics[width=0.6\textwidth]{pictures/circo_example.png} 
+\end{figure}
 
 	Algoritmem který nakonec zbývá po aplikování vyřazovací metody je algoritmus dot. Po odstranění ostaních možností je jediným co zbývá, bez dalších konkurentů mezi kterými je třeba 
 	rozhodovat. Základem pro mé rozhodnutí je stromová struktura. Ostatní typy rozložení nesplňují tuto podmínku, snad až na rozložení twopi. Twopi ale nelze použít kvůli jeho větvení
@@ -390,16 +408,16 @@ Program GParted je zástupcem programů, které je možné spouštět i~mimo fá
 	třídy na ni navazují ať už přímo nebo nepřímo (přes jinou třídu). 
 
 	Konstruktor třídy visualisation vytváří dva seznamy. Seznam uzlů a seznam hran. Víc není potřeba. S oběma seznamy už pracují hlavně funkce v jiných třídách. Nejdůležitější funkcí
-	je funkce create_graph. Tato funkce se dá volat z příkazové řádky i z grafického rozhraní. Její argumenty jsou jméno a cestake grafu a výsledkem je svg soubor obsahující graf. 
+	je funkce create\_graph. Tato funkce se dá volat z příkazové řádky i z grafického rozhraní. Její argumenty jsou jméno a cestake grafu a výsledkem je svg soubor obsahující graf. 
 	V~případě spouštění z grafického rozhraní okamžitě dojde k zobrazení grafu v okně aplikace. V případě spuštění z příkazové řádky jen k jeho uložení v definovaném umístění. 
 
-	Třída obsahuje i pomocnou funkci prepare_nodes, procházející jednotlivě uzly v seznamu uzlů a na každém spouští funkci prepare. Detailně funkci prepare rozeberu u popisu uzlu. Tím
+	Třída obsahuje i pomocnou funkci prepare\_nodes, procházející jednotlivě uzly v seznamu uzlů a na každém spouští funkci prepare. Detailně funkci prepare rozeberu u popisu uzlu. Tím
 	přemění data z blivetu na data vhodná pro graphviz. Kromě toho jsou utříděna textová data k vypsání po rozkliknutí uzlu uživatelem. Funkci jsem přidal do této třídy proto, že 
 	seznam uzlů je její atribut. Třída ve funkci načte data, přetvoří je a pak vypíše. Strukturu tohoto procesu bych chtěl nadálezachovat i například po dalším rozšíření.  
 
 \subsection{Třída pro načítání dat}
 	GvInput slouží k načítání dat z blivetu. Jednoduše si blivet naimportuje jako modul, vytvoří si objekt obsahující celou knihovnu. Aktuální nastavení knihovny blivet vyžaduje před 
-	každým načítáním dat spustit funkci reset(). Tato funkce projde dostupné úložné kapacity a vytvoří strom zařízení (device_tree). Stejně tak naplní i seznam (struktura list) těmi
+	každým načítáním dat spustit funkci reset(). Tato funkce projde dostupné úložné kapacity a vytvoří strom zařízení (device\_tree). Stejně tak naplní i seznam (struktura list) těmi
 	stejnými objekty. Můj program projde tímto seznamem (blivet.devices) a u každého prvku nejdříve zkontroluje zda se nenachází na černé listině. Zde se nachází věci jako jsou 
 	výměnná média. Při instalaci jsou zbytečná a jen by na grafu překážela.
 
@@ -410,8 +428,8 @@ Program GParted je zástupcem programů, které je možné spouštět i~mimo fá
 
 	Nastavování tvarů a barev je řešeno obdobně jako užití příkazu switch v jazyce C či podobných. Python tento výraz přímo neobsahuje a tak jsem byl nucen použít funkci obsahující 
 	sérii if příkazů. Po vyhodnocení jedné z větví na hodnotu pravda se spustí jiná funkce nastavující vzhled uzlu. Konkrétní příklad, k na seznamu je diskový oddíl. Není na blacklistu,
-	proto postupuje dál. Konstruktoru třídy Node jsou předány informace z blivet.device. Poté je uzel předán funkci process_node která jej rozpozná jako oddíl a spustí funkci 
-	nodeIsPartition. V ní je výsledný uzel obarven světlou barvou a je mu nastaven tvar "box", neboli tvar s ostrými rohy. Poté je uzel přidán do seznamu node_list. Také je na
+	proto postupuje dál. Konstruktoru třídy Node jsou předány informace z blivet.device. Poté je uzel předán funkci process\_node která jej rozpozná jako oddíl a spustí funkci 
+	nodeIsPartition. V ní je výsledný uzel obarven světlou barvou a je mu nastaven tvar "box", neboli tvar s ostrými rohy. Poté je uzel přidán do seznamu node\_list. Také je na
 	standardní výstup vypsána hláška o přidání nového členu seznamu. Uživatel tak má přehled, které uzly jsou přidány. Zařízení je identifikováno svým jménem a typem.
 
 	Po přidání uzlu se přidávají hrany. U každého uzlu program projde seznam jeho rodičů a vytvoří od nich hrany zpět k aktuálně vytvářenému uzlu. Musím postupovat tímto způsobem, neboť
@@ -420,23 +438,23 @@ Program GParted je zástupcem programů, které je možné spouštět i~mimo fá
 
 \subsection{Třída Node}
 	Třída pro uzly celkem nekomplikovaná, obsahuje převážně funkce pro nastavení vzhledu. Nejdůležitější informace se ukládají už v konstruktoru, opět jako ochrana slouží nastavení
-	prázdných řetězců tam kde by vstupní informace chyběly. Kromě konstruktoru obsahuje třída Node také funkce change_color a change_shape nastavující vzhled. K funkci change shape 
-	jsem muset vytvořit i pomocnou funkci change_style_safely. Pomáhá vytvořit styl uzlu se zakulacenými rohy. Graphviz řeší tuto situaci přidáním klíčového slova rounded k už 
+	prázdných řetězců tam kde by vstupní informace chyběly. Kromě konstruktoru obsahuje třída Node také funkce change\_color a change\_shape nastavující vzhled. K funkci change shape 
+	jsem muset vytvořit i pomocnou funkci change\_style\_safely. Pomáhá vytvořit styl uzlu se zakulacenými rohy. Graphviz řeší tuto situaci přidáním klíčového slova rounded k už 
 	existujícímu stylu. Pokud je styl nastavený na obdélník s ostrými rohy ("box") je třeba přidat slovo rounded a obě slova oddělit čárkou. Výsledek musí vypadat takto "box, rounded"
 	na pořadí slov nezáleží.
 
-	Ukládání atributů a gv_atributů (atributů pro graphviz) je řešeno pomocí slovníků. Použití slovníků umožňuje libovolně přidávat a ubírat počty atributů. Původní návrh s proměnnými
+	Ukládání atributů a gv\_atributů (atributů pro graphviz) je řešeno pomocí slovníků. Použití slovníků umožňuje libovolně přidávat a ubírat počty atributů. Původní návrh s proměnnými
 	pro atributy jsem zavrhl. Atributy rozumíme informace o nastavení úložných zařízení které se později vypisůjí ke každému uzlu. Jedinou výjimku tvoří jméno a typ zařízení neboť jde
 	o identifikační atributy a jejich neexistence by znemožnila fungování programu. Rozhodl jsem se oddělit atributy pro knihovnu graphviz do samostatného slovníku. Díky tomu je při
 	vykreslování grafu možné jen projít záznamy a vytvořit z párů klíč, hodnota páry atribut ulzu, hodnota v grafu. 
 
 	Poslední pomocnou funkcí nacházející se v tříde Node je fukce prepare. Připravuje textová data pro prezentaci na graf. Projde všechny záznamy ve slovníku attributes a spojí je do 
-	jednoho řetězce obsahující znaky nového řádku "\n". Předtím je možné flexibilně měnit počet a data textových informací. Po té co je spuštěna funkce prepare je její výsledný řetězec
-	uložen do atributu gv_atributu label, připraven pro použití Graphvizem.
+	jednoho řetězce obsahující znaky nového řádku "\\n". Předtím je možné flexibilně měnit počet a data textových informací. Po té co je spuštěna funkce prepare je její výsledný řetězec
+	uložen do atributu gv\_atributu label, připraven pro použití Graphvizem.
 
 \subsection{Třída Edge}
 	Třída pro hrany v sobě neskrývá žádná tajemství. Obsahuje akorát konstruktor a funkce pro získání počátečního a koncového uzlu. Konstruktor bere za své argumenty právě tyto dvě 
-	proměnné. Proměnnou node_from, počáteční uzel a proměnnou node_to, koncový uzel. I přesto že neobsahuje moc funkcí jsem se rozhodl vytvořit dedikovanou třídu pro hrany. Z mého 
+	proměnné. Proměnnou node\_from, počáteční uzel a proměnnou node\_to, koncový uzel. I přesto že neobsahuje moc funkcí jsem se rozhodl vytvořit dedikovanou třídu pro hrany. Z mého 
 	pohledu jde o lepší postup než hrany řešit jinde. Takto je pro každý element v grafu dedikovaná třída se kterou lze pracovat.
 
 \subsection{Třída pro vytváření grafů}
@@ -445,7 +463,7 @@ Program GParted je zástupcem programů, které je možné spouštět i~mimo fá
 
 	CreateGvGraph nejprve vytvoří orientovaný graf pomocí graphvizu. Poté projde seznam uzlů a pomocí graphvizu vytvoří každý uzel v nově utvořeném orientovaném grafu. To samé udělá i
 	s hranami. Funkce pro vytváření uzlů graphviz.node bere jako první argument jméno uzlu. První argument je povinný, jméno uzlu. Ze stejného důvodu je povinný i argument jména
-	při vytváření v seznamu uzlů. Druhý argument ze tří je atribut label. Jde o dlouhý string rozdělený znaky dalších řádků ("\n") jak je vysvětleno výše v částí věnující se třídě Node.
+	při vytváření v seznamu uzlů. Druhý argument ze tří je atribut label. Jde o dlouhý string rozdělený znaky dalších řádků ("\\n") jak je vysvětleno výše v částí věnující se třídě Node.
 	Poslední argument je seznam zbylých atributů které dokáže graphviz zobrazovat. Je předán jako celý seznam a po jeho rozbalení se aplikují nastavení vzhledu uzlu. Na konci je celý
 	graf vrácen návratovou hodnotou.
 
@@ -453,10 +471,10 @@ Program GParted je zástupcem programů, které je možné spouštět i~mimo fá
 	chvíli důležité. Svg formát byl vybrán prto že v něm lze aplikovat javascript a tím dosáhnout interaktivity. Konkrétně se jedná o možnost zvětšovat uzly, posouvat a zoomovat graf.
 	Tyto funkce jsou implementovány popíšu je později ale postup implementace si popíšeme hned.
 
-	Javascriptový skript vkládá pomocná funkce insert_JS_to_graph, přebírající jeden argument a to řetězec obsahující svg grafu do kterého se má vložit. Zmíněný řetězec je výstupem funkce
+	Javascriptový skript vkládá pomocná funkce insert\_JS\_to\_graph, přebírající jeden argument a to řetězec obsahující svg grafu do kterého se má vložit. Zmíněný řetězec je výstupem funkce
 	graphviz.graph.pipe s argumentem format="svg". 
 
-	Funkce insert_JS_to_graph nejprve nastaví defaultní jmenný prostor (namespace, funkcionalita XML jazyků schopná rozlišovat různé elementy se stejným názvem) z "ns0" na "" (prázdný 
+	Funkce insert\_JS\_to\_graph nejprve nastaví defaultní jmenný prostor (namespace, funkcionalita XML jazyků schopná rozlišovat různé elementy se stejným názvem) z "ns0" na "" (prázdný 
 	řetězec). Svg by bylo validní i se jmenným prostorem "ns0" nicméně standartně po vygenerování knihovnou graphviz tento jmenný prostor není přítomný a považuji za lepší do svg 
 	zasahovat co nejméně. 
 
@@ -468,10 +486,10 @@ Program GParted je zástupcem programů, které je možné spouštět i~mimo fá
 	grafu. Zároveň je třeba připravit atribut "viewport" u prvního potomka elementu svg. První potomej je kořenový uzel zobrazovaného grafu, vždy nese id "graph0". Pomocí XPath výrazu jej
 	najdu a přiřadím mu zmíněný atribut.
 
-	Poté už stačí jen vytvořit nový element s cestou k Javascriptovému souboru a tento element přidat jako prvního potomka kořenového elementu svg. Funkce insert_JS_to_graph vrací celý
+	Poté už stačí jen vytvořit nový element s cestou k Javascriptovému souboru a tento element přidat jako prvního potomka kořenového elementu svg. Funkce insert\_JS\_to\_graph vrací celý
 	Element Tree.
 
-	Po návratu z funkce insert_JS_to_graph použijeme metodu write k zapsání svg do souboru kde je připraveno k zobrazení.
+	Po návratu z funkce insert\_JS\_to\_graph použijeme metodu write k zapsání svg do souboru kde je připraveno k zobrazení.
 
 \subsection{Třida Gui}
 	Můj program lze používat jak dávkově z příkazové řádky tak interaktivně s pomocí grafického uživatelského prostředí. Dávkový režim nabízí pouze možnost vygenerovat graf v určitém 
