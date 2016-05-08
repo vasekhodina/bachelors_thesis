@@ -13,7 +13,9 @@
 		keywords = {vizualizace, instalace, rozdělení disků, linux, LVM, RAID},
 }
 \thesislong{abstract}{
-Práce popisuje vývoj modulu do instalátoru Anaconda. Tento instalátor využívají linuxové distribuce vycházející z~distribuce Red Hat Enterprise Linux.
+Práce popisuje vývoj modulu do knihovny Blivet, nástroje pro správu blokových zařízení.
+Tuto knihovnu je možné pužívat v linuxových distribucích vycházejících z~distribuce Red Hat Enterprise Linux. Má práce se zaobírá hlavně vizualizací dat,
+se kterými knihovna pracuje.
 }
 \thesislong{thanks}{
 Zde chci poděkovat Marku Grácovi za vedení mé práce, Marii Staré za korektury.
@@ -43,7 +45,8 @@ Zde chci poděkovat Marku Grácovi za vedení mé práce, Marii Staré za korekt
 \chapter{Úvod}
 	Bakalářská práce zpracovává řešení problémů s~vizualizací rozdělování disků při instalaci systému. Cílem práce je vytvořit pochopitelnou grafickou nápovědu pro administrátory 
 	počítačů, zvláště serverů s~mnoha disky. 
-	Konkrétněji se jedná o~rozšíření instalátoru Anaconda, které zpracovává informace o~jednotlivých discích, jako je název, velikost a~typ disku a~jednotlivé oddíly na disku utvořené. 
+	Konkrétněji se jedná o~rozšíření knihovny Blivet, která zpracovává informace o~jednotlivých blokových zařízeních, jako je název, velikost a~typ disku 
+	a~jednotlivé oddíly na disku utvořené. 
 	Samozřejmostí je zahrnutí 
 	diskových polí typu RAID (Redundant Array of Independent Disks)  a~virtualizovaných disků mezi vizualizovaná data; rozšíření počítá se všemi těmito typy. Data jsou uložena 
 	ve vlastních třídách tak, aby programování případné další funcionality 
@@ -52,20 +55,20 @@ Zde chci poděkovat Marku Grácovi za vedení mé práce, Marii Staré za korekt
 	seznam změn, který je nedostatečný. Člověk dokáže mnohem lépe a~rychleji kontrolovat obrázková data než homogenní text. 
 
 	Práce vznikala nejen na Fakultě informatiky Masarykovy univerzity (FI MUNI), ale i~ve společnosti Red Hat. Tam budou využity její výsledky,
-	integrované do instalátoru Anaconda, který je v~současnosti používán v~linuxových distribucích Red Hat Enterprise Linux (RHEL), CentOs a~Fedora.
+	integrované do instalátoru Anaconda, který je v~současnosti používán v~linuxových distribucích Red Hat Enterprise Linux (RHEL), CentOS, Fedora a všech
+	odvozených.
 
 	Práci jsem si vybral z~několika důvodů.  Možnost podílet se na vývoji svobodného softwaru je pro mě velmi důležitým hlediskem 
 	při psaní jakéhokoliv programu. Druhý důvod je možný rozsah uplatnitelnosti výsledků mé práce. Každý systém je třeba nejprve nainstalovat, výsledky
 	této práce tedy uvidí velké množství lidí, což je bezpochyby velká motivace pro každého, kdo něco tvoří. Třetím důvodem je výběr programovacího jazyka, který je vyžadován 
 	v~zadání. Jedná se o~jazyk Python, který považuji za velmi flexibilní, aniž by byly kladeny přílišné nároky na výkon systému. 
 
-	Jak jsem zmínil výše, hlavním cílem práce je naprogramování aplikace, která vytváří graf stromové struktury rozdělených disků. Data přijímá od instalátoru Anaconda, 
-	přičemž využívá knihovnu blivet. 
-	Vedlejšími cíli je možnost vytvářet grafy ze souborů XML, ne jen z~aplikace, dále integrace do instalátoru s~možností označovat jednotlivé diskové oddíly a~interagovat
-	s~nimi. Posledním doplňkovým cílem je funkcionalita umožňující porovnat stav před instalací a~po ní v~případě, že je systém přeinstalováván.
+	Jak jsem zmínil výše, hlavním cílem práce je naprogramování aplikace, která vytváří graf stromové struktury rozdělených disků. Jako zdroj dat
+	využívá knihovnu Blivet. 
+	Druhým cílem je funkcionalita umožňující porovnat stav před instalací a~po ní v~případě, že je systém přeinstalováván.
 
 	Z~cílů vychází také struktura práce. Před popisem je přidána přehledová kapitola.
-	První kapitola popisuje použité knihovny. První knihovna, blivet\cite{blivet}, poskytuje data a~mimo jiné může sloužit i~pro změny 
+	První kapitola popisuje použité knihovny. První knihovna, Blivet\cite{blivet}, poskytuje data a~mimo jiné může sloužit i~pro změny 
 	nastavení disků (tato funkcionalita je v~mé práci zmíněna jen okrajově). Druhou je knihovna graphviz-python\cite{graphviz-python}, Graphviz je program pro tvorbu grafů. Kromě
 	jednoduchého spojování uzlů hranami dokáže uzly automaticky třídit a~logicky rozmisťovat podle různých přednastavených pravidel. Nabízí také různý vzhled uzlů
 	a~hran a~výsledné grafy dokáže exportovat v~několika formátech. Výsledek mé práce operuje především s~formátem škálovatelné vektorové grafiky (SVG). Graphviz-python je 
@@ -164,7 +167,7 @@ Program GParted je zástupcem programů, které je možné spouštět i~mimo fá
 
  \subsection{Blivet-gui}
 
- Druhým příkladem je program na manipulaci s~disky, který je součástí instalátoru Anaconda, využívá knihovnu nazvanou blivet. Knihovna blivet je základem pro všechny systémy vycházející ze systému RHEL. Autoři 
+ Druhým příkladem je program na manipulaci s~disky, využívá knihovnu nazvanou Blivet. Knihovna Blivet je dostupná ve všech systéch vycházejících ze systému RHEL. Autoři 
  se zprvu rozhodli použít známé schéma, avšak brzy narazili na problém s~větším počtem disků včetně virtuálních. Na obrázku č.~6 vidíme, že současné řešení je nedostatečné, jednotlivé úrovně barevných rámců 
  jsou znázorněny samostatnými uzly grafu s~hranami vyznačujícími vztahy mezi nimi. Mnoho těchto rámců uživatele spíše zmate a~použití grafu by situaci zpřehlednilo.
 
@@ -176,50 +179,50 @@ Program GParted je zástupcem programů, které je možné spouštět i~mimo fá
  \end{figure}
 
 \chapter{Použité knihovny}
-\section{Knihovna blivet}
-	První a~nejdůležitější knihovou, která je v~mé práci využívána, je knihovna blivet, což je projekt a~bakalářská práce Bc. Vojtěcha Trefného. Projekt 
-	ve firmě Red Hat, a~slouží k~rozšíření již zmiňovaného instalátoru Anaconda. Použití této knihovny je součástí zadání, a~proto nebudu diskutovat o jejích výhodách a~nevýhodách
-	oproti ostatním knihovnám. 
+\section{Knihovna Blivet}
+	První a~nejdůležitější knihovou, která je v~mé práci využívána, je knihovna Blivet. Vznikla jako projekt
+	ve firmě Red Hat, a~slouží k~rozšíření již zmiňovaného instalátoru Anaconda. Použití této knihovny je součástí zadání, a~proto nebudu diskutovat o jejích výhodách a~nevýhodách oproti ostatním knihovnám. 
 
 	Mezi její funkce patří i~konfigurace různých datových úložišť, nemusí se jednat pouze o~pevné disky.
 	Blivet ovládá i~mnohé další technologie, se kterými se lze v~dnešní době setkat. Příkladem jsou vícenásobná pole nezávislých disků (RAID), technologie logických svazků disku (LVM) či 
 	ovládání zašifrovaných modulů pomocí technologie LUKS (Linux Unified Key System, systém pro správu klíčů v Linuxu). Všechny tři příklady rozebírám níže.
 
-	Dále blivet obsahuje nástroje pro práci se souborovými systémy diskových oddílů od starších, a~již dlouho používaných, jako jsou žurnálovací souborové systémy ext2 až ex4 či ReiserFS, po novější,
-	jakými jsou Btrfs nebo ZFS. Také se stará o~bootovací oddíly, čili master boot record (MBR) a~GUID partition table (GPT), tedy o~všechny součásti procesu instalace
+	Dále Blivet obsahuje nástroje pro práci se souborovými systémy diskových oddílů od starších, a~již dlouho používaných, jako jsou žurnálovací souborové systémy ext2 až ex4 či ReiserFS, po novější,
+	jakým je Btrfs . Také se stará o~bootovací oddíly, čili master boot record (MBR) a~GUID partition table (GPT), tedy o~všechny součásti procesu přípravy 
+	úložíšť v rámciinstalace
 	nového systému na počítač.
 
 \subsection{RAID}
 	Vícenásobná pole nezávislých disků jsou velmi elegantní ochranou před selháním disků. Existůjí různé způsoby, jak pole realizovat, ale základní princip zůstává vždy stejný. 
-	Několik disků, které vystupují jako jediný disk. Podle použitého typu vícenásobného diskového pole může mít takovýto disk kapacitu rovnou součtu disků, ze kterých je tvořen, anebo také
-	kapacitu jednoho disku, přičemž data jsou zrcadlena na ostatní disky. Cílem tohoto nastavení je ochrana před selháním hardwaru a~ztrátou dat. 
+	Několik disků, které vystupují jako jediný disk. Jedním z příkladů použití vícenásobného diskového pole může být disk s~kapacitou rovnou součtu disků, ze kterých je tvořen, anebo také
+	kapacitou jednoho disku, přičemž data jsou zrcadlena na ostatní disky. Cílem tohoto nastavení je ochrana před selháním hardwaru a~ztrátou dat. 
 	
-	Blivet obsahuje nástroje pro práci se svobodnou technologií mdadm, která slouží k~nastavení softwarového pole RAID. Při využití hardwarových technologií, zvláště pak proprietárních,
+	Blivet obsahuje nástroje pro práci se svobodným programem mdadm, která slouží k~nastavení softwarového pole MD RAID. Při využití hardwarových technologií, zvláště pak proprietárních,
 	je možné k~tomuto RAIDu přistupovat jako k~obyčejnému disku, čehož i~nesvobodné RAIDy často využívají a~svých mnoho disků skrývají za jednotným rozhraním, které vystupuje jako jeden
 	disk. 
 
 	Program mdadm je softwarový RAID, a~proto má počítač celou dobu přehled nejen o~finálním disku, zabezpečeném proti selhání, ale i~o~všech dílčích discích, které ho tvoří. Výhodou
 	softwarového RAIDu je
-	možnost monitorování redundantních disků nástroji, které jsou součástí systému, bez nutnosti využívatní aplikace třetích stran, u~kterých je možnost nekompatibility, případně dalších 
+	možnost monitorování redundantních disků nástroji, které jsou součástí systému, bez nutnosti využívání aplikace třetích stran, u~kterých je hrozba nekompatibility, případně dalších 
 	komplikací.
 	Mezi nevýhody tohoto nastavení se řadí větší nepřehlednost při práci se všemi disky počítače, kdy změna jednoho disku vyvolá řetězovou reakci dalších změn. Právě proto je třeba data uceleně třídit
 	a~pokud možno i~přehledně vizualizovat.
 
 \subsection{LVM}
-  LVM neboli logical volume management je metoda, kterou je možné spravovat diskové oddíly. Poskytuje větší flexibilitu volného místa než klasické diskové oddíly a pracuje se třemi
+  LVM neboli Logical Volume Management je metoda, kterou je možné spravovat diskové oddíly. Poskytuje větší flexibilitu volného místa než klasické diskové oddíly a pracuje se třemi
 	úrovněmi
-	diskových zařízení. První úrovní jsou fyzické svazky neboli physical volumes (PV). Fyzický svazek je tvořen buď samotným diskem, včetně například disku RAID , nebo diskovým oddílem. 
+	diskových zařízení. První úrovní jsou fyzické svazky neboli physical volumes (PV). Fyzický svazek je tvořen buď samotným diskem, včetně například disku RAID, nebo diskovým oddílem. 
 	Fyzické
-	svazky nenabízí o~mnoho více funkcionality, než je označení a~příprava svazku pro další práci. Ta spočívá v~rozdělení fyzického svazku na fyzické extenty (physical extents, PE).
+	svazky nenabízí o~mnoho více funkcionality než je označení a~příprava svazku pro další práci. Ta spočívá v~rozdělení fyzického svazku na fyzické extenty (physical extents, PE).
 
-	Další úrovní jsou skupiny svazků (volume groups, VG), sdružující jeden nebo více fyzických svazků nebo logických svazků. Skupiny svazků disponují úložným prostorem svých PV, 
-	který rozdělují mezi LV. Výhodou existence VG je možnost libovolně přidávat svazky, a~to i~za plného chodu systému. Za chodu systému lze místo i~ubírat z LV nebo VG, ale 
+	Další úrovní jsou skupiny svazků (volume groups, VG), sdružující jeden nebo více fyzických svazků a logických svazků (LV). Skupiny svazků disponují úložným prostorem svých PV, 
+	který rozdělují mezi LV. Výhodou existence VG je možnost libovolně přidávat svazky, a~to i~za plného chodu systému. Za chodu systému lze místo i~ubírat z VG, ale 
 	pouze dosud neobsazenou část. 
 
 	Třetí úrovní LVM jsou již zmíněné logické svazky, které jsou dostupné uživateli k~ukládání dat. Z~tohoto pohledu se chovají stejně jako obyčejné diskové oddíly. Jak již ale
 	bylo zmíněno, výhodou oproti obyčejným diskovým oddílům je flexibilita dostupného místa. Na logických svazcích je možné vytvářet souborové systémy a~dále s~nimi pracovat.
 
-	Kromě úprav velikosti oddílů za chodu je také možné přesouvat data mezi jednotlivými skupinami svazků. LVM také umí vytvářet snímky, tj. zachycovat stav dat v~čase. Využítí nachází tato 
+	Kromě úprav velikosti oddílů za chodu je také možné přesouvat data v rámci VG. LVM také umí vytvářet snímky, tj. zachycovat stav dat v~čase. Využítí nachází tato 
 	vlastnost
 	při vytváření záloh a~jako záchytný bod, ke kterému je možné se vrátit. Nevýhodou LVM je skutečnost, že data na fyzických svazcích mohou být fragmentována, a~tak
 	dochází ke snížení výkonu. Také je třeba mít na zřeteli fakt, že pokud zmenšujeme logický svazek, musí tuto funkci obsahovat i~souborový systém, který se na něm nachází.
@@ -229,25 +232,28 @@ Program GParted je zástupcem programů, které je možné spouštět i~mimo fá
 	systémy
 	těmi se zde ale zabývat nebudu. LUKS vznikl, aby usnadnil proces nastavování šifrovaných dat, slovy autora : \uv{It has initially been developed to remedy the unpleasantness a~user 
 	experienced that arise from deriving the encryption setup from changing user space, and forgotten command line arguments. The result of this changes are an unaccessible encryption
-	storage.}\cite{on-disk-format} V~současné době se LUKS používá společně s~programem dm-crypt, který slouží jako prostředek k~šifrování.
+	storage.}\cite{on-disk-format} V~současné době se LUKS používá společně s~technologií dm-crypt, která slouží jako prostředek k~šifrování.
 
-	Při využití LUKS v~blivetu lze šifrovat disky, diskové oddíly, logické svazky i~fyzické svazky. Celé nastavení LVM může být šifrováno jedním klíčem, v součastnosti se takto 
+	Při využití LUKS v~Blivetu lze šifrovat disky, diskové oddíly, logické svazky i~fyzické svazky. Celé nastavení LVM může být šifrováno jedním klíčem, v součastnosti se takto 
 	standardně šifruje LVM ve Fedora Linuxu, pokud uživatel nastaví automatické rozdělení disku s~šifrováním. Nemusí se jednat jen o~pevné disky, ale také o~odstranitelná média jako
-	CD-ROM nebo USB paměti. Šifrovat lze též odkládací prostor paměti (swap).
+	SD karty nebo USB paměti. Šifrovat lze též odkládací prostor paměti (swap).
 
 \subsection{Formáty souborového systému}
-  Jak již bylo zmíněno, blivet umí pracovat i~se souborovými systémy. Struktura je následující. Výchozí seznam zařízení reprezentující jednotlivé disky, jejich oddíly a~případně
+  Jak již bylo zmíněno, Blivet umí pracovat i~se souborovými systémy. Struktura je následující. Výchozí seznam zařízení reprezentující jednotlivé disky, jejich oddíly a~případně
 	speciální technologie jako RAID, LVM či šifrování LUKS. Každé zařízení má ale možnost mít i~formát, čímž se myslí formát souborového systému. Podporována je většina známých 
 	souborových
 	systémů, které jsou používány dlouhou dobu. Patří mezi ně souborový systém ext, ReiserFS, XFS. Taktéž existuje podpora pro Btrfs (B-tree FS), experimentální souborový systém 
-	vyvíjený společností Oracle. Přestože zatím u~Btrfs neexistuje stabilní verze, je mezi distribucemi podporován, neboť nabízí řešení některých problémů současných souborových systémů.
+	vlastněný společností Oracle. Přestože zatím u~Btrfs neexistuje stabilní verze, je mezi distribucemi podporován, neboť nabízí řešení některých problémů současných souborových systémů.
 
 \section{Graphviz}
 	Graphviz je program, který slouží k~vizualizaci dat formou grafů, orientovaných či neorientovaných. Pomocí Graphvizu je možné generovat grafy sloužící ke znázornění počítačové sítě nebo
 	vztahů mezi určitými objekty. Nelze vytvářet grafy průběhů funkcí či grafy znázorňující vztahy mezi číselnými hodnotami. Jinými slovy Graphviz generuje grafy, jaké známe z~teorie grafů,
 	ale není schopen generovat grafy známé například z~ekonomie.
 
-	Program je z~velké části napsán v~jazyce C, ale ve všech v~současnosti používaných jazycích pro něj existují obalovací knihovny (wrapper libraries) . Z~těchto knihoven se budeme soustředit hlavně na
+	Program je z~velké části napsán v~jazyce C, ale ve existují obalovací knihovny (wrapper libraries) pro mnoho výšších programovacích jazyků. Vyššímy 
+	programovacímy jazyky myslím jazyky, které jsou pokládány za méně náročné na obstarávání systémových věcí programátorem. Typickým příkladem výššího 
+	programovacího jazyka je jazyk Java. Dalšímy příklady je Python a PHP. Často jsou tyto jazyky označovány jako skriptovací. 
+	Z~těchto knihoven se budeme soustředit hlavně na
 	knihovnu pro Python 3 která je používána v~mé práci. Pokud bychom Graphviz spouštěli jako program a~pracovali s~ním přímo například z~příkazové řádky, využívali bychom jeho vlastní jazyk
 	na definici grafů nazvaný DOT. Tento jazyk je definovaný následovně:
 
@@ -278,10 +284,10 @@ Program GParted je zástupcem programů, které je možné spouštět i~mimo fá
 
 \subsection{Graf}
 	Klíčové slovo graph uvádí jakýkoliv graf, který bude vytvořen, včetně prvního kořenového grafu. Každý zápis v~jazyce DOT musí začínat slovem graph nebo digraph. Výjimku tvoří užití slova
-	strict, které se uvádí na začátku zápisu, a které zamezuje vzniku vícenásobných hran, tedy mezi každým počátečním a koncovým uzlem bude jen jedna hrana. 
+	strict, které se uvádí na začátku zápisu a které zamezuje vzniku vícenásobných hran, tedy mezi každým počátečním a koncovým uzlem bude jen jedna hrana. 
 
 	Graph označuje graf neorientovaný, ve kterém jsou hrany bez šipek na koncích. Slovo digraph je zkrácené spojení directed graph (orientovaný
-	graf) a~vyjadřuje graf orientovaný, ve kterém jsou na koncích hran šipky. Při vizualizaci rozdělení diskového prostoru jsem se rozhodl použít právě orientované grafy neboť považuji za 
+	graf) a~vyjadřuje graf orientovaný, ve kterém jsou na koncích hran šipky. Při vizualizaci rozdělení diskového prostoru jsem se rozhodl použít právě orientované grafy neboť, považuji za 
 	důležité poskytnout uživateli co nejvíce vodítek ke znázornění vztahu rodič - potomek a~orientované hrany jsou ideální pro tento účel. 
 
 	Speciálním případem grafu je podgraf (subgraph). Grafy mohou být vkládány do sebe a s~pomocí podgrafů lze snížit velikost zdrojového kódu v~jazyce DOT. Příkladem budiž situace, kdy zápisem
@@ -294,14 +300,14 @@ Program GParted je zástupcem programů, které je možné spouštět i~mimo fá
 \subsection{Uzly}
 	Uzly jsou základem každého grafu. V~graphvizu jsou definovány svým jménem. Základní graf s~jedním uzlem definujeme v~jazyce DOT jednoduše, a~to : graf \{A\}. Tento zápis vytvoří
 	graf s~jedním uzlem uprostřed. Ve středu grafu bude napsán název uzlu, v~našem případě \uv{A}. Uzly mají mnoho různých atributů od svého jména po url odkazy a~atributy HTML formátování. 
-	Nejdůležitějšími jsou ty které jsou definovány v~základním nastavení. Jsou to tvar uzlu (shape), barva výplně (fillcolor) a~jméno (name) nebo nálepka (label). 
+	Nejdůležitějšími jsou ty které jsou definovány v~základním nastavení. Jsou to tvar uzlu (shape), barva výplně (fillcolor) a~jméno (name) nebo štítek (label). 
 	
 	Standardně je tvar nastaven na elipsu a~barva
 	na bílou. Jméno se bere podle identifikátoru při vytváření uzlu, nálepka je rozšířením jména. Pokud je definována, nálepka nahrazuje jméno a~její obsah je vepsán dovnitř uzlu. Od jména se liší 
 	tím, že její obsah lze libovolně upravovat, avšak lze do ní ukládat pouze text, jakékoliv speciální formátování nebude zohledněno. Pro vkládání obrázků slouží atribut image a~pro vkládání
 	odkazů atribut url.
 
-	Právě třemi základními atributy jsem se rozhodl rozlišovat jednotlivé typy zařízení, se kterými pracuje blivet. S~pomocí tvaru uzlu odlišuji technologie zařízení. Čím je technologie
+	Právě třemi základními atributy jsem se rozhodl rozlišovat jednotlivé typy zařízení, se kterými pracuje Blivet. S~pomocí tvaru uzlu odlišuji technologie zařízení. Čím je technologie
 	abstraktnější, tím zaoblenější tvar má. Pevné disky a~jejich oddíly jsou znázorněny čtverci, LVM čtverci se zaoblenými rohy a~disky připojené přes síť či šifrování jsou znázorněny elipsou.
 	Pro toto dělení jsem se rozhodl, abych zachoval konzistenci celého grafu a~pomohl uživateli rozlišit rozdíly jen pomocí krátkého shlédnutí tvaru.
 
@@ -310,7 +316,7 @@ Program GParted je zástupcem programů, které je možné spouštět i~mimo fá
 	samotný tvar nestačí. Čili pokud používá stejný tvar jak šifrování tak disk připojený přes internet, dojde k~jejich jednoznačnému odlišení použitím sytější a~méně syté barvy.
 
 \subsection{Hrany}
-	Hrany nejsou tak komplikovanými elementy jako uzly. Jejich základní atributy jsou počáteční a~koncový uzel. U~neorientovaného grafu nelze rozeznat, který uzel je počáteční. Hrany 
+	Hrany nejsou tak komplikovanými elementy jako uzly. Jejich základní atributy jsou počáteční a~koncový uzel. U~neorientovaného grafu se nerozlišuje, který uzel je počáteční. Hrany 
 	nepoužívají tolik atributů jako uzly, avšak například nálepku stále mít mohou. Vzhledem k~jejich tvaru je u~nich zbytečný atribut výplňové barvy (fillcolor) a~používá se jen barva 
 	\uv{pera}.
 	Jak již bylo zmíněno, v~mé praci jsou všechny grafy orientované, a~tak záleží na pořadí v~jakém jsou uzly předány funkci, která tvoří hrany. Nicméně směr je vždy od rodiče k~potomkovi
@@ -356,7 +362,7 @@ Program GParted je zástupcem programů, které je možné spouštět i~mimo fá
 	Třetí rozložení, \uv{fdp - 'spring model' layouts similar to those of neato, but does this by reducing forces rather than working with energy.}\cite{graphviz_layout} 
 	Fdp je další z~rozložení pro neorientované grafy, ještě více zmenšuje plochu grafu, tentokrát i~s~ústupkem ohledně překrývání
 	uzlů hranami. Pro grafy, které potřebuji vytvořit, se jedná o~ten nejhorší algoritmus z~pěti zde zmíněných. V~uzlech jsou zapsána data o~zařízeních a~hrany překrývající tyto uzly
-	působí rušivě. Zároveň není třeba šetřit místem, neboť ve výsledné aplikaci je možné přibližovat a~popotahovat graf dle libosti uživatele. Fpd tedy není algoritmem vhodným pro tuto
+	působí rušivě. Zároveň není třeba šetřit místem, neboť ve výsledné aplikaci je možné přibližovat a~posouvat graf dle libosti uživatele. Fpd tedy není algoritmem vhodným pro tuto
 	situaci.
 \begin{figure}
 	\centering
@@ -395,10 +401,10 @@ Program GParted je zástupcem programů, které je možné spouštět i~mimo fá
 	jdoucí zleva doprava.
 
 \chapter{Aplikace}
-	Aplikace je napsaná v~jazyce Python částečně využívá objektové paradigma. Důvody, které mě vedly k~výběru programovacího jazyka jsou zmíněny v~úvodu práce. Za prvé, objekty logicky
+	Aplikace je napsaná v~jazyce Python a částečně využívá objektové paradigma. Důvody, které mě vedly k~výběru programovacího jazyka, jsou zmíněny v~úvodu práce. Za prvé, objekty logicky
 	dělí program do částí, ve kterých se snadno orientuje a~které spolu souvisí. Tak jsou rozděleny i~mé třídy. Třída pro načítání dat, pro tvorbu grafu, pro uzly, pro hrany atd.
-	Za druhé, objektové programovaní je dnes de facto standartem a~velká část nově vznikajících programů je psána používá jazyky, které podporují objektové programovaní. Za třetí,
-	objektové programování usnadňuje spolupráci a~čtení kódu ostatními programátory. Jelikož rozšiřuji svobodný software je pravděpodobné že na něm někdo bude v~budoucnu pracovat
+	Za druhé, objektové programovaní je dnes de facto standartem a~velká část nově vznikajících programů používá jazyky, které podporují objektové programovaní. Za třetí,
+	objektové programování usnadňuje spolupráci a~čtení kódu ostatními programátory. Jelikož rozšiřuji svobodný software, je pravděpodobné že na něm někdo bude v~budoucnu pracovat
 	a~rozšiřovat jej. Díky použití objektů bude mít usnadněnou práci.
 	
 \section{Třída Visualization}
@@ -406,36 +412,38 @@ Program GParted je zástupcem programů, které je možné spouštět i~mimo fá
 	třídy na ni navazují, ať už přímo nebo nepřímo (přes jinou třídu). 
 
 	Konstruktor třídy visualisation vytváří dva seznamy, seznam uzlů a~seznam hran. S~oběma seznamy pracují hlavně funkce v~jiných třídách. Nejdůležitější funkcí
-	je funkce create\_graph, která se dá volat z~příkazové řádky i~z~grafického rozhraní. Její argumenty jsou jméno a~cesta ke grafu a~výsledkem je soubor svg obsahující graf. 
+	je funkce create\_graph, která se dá volat z~příkazové řádky i~z~grafického rozhraní. Její argumenty jsou jméno a~cesta ke grafu a~výsledkem je soubor SVG obsahující graf. 
 	V~případě spouštění z~grafického rozhraní okamžitě dojde k~zobrazení grafu v~okně aplikace, v~případě spuštění z~příkazové řádky jen k~jeho uložení v~definovaném adresáři. 
 
-	Třída obsahuje i~pomocnou funkci prepare\_nodes, ktrá prochází jednotlivě uzly v~seznamu uzlů, a~na každém spouští funkci prepare. Detailně funkci prepare rozebírám u~popisu uzlu. Funkce prepare\_nodes
-	přemění data z~blivetu na data vhodná pro graphviz. Textová data jsou utříděna, takže se vypíší, když uživatel rozklikne uzel. Funkci jsem přidal do této třídy proto, že 
+	Třída obsahuje i~pomocnou funkci prepare\_nodes, která prochází jednotlivě uzly v~seznamu uzlů, a~na každém spouští funkci prepare. Detailně funkci prepare rozebírám u~popisu uzlu. Funkce prepare\_nodes
+	přemění data z~Blivetu na data vhodná pro graphviz. Textová data jsou utříděna, takže se vypíší, když uživatel rozklikne uzel. Funkci jsem přidal do této třídy proto, že 
 	seznam uzlů je její atribut. Strukturu tohoto procesu bych chtěl nadále zachovat i~po dalším rozšíření.  
 
 \section{Třída pro načítání dat}
-	Třída pro načítání dat, GvInput, slouží k~načítání dat z~blivetu, naimportuje si blivet jako modul a vytvoří si objekt obsahující celou knihovnu. Verze knihovny blivet 2.0.0 vyžaduje před 
+	Třída pro načítání dat, GvInput, slouží k~načítání dat z~Blivetu, naimportuje si Blivet jako modul a vytvoří si objekt obsahující veškeré informace
+	o~blokových zařízeních. Verze knihovny Blivet 2.0.0 vyžaduje před 
 	každým načítáním dat spustit funkci reset(). Tato funkce projde dostupné úložné kapacity a~vytvoří strom zařízení (device\_tree). Stejně tak naplní i~seznam těmi
-	samými objekty. Můj program projde tímto seznamem (blivet.devices) a~u~každého prvku nejdříve zkontroluje, zda se nenachází na černé listině. Na ní se nachází věci jako jsou 
+	samými objekty. Můj program projde tímto seznamem (Blivet.devices) a~u~každého prvku nejdříve zkontroluje, zda se nenachází na černé listině. Na ní se nachází věci jako jsou 
 	výměnná média, která jsou při instalaci zbytečná a~jen by na grafu překážela.
 
-	Dalším krokem je vytvoření objektu reprezentujícho uzel grafu, jeho zpracování a~přidání do vlastního seznamu uzlů, který funguje jako převodník mezi blivetem a~graphvizem. Při
+	Dalším krokem je vytvoření objektu reprezentujícho uzel grafu, jeho zpracování a~přidání do vlastního seznamu uzlů, který funguje jako převodník mezi Blivetem a~graphvizem. Při
 	přidávání do seznamu se uzly zároveň třídí pomocí přepínače a~jsou jim nastavovány barvy a~tvary. Vše, co potřebujeme pro zobrazení uzlu, se ukládá ihned při průchodu seznamem. 
-	Tím dosáhneme pouze jediného průchodu. Uzly si už pak informace zpracují samy. V~případě, že by uzel nebyl rozpoznán, nenastane situace, kdy by program pouze zhavaroval. Jednoduše 
+	Tím dosáhneme pouze jediného průchodu. Uzly si už pak informace zpracují samy. V~případě, že by uzel nebyl rozpoznán, nenastane situace, kdy by program 
+	zhavaroval. Jednoduše 
 	se při vytvoření použije přednastavená barva a~tvar (bílá, elipsa).
 
 	Nastavování tvarů a~barev je řešeno obdobně jako užití příkazu switch v~jazyce C či podobných. Python tento výraz přímo neobsahuje, a~tak jsem byl nucen použít funkci obsahující 
 	sérii if příkazů. Po vyhodnocení jedné z~větví na hodnotu pravda se spustí jiná funkce,která nastavuje vzhled uzlu. Konkrétní příklad, na seznamu je diskový oddíl. Není na blacklistu,
-	proto postupuje dál. Konstruktoru třídy Node jsou předány informace z~blivet.device. Poté je uzel předán funkci process\_node, která jej rozpozná jako oddíl, a~spustí funkci 
+	proto postupuje dál. Konstruktoru třídy Node jsou předány informace z~Blivet.device. Poté je uzel předán funkci process\_node, která jej rozpozná jako oddíl, a~spustí funkci 
 	nodeIsPartition. V~ní je výsledný uzel obarven světlou barvou a~je mu nastaven tvar box, neboli tvar s~ostrými rohy. Poté je uzel přidán do seznamu node\_list. Také je na
 	standardní výstup vypsána hláška o~přidání nového členu seznamu. Uživatel tak má přehled, které uzly jsou přidány. Zařízení je identifikováno svým jménem a~typem.
 
 	Po přidání uzlu se přidávají hrany. U~každého uzlu program projde seznam jeho rodičů a~vytvoří od nich hrany zpět k~právě vytvářenému uzlu. 
-	Knihovna blivet nemá jiné propojení mezi zařízeními než seznam rodičů. Stále ale stačí projít seznam zařízení jen jednou. Hrana se vytváří pomocí koncových uzlů, které má spojovat.
+	Knihovna Blivet nemá jiné propojení mezi zařízeními než seznam rodičů. Stále ale stačí projít seznam zařízení jen jednou. Hrana se vytváří pomocí koncových uzlů, které má spojovat.
 	Pokud jeden chybí, je vytvořen. Opět nedochází k~havárii programu. Pokud už uzel existuje je k~němu hrana připojena. Pokud uzel neexistuje je později, až přijde na řadu, obarven.
 
 \section{Třída Node}
-	Třída pro uzly celkem nekomplikovaná, obsahuje převážně funkce pro nastavení vzhledu. Nejdůležitější informace se ukládají už v~konstruktoru, jako ochrana opět slouží nastavení
+	Třída pro uzly je poměrně jednoduchá, obsahuje převážně metody pro nastavení vzhledu. Nejdůležitější informace se ukládají už v~konstruktoru, jako ochrana opět slouží nastavení
 	prázdných řetězců tam, kde by vstupní informace chyběly. Kromě konstruktoru obsahuje třída Node také funkce change\_color a~change\_shape nastavující vzhled. K~funkci change shape 
 	jsem vytvořil i~pomocnou funkci change\_style\_safely. Pomáhá vytvořit styl uzlu se zakulacenými rohy. Graphviz řeší tuto situaci přidáním klíčového slova rounded k~už 
 	existujícímu stylu. Pokud je styl nastavený na obdélník s~ostrými rohy (box), je třeba přidat slovo rounded a~obě slova oddělit čárkou. Výsledek musí vypadat takto \uv{box, rounded},
@@ -465,11 +473,11 @@ Program GParted je zástupcem programů, které je možné spouštět i~mimo fá
 	Poslední argument je seznam zbylých atributů, které dokáže graphviz zobrazovat. Je předán jako celý seznam a~po jeho rozbalení se aplikují nastavení vzhledu uzlu. Na konci je celý
 	graf vrácen návratovou hodnotou.
 
-	Druhá funkce se nazývá createSvg. Jejím úkolem je přepsat graf do formátu svg. Používá funkci pipe z knihovny Graphviz. Pipe dokáže vytvářet i~jiné formáty, ale ty nejsou v~tuto
-	chvíli důležité. Formát svg byl vybrán proto, že v~něm lze použít javascript, a~tím dosáhnout interaktivity. Konkrétně se jedná o~možnost zvětšovat uzly, posouvat a~přibližovat graf.
+	Druhá funkce se nazývá createSvg. Jejím úkolem je přepsat graf do formátu SVG. Používá funkci pipe z knihovny Graphviz. Pipe dokáže vytvářet i~jiné formáty, ale ty nejsou v~tuto
+	chvíli důležité. Formát svg byl vybrán proto, že v~něm lze použít JavaScript, a~tím dosáhnout interaktivity. Konkrétně se jedná o~možnost zvětšovat uzly, posouvat a~přibližovat graf.
 	Popis funkcí následuje později, níže rozebírám postup implementace.
 
-	Skript v javascriptu vkládá pomocná funkce insert\_JS\_to\_graph, přebírající jeden argument, a~to řetězec obsahující svg grafu, do kterého se má vložit zmíněný skript. Řetězec je výstupem funkce
+	Skript v JavaScriptu vkládá pomocná funkce insert\_JS\_to\_graph, přebírající jeden argument, a~to řetězec obsahující svg grafu, do kterého se má vložit zmíněný skript. Řetězec je výstupem funkce
 	graphviz.graph.pipe s~argumentem format="svg". 
 
 	Funkce insert\_JS\_to\_graph nejprve nastaví výchozí jmenný prostor (namespace; funkcionalita XML jazyků schopná rozlišovat různé elementy se stejným názvem) z~ns0 na prázdný 
@@ -484,7 +492,7 @@ Program GParted je zástupcem programů, které je možné spouštět i~mimo fá
 	grafu. Zároveň je třeba připravit atribut viewport u~prvního potomka elementu svg. První potomek je kořenový uzel zobrazovaného grafu, vždy nese id graph0. Pomocí XPath výrazu je
 	nalezen a~je mu  přiřazen zmíněný atribut.
 
-	Poté už stačí jen vytvořit nový element s~cestou k~javascriptovému souboru a~tento element přidat jako prvního potomka kořenového elementu svg. Funkce insert\_JS\_to\_graph vrací celý
+	Poté už stačí jen vytvořit nový element s~cestou k~JavaScriptovému souboru a~tento element přidat jako prvního potomka kořenového elementu svg. Funkce insert\_JS\_to\_graph vrací celý
 	Element Tree.
 
 	Po návratu z~funkce insert\_JS\_to\_graph použijeme metodu write k~zapsání svg do souboru, kde je svg připraveno k~zobrazení.
@@ -494,9 +502,9 @@ Program GParted je zástupcem programů, které je možné spouštět i~mimo fá
 	umístění. Interaktivní režim nabízí možnost graf ihned prohlížet. Variací na interaktivní režim je také okno s~grafem, které se zobrazuje při instalaci, jako vizualizace změn prováděných
 	instalátorem. 
 
-	Třída gui obsahuje vše potřebné pro obsluhu uživatelského rozhraní. Je naprogramována s~pomocí nejrozšířenější linuxové knohovny pro uživatelská rozhraní Gnome toolkit (GTK). Jde o~
+	Třída gui obsahuje vše potřebné pro obsluhu uživatelského rozhraní. Je naprogramována s~pomocí nejrozšířenější linuxové knihovny pro uživatelská rozhraní Gnome toolkit (GTK). Jde o~
 	obyčejné okno s~několika tlačítky. Jsou v~ní obsaženy ovládací prvky potřebné pro nastavení umístění grafu, tlačítko pro vyvolání kontextové
-	nápovědy a~plocha zobrazující samotný graf. Plocha je zobrazuje okno technologie WebKit. Okno WebKitu je možné vložit do GTK aplikace a~tím dosáhnout stejné základní funkcionality,
+	nápovědy a~plocha zobrazující samotný graf. Pro zobrazení grafu je použita technologie WebKit. Okno WebKitu je možné vložit do GTK aplikace a~tím dosáhnout stejné základní funkcionality,
 	jakou mají dnešní moderní webové prohlížeče. V~mém případě jde o~schopnost zobrazit svg a~schopnost spouštět JavaScript.
 
 	Rizikem, které je nutné přijmout, je možná známá zranitelnost prohlížečů a~nutnost ukládat soubor svg na disku. WebKit totiž zobrazuje svg s~pomocí protokolu file://. Počítač se
@@ -507,26 +515,23 @@ Program GParted je zástupcem programů, které je možné spouštět i~mimo fá
 \chapter{Návrh vzhledu}
 TBD
 
-\chapter{Ukázky aplikace}
-TBD
-
 \chapter{Závěr}
 TBD
 \section{Další možnosti rozšiřování}
 	Zadání mé práce je schváleno jako dostatečné pro bakalářskou práci. Přesto jsem během vypracování diskutoval o další možné nadstavby a~pokračování v~práci.
 
-	První rozšíření by byla možnost vytvářet XML soubory obsahující informace z~grafů. Již existuje aplikace schopná vytvářet XML soubory z~blivetu a~zase je zpět nahrávat. Jeho zamýšlené
+	První rozšíření by byla možnost vytvářet XML soubory obsahující informace z~grafů. Již existuje aplikace schopná vytvářet XML soubory z~Blivetu a~zase je zpět nahrávat. Jeho zamýšlené
 	použití je vytváření záchytných bodů, ke kterým je možné se vrátit v~případě havárie instalátoru, přerušení dodávky elektrického proudu či jiné fatální chyby systému. Ideou pro export
 	XML z~grafu je možnost na systém přenést tu konfiguraci, která je prezentována.
 
 	Druhým a~ambicióznějším rozšířením je schopnost grafu fungovat jako samostatný konfigurační nástroj. Graf by nejenom zobrazoval data, která mu byla poskytnuta, ale také by je byl
-	schopen upravovat a~předávat nová data zpět aplikaci blivet, popřípadě instalátoru. Například by bylo možné přesouvat logické oddíly LVM mezi různými skupinami svazků jednoduchým 
+	schopen upravovat a~předávat nová data zpět aplikaci Blivet, popřípadě instalátoru. Například by bylo možné přesouvat logické oddíly LVM mezi PV jednoduchým 
 	přetažením myší stejně, jako dnes kopírujeme soubory přetažením jejich ikony. Nové oddíly by byly vytvářeny také přetažením z~nějaké nabídky předpřipravených uzlů. Konkrétní velikosti
 	a~jména zařízení by se editovaly s~pomocí textových polí v~každém uzlu.
 	
 	Největším problémem, který by bylo třeba vyřešit, je načítání svg a~informací z~něj zpět zároveň s~ukládáním informací z~prohlížeče. 
 	Jedním z~možných postupů by byla úprava XML načítače tak, aby fungoval i~pro svg graf zobrazovaný uživateli. Uživatel by přetvořil graf podle svých představ, poté spustil 
-	konfiguraci, a~ta by přenesla stav do blivetu a~provedla změny v~úložném prostoru systému. 
+	konfiguraci, a~ta by přenesla stav do Blivetu a~provedla změny v~úložném prostoru systému. 
 
 	\printbibliography
 
