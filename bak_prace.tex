@@ -497,7 +497,7 @@ Program GParted je zástupcem programů, které je možné spouštět i~mimo fá
 
 	Po návratu z~funkce insert\_JS\_to\_graph použijeme metodu write k~zapsání svg do souboru, kde je svg připraveno k~zobrazení.
 
-\section{Třida Gui}
+\section{Třída Gui}
 	Můj program lze používat jak dávkově z~příkazové řádky, tak interaktivně s~pomocí grafického uživatelského prostředí. Dávkový režim nabízí pouze možnost vygenerovat graf v~určitém 
 	umístění. Interaktivní režim nabízí možnost graf ihned prohlížet. Variací na interaktivní režim je také okno s~grafem, které se zobrazuje při instalaci, jako vizualizace změn prováděných
 	instalátorem. 
@@ -512,8 +512,32 @@ Program GParted je zástupcem programů, které je možné spouštět i~mimo fá
 	zanechat v~něm škodlivý kód. Nicméně bezpečnost systému není věcí této práce a~vychází se z~předpokladu, že systém, na kterém je vizualizace spouštěna, je buď ve fázi instalace, nebo
 	je již zabezpečen. WebKit je de facto prohlížeč, který je možné vložit do GTK aplikace.
 
-\chapter{Návrh vzhledu}
-TBD
+\chapter{Vzhled grafu}
+  Můžeme uvažovat o třech hlavních způsobech uložení informací v grafu. První je ve formě textu, druhá ve formě vzhledu uzlů a třetí ve formě obrázků 
+	u některých druhů blokových zařízení. 
+
+	Při vygenerování grafu však nejsou všechna data ihned zobrazena, některé informace jsou skryté a ostatní zvýrazněné. Uzly jsou klikatelné a po kliknutí
+	se uzel zvětší a zároveň se zobrazí kompletní informace. Po opětovném klikutí je uzel uveden do předchozího stavu, tj. zmenšen a informace jsou částečně 
+	skryty. Ve zmenšeném stavy jsou taktéž zvýrazněny zbylé řádky. Díky tomu je graf přehlednější a zároveň je možné zjistit o každém uzlu dostatek informací.
+
+\section{Textové informace}
+  Převážná většina informací je uložena ve formě textu. Jednotlivé atributy blokových zařízení jsou uspořádáy do řádků a vloženy do uzlu. Výběr velikosti
+	písma a fontu je přenechán programu Graphviz. První je uvedeno jméno zařízení, následované jeho typem a formátem. Dále jsou přidány další řádky, 
+	obsahující dodatečné informace. Jméno, typ a formát jsou řádky zbýrazněné pomocí JavaScriptu neboť se jedná o informace sloužící k okamžitému rozpoznání
+	jaké zařízení daný uzel reprezentuje.
+
+	Dále jsou uvedeny další informace které jsou nutné pro přehled o zařízeních ale nejsou nutné pro rozeznání uzlů. Jde o informace o velikosti blokového
+	zařízení, různé identifikátory a adresářová cesta k umístění zařízení. V případě že se jedná o graf reprezentující chystané akce, které jsou připravené
+	k provedení, je u každého dotčeného uzlu uvedeno jaké akce jsou s ním naplánované. Naplánovaných akcí může být i více než jedna, v tom připadě jsou
+	řazeny za sebe na stejný řádek. Například při změně formátu je nejdříve starý formát zničen a poté je nový formát vytvořen, jde tedy o dvě akce a 
+	uživatel je o obou informován.
+
+  Na obrázku je vidět rozdíl mezi přiblíženým a nepřiblíženým uzlem. Rozdíl ve velikosti písma není markantní spíše si lze všimnout rozdílu ve velikosti 
+	uzlu.
+  
+\section{Netextové informace}
+  
+\section{Informace předávané symboly -- emoji}
 
 \chapter{Závěr}
 TBD
