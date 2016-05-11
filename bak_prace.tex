@@ -13,9 +13,9 @@
 		keywords = {vizualizace, instalace, rozdělení disků, linux, LVM, RAID},
 }
 \thesislong{abstract}{
-Práce popisuje vývoj modulu do knihovny Blivet, nástroje pro správu blokových zařízení.
-Tuto knihovnu je možné pužívat v linuxových distribucích vycházejících z~distribuce Red Hat Enterprise Linux. Má práce se zaobírá hlavně vizualizací dat,
-se kterými knihovna pracuje.
+	Práce popisuje vývoj modulu do knihovny Blivet, nástroje pro správu blokových zařízení.
+	Tuto knihovnu je možné pužívat v linuxových distribucích vycházejících z~distribuce Red Hat Enterprise Linux. Má práce se zaobírá hlavně vizualizací dat,
+	se kterými knihovna pracuje.
 }
 \thesislong{thanks}{
 Zde chci poděkovat Marku Grácovi za vedení mé práce, Vratislavu Podzimkovi a Vojtěchu Trefnému za konzultace technických aspektů výsledného programu a Marii Staré za korektury.
@@ -190,7 +190,7 @@ Program GParted je zástupcem programů, které je možné spouštět i~mimo fá
 	Několik disků, které vystupuje jako jediný. Jedním z příkladů použití vícenásobného diskového pole může být disk s~kapacitou rovnou součtu disků, ze kterých je tvořen, anebo také
 	kapacitou jednoho disku, přičemž data jsou zrcadlena na ostatní disky. Cílem tohoto nastavení je ochrana před selháním hardwaru a~ztrátou dat. 
 	
-	Blivet obsahuje nástroje pro práci se svobodným programem mdadm, která slouží k~nastavení softwarového pole MD RAID. Při využití hardwarových technologií, zvláště pak proprietárních,
+	Blivet obsahuje nástroje pro práci s programem mdadm, která slouží k~nastavení softwarového pole MD RAID. Při využití hardwarových technologií, zvláště pak proprietárních,
 	je možné k~tomuto RAIDu přistupovat jako k~obyčejnému disku, čehož i~nesvobodné RAIDy často využívají a~svých mnoho disků skrývají za jednotným rozhraním, které vystupuje jako jeden
 	disk. 
 
@@ -375,110 +375,92 @@ Program GParted je zástupcem programů, které je možné spouštět i~mimo fá
 	objektové programování usnadňuje spolupráci a~čtení kódu ostatními programátory. Jelikož rozšiřuji svobodný software, je pravděpodobné že na něm někdo bude v~budoucnu pracovat
 	a~rozšiřovat jej. Díky použití objektů bude mít usnadněnou práci.
 	
-\section{Třída Visualization}
-	Hlavní třída mého programu je nazvaná Visualization, obsahuje základní atributy a~metody potřebné pro chod aplikace. Můžeme si ji představit jako centrální řídící jednotku. Ostatní
+\section{Třída texttt{Visualiser}}
+	Hlavní třída mého programu je nazvaná texttt{Visualizer}, obsahuje základní atributy a~metody potřebné pro chod aplikace. Můžeme si ji představit jako centrální řídící jednotku. Ostatní
 	třídy na ni navazují, ať už přímo nebo nepřímo (přes jinou třídu). 
 
-	Konstruktor třídy visualisation vytváří dva seznamy, seznam uzlů a~seznam hran. S~oběma seznamy pracují hlavně funkce v~jiných třídách. Nejdůležitější funkcí
-	je funkce create\_graph, která se dá volat z~příkazové řádky i~z~grafického rozhraní. Její argumenty jsou jméno a~cesta ke grafu a~výsledkem je soubor SVG obsahující graf. 
+	Třída Visualiser obsahuje seznam uzlů a~seznam hran. S~oběma seznamy pracují hlavně funkce v~jiných třídách. Nejdůležitější funkcí
+	je funkce texttt{create\_graph}. Její argumenty jsou jméno a~cesta ke grafu a~výsledkem je soubor SVG obsahující graf. 
+	Třída texttt{Visualiser} též obsahuje funkci texttt{view}, která slouží pro otevření okna a okamžitému zobrazení vygenerovaného grafu. Při integraci mého programu do programu Blivet-gui bude dostačující,
+	volat tyto dvě funkce a zbytek zařídí můj vizualizační program.
 	V~případě spouštění z~grafického rozhraní okamžitě dojde k~zobrazení grafu v~okně aplikace, v~případě spuštění z~příkazové řádky jen k~jeho uložení v~definovaném adresáři. 
 
-	Třída obsahuje i~pomocnou funkci prepare\_nodes, která prochází jednotlivě uzly v~seznamu uzlů, a~na každém spouští funkci prepare. Detailně funkci prepare rozebírám u~popisu uzlu. Funkce prepare\_nodes
-	přemění data z~Blivetu na data vhodná pro graphviz. Textová data jsou utříděna, takže se vypíší, když uživatel rozklikne uzel. Funkci jsem přidal do této třídy proto, že 
-	seznam uzlů je její atribut. Strukturu tohoto procesu bych chtěl nadále zachovat i~po dalším rozšíření.  
+	Třída obsahuje i~pomocnou funkci texttt{prepare\_nodes}, která prochází jednotlivě uzly v~seznamu uzlů, a~na každém spouští funkci texttt{prepare}. Detailně funkci prepare rozebírám u~popisu uzlu.
+	Funkce texttt{prepare\_nodes}
+	přemění data z~Blivetu na data vhodná pro graphviz. Funkci jsem přidal do této třídy proto, že seznam uzlů je její atribut, a i funkce s tímto atributem pracující by měla náležet do stejné třídy.
 
 \section{Třída pro načítání dat}
-	Třída pro načítání dat, GvInput, slouží k~načítání dat z~Blivetu, naimportuje si Blivet jako modul a vytvoří si objekt obsahující veškeré informace
+	Třída pro načítání dat, GvInput, slouží k~načítání dat z~Blivetu, naimportuje si Blivet jako modul a vytvoří si instanci objektu obsahující veškeré informace
 	o~blokových zařízeních. Verze knihovny Blivet 2.0.0 vyžaduje před 
-	každým načítáním dat spustit funkci reset(). Tato funkce projde dostupné úložné kapacity a~vytvoří strom zařízení (device\_tree). Stejně tak naplní i~seznam těmi
-	samými objekty. Můj program projde tímto seznamem (Blivet.devices) a~u~každého prvku nejdříve zkontroluje, zda se nenachází na černé listině. Na ní se nachází věci jako jsou 
-	výměnná média, která jsou při instalaci zbytečná a~jen by na grafu překážela.
+	každým načítáním dat spustit funkci texttt{reset}. Tato funkce projde dostupné úložné kapacity a~vytvoří strom zařízení (texttt{devicetree}). Stejně tak naplní i~seznam těmi
+	samými objekty. Můj program projde tímto seznamem (Blivet.devices).
 
 	Dalším krokem je vytvoření objektu reprezentujícho uzel grafu, jeho zpracování a~přidání do vlastního seznamu uzlů, který funguje jako převodník mezi Blivetem a~graphvizem. Při
 	přidávání do seznamu se uzly zároveň třídí pomocí přepínače a~jsou jim nastavovány barvy a~tvary. Vše, co potřebujeme pro zobrazení uzlu, se ukládá ihned při průchodu seznamem. 
 	Tím dosáhneme pouze jediného průchodu. Uzly si už pak informace zpracují samy. V~případě, že by uzel nebyl rozpoznán, nenastane situace, kdy by program 
-	zhavaroval. Jednoduše 
-	se při vytvoření použije přednastavená barva a~tvar (bílá, elipsa).
+	zhavaroval. Jednoduše se při vytvoření použije přednastavená barva a~tvar (bílá, elipsa).
 
-	Nastavování tvarů a~barev je řešeno obdobně jako užití příkazu switch v~jazyce C či podobných. Python tento výraz přímo neobsahuje, a~tak jsem byl nucen použít funkci obsahující 
-	sérii if příkazů. Po vyhodnocení jedné z~větví na hodnotu pravda se spustí jiná funkce,která nastavuje vzhled uzlu. Konkrétní příklad, na seznamu je diskový oddíl. Není na blacklistu,
-	proto postupuje dál. Konstruktoru třídy Node jsou předány informace z~Blivet.device. Poté je uzel předán funkci process\_node, která jej rozpozná jako oddíl, a~spustí funkci 
-	nodeIsPartition. V~ní je výsledný uzel obarven světlou barvou a~je mu nastaven tvar box, neboli tvar s~ostrými rohy. Poté je uzel přidán do seznamu node\_list. Také je na
+	Během zpracování vstupních dat je na
 	standardní výstup vypsána hláška o~přidání nového členu seznamu. Uživatel tak má přehled, které uzly jsou přidány. Zařízení je identifikováno svým jménem a~typem.
 
 	Po přidání uzlu se přidávají hrany. U~každého uzlu program projde seznam jeho rodičů a~vytvoří od nich hrany zpět k~právě vytvářenému uzlu. 
 	Knihovna Blivet nemá jiné propojení mezi zařízeními než seznam rodičů. Stále ale stačí projít seznam zařízení jen jednou. Hrana se vytváří pomocí koncových uzlů, které má spojovat.
-	Pokud jeden chybí, je vytvořen. Opět nedochází k~havárii programu. Pokud už uzel existuje je k~němu hrana připojena. Pokud uzel neexistuje je později, až přijde na řadu, obarven.
+	Pokud jeden chybí, je vytvořen. Opět nedochází k~havárii programu. Pokud už uzel existuje je k~němu hrana připojena. Pokud uzel neexistuje, je později, až přijde na řadu, obarven.
 
 \section{Třída Node}
 	Třída pro uzly je poměrně jednoduchá, obsahuje převážně metody pro nastavení vzhledu. Nejdůležitější informace se ukládají už v~konstruktoru, jako ochrana opět slouží nastavení
-	prázdných řetězců tam, kde by vstupní informace chyběly. Kromě konstruktoru obsahuje třída Node také funkce change\_color a~change\_shape nastavující vzhled. K~funkci change shape 
-	jsem vytvořil i~pomocnou funkci change\_style\_safely. Pomáhá vytvořit styl uzlu se zakulacenými rohy. Graphviz řeší tuto situaci přidáním klíčového slova rounded k~už 
+	prázdných řetězců tam, kde by vstupní informace chyběly. Kromě konstruktoru obsahuje třída Node také funkce texttt{change\_color} a~texttt{change\_shape} nastavující vzhled. K~funkci 
+	texttt{change\_shape} 
+	jsem vytvořil i~pomocnou funkci texttt{change\_style\_safely}. Pomáhá vytvořit styl uzlu se zakulacenými rohy. Graphviz řeší tuto situaci přidáním klíčového slova rounded k~už 
 	existujícímu stylu. Pokud je styl nastavený na obdélník s~ostrými rohy (box), je třeba přidat slovo rounded a~obě slova oddělit čárkou. Výsledek musí vypadat takto \uv{box, rounded},
 	přičemž na pořadí slov nezáleží.
 
-	Ukládání atributů a~gv\_atributů (atributů pro graphviz) je řešeno pomocí slovníků. Použití slovníků umožňuje libovolně přidávat a~ubírat počty atributů. 
+	Ukládání atributů a~texttt{gv\_atributů} (atributů pro graphviz) je řešeno pomocí slovníků. Použití slovníků umožňuje libovolně přidávat a~ubírat počty atributů. 
 	Atributy rozumíme informace o~nastavení úložných zařízení, které se později vypisují ke každému uzlu. Jedinou výjimku tvoří jméno a~typ zařízení, neboť jde
 	o~identifikační atributy a~jejich neexistence by znemožnila fungování programu. Rozhodl jsem se oddělit atributy pro knihovnu graphviz do samostatného slovníku. Díky tomu je při
 	vykreslování grafu možné jen projít záznamy a~vytvořit z~párů klíč, hodnota páry atribut ulzu hodnota v~grafu. 
 
-	Poslední pomocnou funkcí nacházející se v~tříde Node je fukce prepare. Připravuje textová data pro prezentaci ve formě grafu. Projde všechny záznamy ve slovníku attributes a~spojí je do 
-	jednoho řetězce obsahujícího znaky nového řádku. Před spojením je možné flexibilně měnit počet a~obsah textových informací. Poté co je spuštěna funkce prepare, je její výsledný řetězec
-	uložen do atributu gv\_atribute label a~je připraven pro použití Graphvizem.
+	Poslední pomocnou funkcí nacházející se v~tříde Node je fukce texttt{prepare}. Připravuje textová data pro prezentaci ve formě grafu. Projde všechny záznamy ve slovníku texttt{attributes} a~spojí je do 
+	jednoho řetězce obsahujícího znaky nového řádku. Před spojením je možné flexibilně měnit počet a~obsah textových informací. Po spuštění funkce texttt{prepare} jsou data uložena do štítku a už není možné
+	s nimi manipulovat.
 
 \section{Třída Edge}
 	Třída pro hrany obsahuje konstruktor a~funkce pro získání počátečního a~koncového uzlu. Konstruktor bere za své argumenty právě tyto dvě 
-	proměnné. Proměnnou node\_from, počáteční uzel a~proměnnou node\_to, koncový uzel. I~přesto, že neobsahuje moc funkcí, jsem se rozhodl vytvořit dedikovanou třídu pro hrany. 
-	Takto je pro každý element v~grafu dedikovaná třída, se kterou lze pracovat.
+	proměnné. Proměnnou texttt{node\_from}, počáteční uzel a~proměnnou texttt{node\_to}, koncový uzel. I~přesto, že neobsahuje moc funkcí, jsem se rozhodl vytvořit dedikovanou třídu pro hrany. 
+	Takto je pro každý element v~grafu dedikovaná třída, se kterou lze pracovat při dalším možném rozšiřování mé práce.
 
 \section{Třída pro vytváření grafů}
 	Samotné vytváření grafu také není ničím zvlášť složitým, nicméně pro použití v~mé aplikaci je potřeba výsledný graf dále upravit. Rozeberme funkce ve ve třídě output chronologicky,
-	tak, jak jsou použity. Tradičně konstruktor přebírá seznam uzlů a~hran. Volá funkci vytvářející graf se jménem createGvGraph a~předává jí své argumenty. 
+	tak, jak jsou použity. Tradičně konstruktor přebírá seznam uzlů a~hran. Volá funkci vytvářející graf se jménem texttt{create\_gv\_graph} a~předává jí své argumenty. 
 
-	CreateGvGraph nejprve vytvoří orientovaný graf pomocí graphvizu. Poté projde seznam uzlů a~pomocí graphvizu vytvoří všechny uzly v~nově utvořeném orientovaném grafu. To samé udělá i
+	Funkce texttt{create\_gv\_graph} nejprve vytvoří orientovaný graf pomocí graphvizu. Poté projde seznam uzlů a~pomocí graphvizu vytvoří všechny uzly v~nově utvořeném orientovaném grafu. To samé udělá i
 	s~hranami. Funkce pro vytváření uzlů graphviz.node bere jako první argument jméno uzlu. První argument je povinný, jméno uzlu. Povinný je argument jména
 	i~při vytváření v~seznamu uzlů. Druhý argument ze tří je atribut label. Jde o~dlouhý řetězec rozdělený znaky dalších řádků, jak je vysvětleno výše v~částí věnující se třídě Node.
 	Poslední argument je seznam zbylých atributů, které dokáže graphviz zobrazovat. Je předán jako celý seznam a~po jeho rozbalení se aplikují nastavení vzhledu uzlu. Na konci je celý
 	graf vrácen návratovou hodnotou.
 
-	Druhá funkce se nazývá createSvg. Jejím úkolem je přepsat graf do formátu SVG. Používá funkci pipe z knihovny Graphviz. Pipe dokáže vytvářet i~jiné formáty, ale ty nejsou v~tuto
+	Druhá funkce se nazývá texttt{create\_svg}. Jejím úkolem je přepsat graf do formátu SVG. Používá funkci pipe z knihovny Graphviz. Pipe dokáže vytvářet i~jiné formáty, ale ty nejsou v~tuto
 	chvíli důležité. Formát svg byl vybrán proto, že v~něm lze použít JavaScript, a~tím dosáhnout interaktivity. Konkrétně se jedná o~možnost zvětšovat uzly, posouvat a~přibližovat graf.
 	Popis funkcí následuje později, níže rozebírám postup implementace.
 
-	Skript v JavaScriptu vkládá pomocná funkce insert\_JS\_to\_graph, přebírající jeden argument, a~to řetězec obsahující svg grafu, do kterého se má vložit zmíněný skript. Řetězec je výstupem funkce
-	graphviz.graph.pipe s~argumentem format="svg". 
-
-	Funkce insert\_JS\_to\_graph nejprve nastaví výchozí jmenný prostor (namespace; funkcionalita XML jazyků schopná rozlišovat různé elementy se stejným názvem) z~ns0 na prázdný 
-	řetězec. Svg by bylo validní i~se jmenným prostorem ns0 nicméně standardně po vygenerování knihovnou graphviz tento jmenný prostor není přítomen a~považuji za lepší do svg 
-	zasahovat co nejméně. 
-
-	Dále se svg nahraje do objektu ElementTree (ET). ET je obsažen v~základní knihovně jazyka Python, je jednou ze tříd pro práci s~daty ve formátu XML. Vytváří v~paměti stromovou
-	strukturu totožnou s tím, jak je reprezentována načteným XML souborem. Obsahuje funkce pro čtení rodičů i~potomků, funkce pro vytváření, přidávání a~mazání elementů a~vyhledávání pomocí 
-	XPath. Element Tree lze nahrát ze souboru či z~řetězce. V aplikaci využívám funkci načítání z~řetězce. Poté vybírám kořenový element a~upravuji jeho atributy.
-
-	Úpravou atributů se rozumí přidání odkazu na xmlns:xlink, kvůli možnosti odkazovat na soubory s~JavaScriptem. Také je třeba odstranit atribut viewBox, aby mohlo fungovat posouvání
-	grafu. Zároveň je třeba připravit atribut viewport u~prvního potomka elementu svg. První potomek je kořenový uzel zobrazovaného grafu, vždy nese id graph0. Pomocí XPath výrazu je
-	nalezen a~je mu  přiřazen zmíněný atribut.
-
-	Poté už stačí jen vytvořit nový element s~cestou k~JavaScriptovému souboru a~tento element přidat jako prvního potomka kořenového elementu svg. Funkce insert\_JS\_to\_graph vrací celý
-	Element Tree.
-
-	Po návratu z~funkce insert\_JS\_to\_graph použijeme metodu write k~zapsání svg do souboru, kde je svg připraveno k~zobrazení.
+	Skript v JavaScriptu vkládá pomocná funkce texttt{insert\_JS\_to\_graph}, přebírající jeden argument, a~to řetězec obsahující SVG strukturu grafu, do kterého se má vložit zmíněný skript. 
+	Kromě vložení JavaScriptu se funkce též stará o drobné úpravy atributů SVG elementů tak aby JavaScript fungoval. 
 
 \section{Třída Gui}
 	Můj program lze používat jak dávkově z~příkazové řádky, tak interaktivně s~pomocí grafického uživatelského prostředí. Dávkový režim nabízí pouze možnost vygenerovat graf v~určitém 
-	umístění. Interaktivní režim nabízí možnost graf ihned prohlížet. Variací na interaktivní režim je také okno s~grafem, které se zobrazuje při instalaci, jako vizualizace změn prováděných
+	umístění. Interaktivní režim nabízí možnost graf ihned prohlížet. Variací na interaktivní režim je také okno s~grafem, které by se mohlo zobrazit při instalaci, jako vizualizace změn prováděných
 	instalátorem. 
 
-	Třída gui obsahuje vše potřebné pro obsluhu uživatelského rozhraní. Je naprogramována s~pomocí nejrozšířenější linuxové knihovny pro uživatelská rozhraní Gnome toolkit (GTK). Jde o~
+	Třída Gui obsahuje vše potřebné pro obsluhu uživatelského rozhraní. Je naprogramována s~pomocí nejrozšířenější linuxové knihovny pro uživatelská rozhraní Gnome toolkit (GTK). Jde o~
 	obyčejné okno s~několika tlačítky. Jsou v~ní obsaženy ovládací prvky potřebné pro nastavení umístění grafu, tlačítko pro vyvolání kontextové
-	nápovědy a~plocha zobrazující samotný graf. Pro zobrazení grafu je použita technologie WebKit. Okno WebKitu je možné vložit do GTK aplikace a~tím dosáhnout stejné základní funkcionality,
-	jakou mají dnešní moderní webové prohlížeče. V~mém případě jde o~schopnost zobrazit svg a~schopnost spouštět JavaScript.
+	nápovědy a~plocha zobrazující samotný graf. Pro zobrazení grafu je použita technologie WebKit. WebKit je de facto prohlížeč, který je možné vložit do GTK aplikace.
+	Okno WebKitu je možné vložit do GTK aplikace a~tím dosáhnout stejné základní funkcionality,
+	jakou mají dnešní moderní webové prohlížeče. V~mém případě jde o~schopnost zobrazit SVG a~schopnost spouštět JavaScript.
 
 	Rizikem, které je nutné přijmout, je možná známá zranitelnost prohlížečů a~nutnost ukládat soubor svg na disku. WebKit totiž zobrazuje svg s~pomocí protokolu file://. Počítač se
 	tak ptá sám sebe na existenci souboru v~určité cestě definované uživatelem, a~pokud jej najde, zobrazí jej uživateli. Pokud by se k~systému dostal útočník, mohl by soubor upravit a~
 	zanechat v~něm škodlivý kód. Nicméně bezpečnost systému není věcí této práce a~vychází se z~předpokladu, že systém, na kterém je vizualizace spouštěna, je buď ve fázi instalace, nebo
-	je již zabezpečen. WebKit je de facto prohlížeč, který je možné vložit do GTK aplikace.
+	je již zabezpečen. 
 
 \chapter{Vzhled grafu}
   Můžeme uvažovat o třech hlavních způsobech uložení informací v grafu. První je ve formě textu, druhá ve formě vzhledu uzlů a třetí ve formě obrázků 
