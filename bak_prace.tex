@@ -53,7 +53,7 @@ Zde chci poděkovat Marku Grácovi za vedení mé práce, Vratislavu Podzimkovi 
 
 	Práce vznikala nejen na Fakultě informatiky Masarykovy univerzity (FI MUNI), ale i~ve společnosti Red Hat. Tam budou využity její výsledky,
 	integrované do instalátoru Anaconda, který je v~současnosti používán v~linuxových distribucích Red Hat Enterprise Linux (RHEL), CentOS, Fedora a všech
-	odvozených.
+	odvozených\cite{anaconda-rhel}.
 
 	Práci jsem si vybral z~několika důvodů.  Možnost podílet se na vývoji svobodného softwaru je pro mě velmi důležitým hlediskem 
 	při psaní jakéhokoliv programu. Druhý důvod je možný rozsah uplatnitelnosti výsledků mé práce. Každý systém je třeba nejprve nainstalovat, výsledky
@@ -79,19 +79,18 @@ Zde chci poděkovat Marku Grácovi za vedení mé práce, Vratislavu Podzimkovi 
 
 \chapter{Přehledová kapitola}
 \section{Současný stav vizualizačních nápověd zobrazovaných při instalaci}
-
-V~současné době je vizualizace rozdělení disků při instalaci systému použita v~minimu případů. Dále v~kapitole rozebírám jednotlivé ukázky programů, které jsem vybral, avšak souhrnně je vidět, 
-že instalátory se drží textového seznamu diskových oddílů uspořádaných do stromové struktury. Systémy jsem vybíral tak, aby bylo možné porovnat alespoň nějakou vizuální stránku. Proto jsem vynechal
-příklady typu Archlinux či Gentoo, které používají pouze instalaci z~příkazové řádky.  Dále uvádím příklady vizualizace, kterou používají nástroje na práci s~blokovými zařízenímy, jako je 
-například program GParted.
+	V~současné době je vizualizace rozdělení disků při instalaci systému použita v~minimu případů. Dále v~kapitole rozebírám jednotlivé ukázky programů, které jsem vybral, avšak souhrnně je vidět, 
+	že instalátory se drží textového seznamu diskových oddílů uspořádaných do stromové struktury. Systémy jsem vybíral tak, aby bylo možné porovnat alespoň nějakou vizuální stránku. Proto jsem vynechal
+	příklady typu Archlinux či Gentoo, které používají pouze instalaci z~příkazové řádky.  Dále uvádím příklady vizualizace, kterou používají nástroje na práci s~blokovými zařízenímy, jako je 
+	například program GParted.
 
 \section{Příklady v~různých operačních systémech}
 
 \subsection{Debian}
 
-Prvním příkladem je Debian, velmi konzervativní distribuce udržující osvědčené postupy a~programy, snažící se o~maximální stabilitu i~za cenu zastaralosti. 
-Tato distribuce má grafický instalátor, spoléhá ovšem na zkušenosti a~znalosti uživatele. Během instalace se k~žádnému schématu nedostaneme. Jak je vidět na obrázku č. 1, jediný způsob předání 
-informace o~plánovaném stavu zařízení je textový strom diskových oddílů obohacený o~možnost výběru a~ovládání myší.
+	Prvním příkladem je Debian, velmi konzervativní distribuce udržující osvědčené postupy a~programy, snažící se o~maximální stabilitu i~za cenu zastaralosti. 
+	Tato distribuce má grafický instalátor, spoléhá ovšem na zkušenosti a~znalosti uživatele. Během instalace se k~žádnému schématu nedostaneme. Jak je vidět na obrázku č. 2.1, jediný způsob předání 
+	informace o~plánovaném stavu zařízení je textový strom diskových oddílů obohacený o~možnost výběru a~ovládání myší.
 
 \begin{figure}[hb]
 	\caption{Distribuce Debian}
@@ -101,11 +100,11 @@ informace o~plánovaném stavu zařízení je textový strom diskových oddílů
 
 \subsection{Ubuntu}
 
-Ubuntu Linux vychází z~výše zmíněné distribuce Debian, instalátor však používá svůj vlastní. Je také jediným zástupcem linuxové distribuce, která využívá  schéma 
-pro znázornění stavu rozděleného disku. Dříve využívané schéma programu GParted, které detailně rozebírám dále, bylo nahrazeno jednoduchou linkou v~horní oblasti okna instalátoru. Na této lince 
-jsou barevně znázorněny diskové 
-oddíly vytvořené uživatelem. Stejné barvy jsou poté použity u~každého ze záznamů v~seznamu oddílů, jak je možné vidět na obrázku č. 2. Tento jednoduchý diagram umožňuje rychlý odhad poměrů různých 
-částí, které budou vytvořeny.
+	Ubuntu Linux vychází z~výše zmíněné distribuce Debian\cite{ubuntu}, instalátor však používá svůj vlastní. Je také jediným zástupcem linuxové distribuce, která využívá  schéma 
+	pro znázornění stavu rozděleného disku. Dříve využívané schéma programu GParted, které detailně rozebírám dále, bylo nahrazeno jednoduchou linkou v~horní oblasti okna instalátoru. Na této lince 
+	jsou barevně znázorněny diskové 
+	oddíly vytvořené uživatelem. Stejné barvy jsou poté použity u~každého ze záznamů v~seznamu oddílů, jak je možné vidět na obrázku č. 2. Tento jednoduchý diagram umožňuje rychlý odhad poměrů různých 
+	částí, které budou vytvořeny.
 
 \begin{figure}[hb]
 	\label{fig:ubuntu}
@@ -116,11 +115,12 @@ oddíly vytvořené uživatelem. Stejné barvy jsou poté použity u~každého z
 
 \subsection{CentOS}
 
-Jako příklad systémů, které využívají instalátor Anaconda, jsem vybral systém CentOS. Tato zkratka znamená Community ENterprise Operating System. Na svých stránkách uvádějí \uv{The CentOS Linux
-distribution is a~stable, predictable, manageable and reproducible platform derived from the sources of Red Hat Enterprise Linux (RHEL).}~\cite{CentOS}. Jedná se v~podstatě o~systém Red Hat Enterprise 
-Linux, ovšem bez podpory a~oprav od společnosti Red Hat. V~současné době instalátor Anaconda používá také pouze textovou reprezentaci rozdělení blokových zařízení. Rozdíl oproti ostatním distribucím tvoří 
-seznam změn, který je zobrazen před finálním potvrzením a~započetím formátování. Na obrázku č. 3 můžeme vidět příklad tohoto seznamu. Situaci zpřehledňuje ale pouze pro malý počet změn, seznam s~mnoha 
-záznamy o~změnách je nepřehledný. Zlepšením uživatelské přívětivosti při finální kontrole před instalací se zabývá tato práce.
+	Jako příklad systémů, které využívají instalátor Anaconda, jsem vybral systém CentOS. Tato zkratka znamená Community ENterprise Operating System. Na svých stránkách uvádějí \uv{The CentOS Linux
+	distribution is a~stable, predictable, manageable and reproducible platform derived from the sources of Red Hat Enterprise Linux (RHEL).}~\cite{CentOS}. Jedná se v~podstatě o~systém Red Hat Enterprise 
+	Linux, ovšem bez podpory a~oprav od společnosti Red Hat. V~současné době instalátor Anaconda používá také pouze textovou reprezentaci rozdělení blokových zařízení. 
+	Rozdíl oproti ostatním distribucím tvoří 
+	seznam změn, který je zobrazen před finálním potvrzením a~započetím formátování. Na obrázku č. 3 můžeme vidět příklad tohoto seznamu. Situaci zpřehledňuje ale pouze pro malý počet změn, seznam s~mnoha 
+	záznamy o~změnách je nepřehledný. Zlepšením uživatelské přívětivosti při finální kontrole před instalací se zabývá tato práce.
 
 \begin{figure}[h]
 	\label{fig:centos2}
@@ -131,9 +131,9 @@ záznamy o~změnách je nepřehledný. Zlepšením uživatelské přívětivosti
 
 \subsection{Windows 10}
 
-Pro srovnání uvádím i~příklad nejrozšířenějšího systému, MS Windows. Vybral jsem v~současnosti nejnovější verzi, Windows 10. Překvapivě ani zde nejsou využity vizuální pomůcky.
-Tvůrci instalátoru spoléhají na automatickou instalaci a~rozdělení disku s~tím, že pokročilou verzi s~manuálním nastavováním zvolí uživatel, který se zorientuje během instalace i~bez grafické nápovědy. 
-Předchozí verze využívají stejný systém jako má distribuce Ubuntu, tj. obdélník znázorňující disk, v~němž jsou barevně vyznačeny diskové oddíly.
+	Pro srovnání uvádím i~příklad nejrozšířenějšího systému, MS Windows. Vybral jsem v~současnosti nejnovější verzi, Windows 10. Překvapivě ani zde nejsou využity vizuální pomůcky\cite{windows}.
+	Tvůrci instalátoru spoléhají na automatickou instalaci a~rozdělení disku s~tím, že pokročilou verzi s~manuálním nastavováním zvolí uživatel, který se zorientuje během instalace i~bez grafické nápovědy. 
+	Předchozí verze využívají stejný systém jako má distribuce Ubuntu, tj. obdélník znázorňující disk, v~němž jsou barevně vyznačeny diskové oddíly.
 
 \begin{figure}[h!]
 	\label{fig:win}
@@ -145,11 +145,11 @@ Předchozí verze využívají stejný systém jako má distribuce Ubuntu, tj. o
 \section{Programy sloužící pro manipulaci s~zařízenímy}
 
 \subsection{GParted}
-
-Program GParted je zástupcem programů, které je možné spouštět i~mimo fázi instalace systému. Dříve byl součástí instálátoru systému Ubuntu, ale je možné jej spouštět i~samostatně, například 
- zvětšovat úložnou kapacitu virtuálních blokových zařízení či disků, jejichž souborový systém umožňuje pozdější modifikaci. Opět je využito dříve zmíněné schéma obdélníku. Každé zařízení je reprezentovaný 
- obdélníkem a~další informace jsou zobrazovány barevnými rámci uvnitř těchto obdélníků. Narozdíl od ostatních zmíněných programů obsahuje GParted i~grafické aplikace pro manipulaci s~disky 
- a~tím dosahuje efektu WYSIWYG editoru (What You See Is What You Get, editor, který přímo ukazuje aktuální změny). Příkladem je aplikace pro zvětšení diskového oddílu, kterou vidíme na obrázku č.~5.
+	Program GParted je zástupcem programů, které je možné spouštět i~mimo fázi instalace systému. Dříve byl součástí instalátoru systému Ubuntu\cite{ubuntu-gparted}, ale je možné jej spouštět 
+	i~samostatně, například 
+	zvětšovat úložnou kapacitu virtuálních blokových zařízení či disků, jejichž souborový systém umožňuje pozdější modifikaci. Opět je využito dříve zmíněné schéma obdélníku. Každé zařízení je reprezentovaný
+	obdélníkem a~další informace jsou zobrazovány barevnými rámci uvnitř těchto obdélníků. Narozdíl od ostatních zmíněných programů obsahuje GParted i~grafické aplikace pro manipulaci s~disky 
+	a~tím dosahuje efektu WYSIWYG editoru (What You See Is What You Get, editor, který přímo ukazuje aktuální změny). Příkladem je aplikace pro zvětšení diskového oddílu, kterou vidíme na obrázku č.~5.
 
  \begin{figure}[h!]
 	 \label{fig:gparted}
@@ -160,8 +160,9 @@ Program GParted je zástupcem programů, které je možné spouštět i~mimo fá
 
  \subsection{Blivet-gui}
 
- Druhým příkladem je program na manipulaci s~blokovými zařízenímy, využívá knihovnu nazvanou Blivet. Knihovna Blivet je dostupná ve všech systéch vycházejících ze systému RHEL. Autoři 
- se zprvu rozhodli použít známé schéma, avšak brzy narazili na problém s~větším počtem zařízení včetně virtuálních. Na obrázku č.~6 vidíme, že současné řešení je nedostatečné, jednotlivé úrovně barevných rámců 
+ Druhým příkladem je program na manipulaci s~blokovými zařízeními, využívá knihovnu nazvanou Blivet. Knihovna Blivet je dostupná ve všech systéch vycházejících ze systému RHEL. Autoři 
+ se zprvu rozhodli použít známé schéma, avšak brzy narazili na problém s~větším počtem zařízení včetně virtuálních. Na obrázku č.~6 vidíme, že současné řešení je nedostatečné, jednotlivé úrovně 
+ barevných rámců 
  jsou znázorněny samostatnými uzly grafu s~hranami vyznačujícími vztahy mezi nimi. Mnoho těchto rámců uživatele spíše zmate a~použití grafu by situaci zpřehlednilo.
 
  \begin{figure}[h!]
@@ -171,23 +172,23 @@ Program GParted je zástupcem programů, které je možné spouštět i~mimo fá
 	 \includegraphics[width=.6\columnwidth]{pictures/blivet-gui-1.png}\\
  \end{figure}
 
-\chapter{Použité knihovny}
+\chapter{Použité knihovny a technologie}
 \section{Knihovna Blivet}
 	První a~nejdůležitější knihovou, která je v~mé práci využívána, je knihovna Blivet. Vznikla jako projekt
-	ve firmě Red Hat, a~slouží k~rozšíření již zmiňovaného instalátoru Anaconda. Použití této knihovny je součástí zadání, a~proto nebudu diskutovat o jejích výhodách a~nevýhodách oproti ostatním knihovnám. 
+	ve firmě Red Hat, původně pod jménem pyanaconda.storage\cite{blivet-wiki}. Slouží k~rozšíření již zmiňovaného instalátoru Anaconda. Použití této knihovny je součástí zadání, 
+	a~proto nebudu diskutovat o jejích výhodách a~nevýhodách oproti ostatním knihovnám. 
 
 	Mezi její funkce patří i~konfigurace různých datových úložišť, nemusí se jednat pouze o~pevné disky.
 	Blivet ovládá i~mnohé další technologie, se kterými se lze v~dnešní době setkat. Příkladem jsou vícenásobná pole nezávislých disků (RAID), technologie logických svazků disku (LVM) či 
 	ovládání zašifrovaných modulů pomocí technologie LUKS (Linux Unified Key System, systém pro správu klíčů v Linuxu). Všechny tři příklady rozebírám níže.
 
-	Dále Blivet obsahuje nástroje pro práci se souborovými systémy diskových oddílů od starších, a~již dlouho používaných, jako jsou žurnálovací souborové systémy ext2 až ex4 či ReiserFS, po novější,
-	jakým je Btrfs . Také se stará o~bootovací oddíly, čili master boot record (MBR) a~GUID partition table (GPT), tedy o~všechny součásti procesu přípravy 
-	úložíšť v rámciinstalace
+	Dále Blivet obsahuje nástroje pro práci se souborovými systémy diskových oddílů od starších, a~již dlouho používaných, jako jsou žurnálovací souborové systémy ext2 až ex4 či ReiserFS\cite{journalFS}, 
+	po novější, jakým je Btrfs . Také se stará o~bootovací oddíly, čili master boot record (MBR) a~GUID partition table (GPT), tedy o~všechny součásti procesu přípravy úložíšť v rámci instalace 
 	nového systému na počítač.
 
 \subsection{RAID}
 	Vícenásobná pole nezávislých disků jsou velmi elegantní ochranou před selháním disků. Existůjí různé způsoby, jak pole realizovat, ale základní princip zůstává vždy stejný. 
-	Několik disků, které vystupuje jako jediný. Jedním z příkladů použití vícenásobného diskového pole může být disk s~kapacitou rovnou součtu disků, ze kterých je tvořen, anebo také
+	Několik disků, které vystupuje jako jediný\cite{RAID}. Jedním z příkladů použití vícenásobného diskového pole může být disk s~kapacitou rovnou součtu disků, ze kterých je tvořen, anebo také
 	kapacitou jednoho disku, přičemž data jsou zrcadlena na ostatní disky. Cílem tohoto nastavení je ochrana před selháním hardwaru a~ztrátou dat. 
 	
 	Blivet obsahuje nástroje pro práci s programem mdadm, která slouží k~nastavení softwarového pole MD RAID. Při využití hardwarových technologií, zvláště pak proprietárních,
@@ -204,7 +205,7 @@ Program GParted je zástupcem programů, které je možné spouštět i~mimo fá
 \subsection{LVM}
   LVM neboli Logical Volume Management je metoda, kterou je možné spravovat diskové oddíly. Poskytuje větší flexibilitu volného místa než klasické diskové oddíly a pracuje se třemi
 	úrovněmi
-	zařízení. První úrovní jsou fyzické svazky neboli physical volumes (PV). Fyzický svazek je tvořen buď samotným diskem, včetně například disku RAID, nebo diskovým oddílem. 
+	zařízení\cite{LVM}. První úrovní jsou fyzické svazky neboli physical volumes (PV). Fyzický svazek je tvořen buď samotným diskem, včetně například disku RAID, nebo diskovým oddílem. 
 	Fyzické
 	svazky nenabízí o~mnoho více funkcionality než je označení a~příprava svazku pro další práci. Ta spočívá v~rozdělení fyzického svazku na fyzické extenty (physical extents, PE).
 
@@ -239,7 +240,7 @@ Program GParted je zástupcem programů, které je možné spouštět i~mimo fá
 	vlastněný společností Oracle. Přestože zatím u~Btrfs neexistuje stabilní verze, je mezi distribucemi podporován, neboť nabízí řešení některých problémů současných souborových systémů.
 
 \section{Graphviz}
-	Graphviz je program, který slouží k~vizualizaci dat formou grafů, orientovaných či neorientovaných. Pomocí Graphvizu je možné generovat grafy sloužící ke znázornění počítačové sítě nebo
+	Graphviz je program, který slouží k~vizualizaci dat formou grafů, orientovaných či neorientovaných\cite{graphviz}. Pomocí Graphvizu je možné generovat grafy sloužící ke znázornění počítačové sítě nebo
 	vztahů mezi určitými objekty. Nelze vytvářet grafy průběhů funkcí či grafy znázorňující vztahy mezi číselnými hodnotami. Jinými slovy Graphviz generuje grafy, jaké známe z~teorie grafů,
 	ale není schopen generovat grafy známé například z~ekonomie.
 
@@ -259,7 +260,7 @@ Program GParted je zástupcem programů, které je možné spouštět i~mimo fá
 	důležité poskytnout uživateli co nejvíce vodítek ke znázornění vztahu rodič - potomek a~orientované hrany jsou ideální pro tento účel. 
 
 	Speciálním případem grafu je podgraf (subgraph). Grafy mohou být vkládány do sebe a s~pomocí podgrafů lze snížit velikost zdrojového kódu v~jazyce DOT. Příkladem budiž situace, kdy zápisem
-	hrany vedoucí od uzlu k~podgrafu ( A~-- \{B C\}) vytvoříme stejný efekt jako při zápisu každé jednotlivé dvojice mezi uzlem A~a~uzly B a~C (A~-- B, A~-- C). Dále je možné podgrafy využít
+	hrany vedoucí od uzlu k~podgrafu (texttt{A~-- \{B C\}}) vytvoříme stejný efekt jako při zápisu každé jednotlivé dvojice mezi uzlem A~a~uzly B a~C (texttt{A~-- B, A~-- C}). Dále je možné podgrafy využít
 	pro specifikaci odlišných atributů uzlů či hran. V~podgrafu lze jednoduše nastavit jiné atributy než ve zbytku grafu.
 
 	Poslední situací pro využití podgrafu je situace kdy chceme uzly shlukovat. V~tomto případě je nutné přidat k~názvu podgrafu klíčové slovo cluster a~určité grafovací algoritmy tyto uzly 
@@ -294,16 +295,16 @@ Program GParted je zástupcem programů, které je možné spouštět i~mimo fá
 	Graphviz nabízí různé možnosti rozložení grafu. Základních je pět, dot, neato, fdp, twopi, circo. Ke každému rozložení přikládám obrázek a~rozebírám jej 
 	podrobněji. U~každého příkladu je použit stejný vstupní zápis, ale výsledky se velmi liší. Vstupní data vypadají takto:
 	\begin{quotation}
-	graph\{
-		A~-- B
-		B -- C
-		C -- D
-		D -- A
-		D -- E
-		D -- F
-		G -- B
-		G -- E
-	\}
+		texttt{graph\{/n
+		A~-- B/n
+		B -- C/n
+		C -- D/n
+		D -- A/n
+		D -- E/n
+		D -- F/n
+		G -- B/n
+		G -- E/n
+	\}}
 	\end{quotation}
 
 	Prvním rozložením je rozložení dot. Oficiální dokumentace k~němu říká:
@@ -313,16 +314,21 @@ Program GParted je zástupcem programů, které je možné spouštět i~mimo fá
 	reprezentaci.
 
 \begin{figure}
+	\label{fig:Ukázka rozložení dot}
+	\caption{Ukázka rozložení dot}
 	\centering
 	\includegraphics[width=0.6\textwidth]{pictures/dot_example.png} 
 \end{figure}
-	%TODO vysvětli globální energetickou funkci v grafech.
+
 	Druhé rozložení, \uv{neato - 'spring model' layouts.  This is the default tool to use if the graph is not too large (about 100 nodes) and you don't know anything else about it. Neato attempts to
 	minimize a~global energy function, which is equivalent to statistical multi-dimensional scaling.}\cite{graphviz_layout}
 	Jinými slovy algoritmus neato se snaží vytvořit celý graf co nejmenší bez ohledu na ostatní faktory. Grafy nejsou hierarchické ani 
 	strukturované. Cílem je co nejmenší zabraná plocha a~zároveň nepřekrývání hran a~uzlů. Kvůli chaotičnosti a~nestrukturalizovanosti se nejedná o~grafový algoritmus který bych mohl
 	použít. Ostatně neato je přizpůsobeno na neorinetované grafy.
+
 \begin{figure}
+	\label{fig:Ukázka rozložení neato}
+	\caption{Ukázka rozložení neato}
 	\centering
 	\includegraphics[width=0.6\textwidth]{pictures/neato_example.png} 
 \end{figure}
@@ -332,7 +338,10 @@ Program GParted je zástupcem programů, které je možné spouštět i~mimo fá
 	uzlů hranami. Pro grafy, které potřebuji vytvořit, se jedná o~ten nejhorší algoritmus z~pěti zde zmíněných. V~uzlech jsou zapsána data o~zařízeních a~hrany překrývající tyto uzly
 	působí rušivě. Zároveň není třeba šetřit místem, neboť ve výsledné aplikaci je možné přibližovat a~posouvat graf dle libosti uživatele. Fpd tedy není algoritmem vhodným pro tuto
 	situaci.
+
 \begin{figure}
+	\label{fig:Ukázka rozložení fdp}
+	\caption{Ukázka rozložení fdp}
 	\centering
 	\includegraphics[width=0.6\textwidth]{pictures/fdp_example.png} 
 \end{figure}
@@ -342,11 +351,16 @@ Program GParted je zástupcem programů, které je možné spouštět i~mimo fá
 	dobrou volbou pro uskutečnění cíle, který jsem si vytyčil. Ovšem přidáním dalších dvou uzlů, které způsobí rozvětvení grafu, se strukturalizace začne vyvíjet neakceptovatelným směrem.
 	Oba případy jsou vidět na obrázku. Strukturovanost do kruhů by, dle mého názoru, uživatele zbytečně mátla. Je důležité mít kořenový uzel, ovšem jeho umístění doprostřed je špatnou
 	volbou.
+
 \begin{figure}
+	\label{fig:Ukázka rozložení twopi}
+	\caption{Ukázka rozložení twopi}
 	\centering
 	\includegraphics[width=0.6\textwidth]{pictures/twopi_example.png} 
 \end{figure}
 \begin{figure}
+	\label{fig:Ukázka rozložení twopi}
+	\caption{Druhá ukázka rozložení twopi}
 	\centering
 	\includegraphics[width=0.6\textwidth]{pictures/twopi_example_2.png} 
 \end{figure}
@@ -356,7 +370,10 @@ Program GParted je zástupcem programů, které je možné spouštět i~mimo fá
 	circo se hodí jen k~nemnoho specifickým účelům. Jak vidíme na obrázku, opět se setkáváme s~nehierarchickým grafem. Algoritmus circo rozhodně má své využití, ale ne v našem případě. V
 	situaci, kdy připojujeme úložná zařízení v~systému Linux, se jen obtížně dostaneme do cyklických odkazů. Samotná podstata připojování úložných jednotek by měla zabraňovat těmto
 	situacím. Pokud bychom už takovou situaci vytvořili, jedná se zcela určitě o~chybu buď používaných nástrojů, nebo chybu uživatelské konfigurace. 
+
 \begin{figure}
+	\label{Ukázka rozložení circo}
+	\caption{Ukázka rozložení circo}
 	\centering
 	\includegraphics[width=0.6\textwidth]{pictures/circo_example.png} 
 \end{figure}
@@ -407,7 +424,7 @@ Program GParted je zástupcem programů, které je možné spouštět i~mimo fá
 	Knihovna Blivet nemá jiné propojení mezi zařízeními než seznam rodičů. Stále ale stačí projít seznam zařízení jen jednou. Hrana se vytváří pomocí koncových uzlů, které má spojovat.
 	Pokud jeden chybí, je vytvořen. Opět nedochází k~havárii programu. Pokud už uzel existuje je k~němu hrana připojena. Pokud uzel neexistuje, je později, až přijde na řadu, obarven.
 
-\section{Třída Node}
+\section{Třída texttt{Node}}
 	Třída pro uzly je poměrně jednoduchá, obsahuje převážně metody pro nastavení vzhledu. Nejdůležitější informace se ukládají už v~konstruktoru, jako ochrana opět slouží nastavení
 	prázdných řetězců tam, kde by vstupní informace chyběly. Kromě konstruktoru obsahuje třída Node také funkce texttt{change\_color} a~texttt{change\_shape} nastavující vzhled. K~funkci 
 	texttt{change\_shape} 
@@ -424,7 +441,7 @@ Program GParted je zástupcem programů, které je možné spouštět i~mimo fá
 	jednoho řetězce obsahujícího znaky nového řádku. Před spojením je možné flexibilně měnit počet a~obsah textových informací. Po spuštění funkce texttt{prepare} jsou data uložena do štítku a už není možné
 	s nimi manipulovat.
 
-\section{Třída Edge}
+\section{Třída texttt{Edge}}
 	Třída pro hrany obsahuje konstruktor a~funkce pro získání počátečního a~koncového uzlu. Konstruktor bere za své argumenty právě tyto dvě 
 	proměnné. Proměnnou texttt{node\_from}, počáteční uzel a~proměnnou texttt{node\_to}, koncový uzel. I~přesto, že neobsahuje moc funkcí, jsem se rozhodl vytvořit dedikovanou třídu pro hrany. 
 	Takto je pro každý element v~grafu dedikovaná třída, se kterou lze pracovat při dalším možném rozšiřování mé práce.
@@ -446,7 +463,7 @@ Program GParted je zástupcem programů, které je možné spouštět i~mimo fá
 	Skript v JavaScriptu vkládá pomocná funkce texttt{insert\_JS\_to\_graph}, přebírající jeden argument, a~to řetězec obsahující SVG strukturu grafu, do kterého se má vložit zmíněný skript. 
 	Kromě vložení JavaScriptu se funkce též stará o drobné úpravy atributů SVG elementů tak aby JavaScript fungoval. 
 
-\section{Třída Gui}
+\section{Třída texttt{Gui}}
 	Můj program lze používat jak dávkově z~příkazové řádky, tak interaktivně s~pomocí grafického uživatelského prostředí. Dávkový režim nabízí pouze možnost vygenerovat graf v~určitém 
 	umístění. Interaktivní režim nabízí možnost graf ihned prohlížet. Variací na interaktivní režim je také okno s~grafem, které by se mohlo zobrazit při instalaci, jako vizualizace změn prováděných
 	instalátorem. 
@@ -457,7 +474,7 @@ Program GParted je zástupcem programů, které je možné spouštět i~mimo fá
 	Okno WebKitu je možné vložit do GTK aplikace a~tím dosáhnout stejné základní funkcionality,
 	jakou mají dnešní moderní webové prohlížeče. V~mém případě jde o~schopnost zobrazit SVG a~schopnost spouštět JavaScript.
 
-	Rizikem, které je nutné přijmout, je možná známá zranitelnost prohlížečů a~nutnost ukládat soubor svg na disku. WebKit totiž zobrazuje svg s~pomocí protokolu file://. Počítač se
+	Rizikem, které je nutné přijmout, je možná známá zranitelnost prohlížečů a~nutnost ukládat soubor SVG na disku. WebKit totiž zobrazuje svg s~pomocí protokolu file://. Počítač se
 	tak ptá sám sebe na existenci souboru v~určité cestě definované uživatelem, a~pokud jej najde, zobrazí jej uživateli. Pokud by se k~systému dostal útočník, mohl by soubor upravit a~
 	zanechat v~něm škodlivý kód. Nicméně bezpečnost systému není věcí této práce a~vychází se z~předpokladu, že systém, na kterém je vizualizace spouštěna, je buď ve fázi instalace, nebo
 	je již zabezpečen. 
