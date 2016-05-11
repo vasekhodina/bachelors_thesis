@@ -89,13 +89,13 @@ Zde chci poděkovat Marku Grácovi za vedení mé práce, Vratislavu Podzimkovi 
 \subsection{Debian}
 
 	Prvním příkladem je Debian, velmi konzervativní distribuce udržující osvědčené postupy a~programy, snažící se o~maximální stabilitu i~za cenu zastaralosti. 
-	Tato distribuce má grafický instalátor, spoléhá ovšem na zkušenosti a~znalosti uživatele. Během instalace se k~žádnému schématu nedostaneme. Jak je vidět na obrázku č. 2.1, jediný způsob předání 
+	Tato distribuce má grafický instalátor, spoléhá ovšem na zkušenosti a~znalosti uživatele. Během instalace se k~žádnému schématu nedostaneme. Jak je vidět na obrázku č.~2.1, jediný způsob předání 
 	informace o~plánovaném stavu zařízení je textový strom diskových oddílů obohacený o~možnost výběru a~ovládání myší.
 
 \begin{figure}[hb]
 	\caption{Distribuce Debian}
 	\centering
-	\includegraphics[width=.6\columnwidth]{pictures/debian1.png}
+	\includegraphics[width=.8\columnwidth]{pictures/debian1.png}
 \end{figure}
 
 \subsection{Ubuntu}
@@ -103,30 +103,30 @@ Zde chci poděkovat Marku Grácovi za vedení mé práce, Vratislavu Podzimkovi 
 	Ubuntu Linux vychází z~výše zmíněné distribuce Debian\cite{ubuntu}, instalátor však používá svůj vlastní. Je také jediným zástupcem linuxové distribuce, která využívá  schéma 
 	pro znázornění stavu rozděleného disku. Dříve využívané schéma programu GParted, které detailně rozebírám dále, bylo nahrazeno jednoduchou linkou v~horní oblasti okna instalátoru. Na této lince 
 	jsou barevně znázorněny diskové 
-	oddíly vytvořené uživatelem. Stejné barvy jsou poté použity u~každého ze záznamů v~seznamu oddílů, jak je možné vidět na obrázku č. 2. Tento jednoduchý diagram umožňuje rychlý odhad poměrů různých 
+	oddíly vytvořené uživatelem. Stejné barvy jsou poté použity u~každého ze záznamů v~seznamu oddílů, jak je možné vidět na obrázku č.~2.2. Tento jednoduchý diagram umožňuje rychlý odhad poměrů různých 
 	částí, které budou vytvořeny.
 
 \begin{figure}[hb]
 	\label{fig:ubuntu}
 	\caption{Distribuce Ubuntu}
 	\centering
-	\includegraphics[width=.6\columnwidth]{pictures/ubuntu1.jpg}
+	\includegraphics[width=.8\columnwidth]{pictures/ubuntu1.jpg}
 \end{figure}
 
 \subsection{CentOS}
 
 	Jako příklad systémů, které využívají instalátor Anaconda, jsem vybral systém CentOS. Tato zkratka znamená Community ENterprise Operating System. Na svých stránkách uvádějí \uv{The CentOS Linux
-	distribution is a~stable, predictable, manageable and reproducible platform derived from the sources of Red Hat Enterprise Linux (RHEL).}~\cite{CentOS}. Jedná se v~podstatě o~systém Red Hat Enterprise 
+	distribution is a~stable, predictable, manageable and reproducible platform derived from the sources of Red Hat Enterprise Linux (RHEL).}\cite{centos}. Jedná se v~podstatě o~systém Red Hat Enterprise 
 	Linux, ovšem bez podpory a~oprav od společnosti Red Hat. V~současné době instalátor Anaconda používá také pouze textovou reprezentaci rozdělení blokových zařízení. 
 	Rozdíl oproti ostatním distribucím tvoří 
-	seznam změn, který je zobrazen před finálním potvrzením a~započetím formátování. Na obrázku č. 3 můžeme vidět příklad tohoto seznamu. Situaci zpřehledňuje ale pouze pro malý počet změn, seznam s~mnoha 
+	seznam změn, který je zobrazen před finálním potvrzením a~započetím formátování. Na obrázku č.~2.3. můžeme vidět příklad tohoto seznamu. Situaci zpřehledňuje ale pouze pro malý počet změn, seznam s~mnoha 
 	záznamy o~změnách je nepřehledný. Zlepšením uživatelské přívětivosti při finální kontrole před instalací se zabývá tato práce.
 
 \begin{figure}[h]
 	\label{fig:centos2}
 	\caption{Distribuce CentOS příklad souhrné tabulky}
 	\centering
-	\includegraphics[width=.6\columnwidth]{pictures/centos3.jpg}
+	\includegraphics[width=.8\columnwidth]{pictures/centos3.jpg}
 \end{figure}
 
 \subsection{Windows 10}
@@ -139,7 +139,7 @@ Zde chci poděkovat Marku Grácovi za vedení mé práce, Vratislavu Podzimkovi 
 	\label{fig:win}
 	\caption{Systém Windows}
 	\centering
-	\includegraphics[width=.6\columnwidth]{pictures/win1.jpg}
+	\includegraphics[width=.8\columnwidth]{pictures/win1.jpg}
 \end{figure}
 
 \section{Programy sloužící pro manipulaci s~zařízenímy}
@@ -149,33 +149,33 @@ Zde chci poděkovat Marku Grácovi za vedení mé práce, Vratislavu Podzimkovi 
 	i~samostatně, například 
 	zvětšovat úložnou kapacitu virtuálních blokových zařízení či disků, jejichž souborový systém umožňuje pozdější modifikaci. Opět je využito dříve zmíněné schéma obdélníku. Každé zařízení je reprezentovaný
 	obdélníkem a~další informace jsou zobrazovány barevnými rámci uvnitř těchto obdélníků. Narozdíl od ostatních zmíněných programů obsahuje GParted i~grafické aplikace pro manipulaci s~disky 
-	a~tím dosahuje efektu WYSIWYG editoru (What You See Is What You Get, editor, který přímo ukazuje aktuální změny). Příkladem je aplikace pro zvětšení diskového oddílu, kterou vidíme na obrázku č.~5.
+	a~tím dosahuje efektu WYSIWYG editoru (What You See Is What You Get, editor, který přímo ukazuje aktuální změny). Příkladem je aplikace pro zvětšení diskového oddílu, kterou vidíme na obrázku č.~2.5.
 
  \begin{figure}[h!]
 	 \label{fig:gparted}
 	 \caption{Ukázka widgetu pro program GParted~\cite{GParted}}
 	 \centering
-	 \includegraphics[width=.6\columnwidth]{pictures/gparted-5-big.png}\\
+	 \includegraphics[width=.8\columnwidth]{pictures/gparted-5-big.png}\\
  \end{figure}
 
  \subsection{Blivet-gui}
 
  Druhým příkladem je program na manipulaci s~blokovými zařízeními, využívá knihovnu nazvanou Blivet. Knihovna Blivet je dostupná ve všech systéch vycházejících ze systému RHEL. Autoři 
- se zprvu rozhodli použít známé schéma, avšak brzy narazili na problém s~větším počtem zařízení včetně virtuálních. Na obrázku č.~6 vidíme, že současné řešení je nedostatečné, jednotlivé úrovně 
+ se zprvu rozhodli použít známé schéma, avšak brzy narazili na problém s~větším počtem zařízení včetně virtuálních. Na obrázku č.~2.6 vidíme, že současné řešení je nedostatečné, jednotlivé úrovně 
  barevných rámců 
  jsou znázorněny samostatnými uzly grafu s~hranami vyznačujícími vztahy mezi nimi. Mnoho těchto rámců uživatele spíše zmate a~použití grafu by situaci zpřehlednilo.
 
  \begin{figure}[h!]
 	 \label{fig:blivet}
-	 \caption{Ukázka programu blivet-gui~\cite{blivet-gui}}
+	 \caption{Ukázka programu Blivet-gui~\cite{blivet-gui}}
 	 \centering
-	 \includegraphics[width=.6\columnwidth]{pictures/blivet-gui-1.png}\\
+	 \includegraphics[width=.8\columnwidth]{pictures/blivet-gui-1.png}\\
  \end{figure}
 
 \chapter{Použité knihovny a technologie}
 \section{Knihovna Blivet}
 	První a~nejdůležitější knihovou, která je v~mé práci využívána, je knihovna Blivet. Vznikla jako projekt
-	ve firmě Red Hat, původně pod jménem pyanaconda.storage\cite{blivet-wiki}. Slouží k~rozšíření již zmiňovaného instalátoru Anaconda. Použití této knihovny je součástí zadání, 
+	ve firmě Red Hat, původně pod jménem pyanaconda.storage\cite{blivet}. Slouží k~rozšíření již zmiňovaného instalátoru Anaconda. Použití této knihovny je součástí zadání, 
 	a~proto nebudu diskutovat o jejích výhodách a~nevýhodách oproti ostatním knihovnám. 
 
 	Mezi její funkce patří i~konfigurace různých datových úložišť, nemusí se jednat pouze o~pevné disky.
@@ -260,7 +260,7 @@ Zde chci poděkovat Marku Grácovi za vedení mé práce, Vratislavu Podzimkovi 
 	důležité poskytnout uživateli co nejvíce vodítek ke znázornění vztahu rodič - potomek a~orientované hrany jsou ideální pro tento účel. 
 
 	Speciálním případem grafu je podgraf (subgraph). Grafy mohou být vkládány do sebe a s~pomocí podgrafů lze snížit velikost zdrojového kódu v~jazyce DOT. Příkladem budiž situace, kdy zápisem
-	hrany vedoucí od uzlu k~podgrafu (texttt{A~-- \{B C\}}) vytvoříme stejný efekt jako při zápisu každé jednotlivé dvojice mezi uzlem A~a~uzly B a~C (texttt{A~-- B, A~-- C}). Dále je možné podgrafy využít
+	hrany vedoucí od uzlu k~podgrafu (\texttt{A~-- \{B C\}}) vytvoříme stejný efekt jako při zápisu každé jednotlivé dvojice mezi uzlem A~a~uzly B a~C (\texttt{A~-- B, A~-- C}). Dále je možné podgrafy využít
 	pro specifikaci odlišných atributů uzlů či hran. V~podgrafu lze jednoduše nastavit jiné atributy než ve zbytku grafu.
 
 	Poslední situací pro využití podgrafu je situace kdy chceme uzly shlukovat. V~tomto případě je nutné přidat k~názvu podgrafu klíčové slovo cluster a~určité grafovací algoritmy tyto uzly 
@@ -295,7 +295,7 @@ Zde chci poděkovat Marku Grácovi za vedení mé práce, Vratislavu Podzimkovi 
 	Graphviz nabízí různé možnosti rozložení grafu. Základních je pět, dot, neato, fdp, twopi, circo. Ke každému rozložení přikládám obrázek a~rozebírám jej 
 	podrobněji. U~každého příkladu je použit stejný vstupní zápis, ale výsledky se velmi liší. Vstupní data vypadají takto:
 	\begin{quotation}
-		texttt{graph\{/n
+		\texttt{graph\{/n
 		A~-- B/n
 		B -- C/n
 		C -- D/n
@@ -392,24 +392,24 @@ Zde chci poděkovat Marku Grácovi za vedení mé práce, Vratislavu Podzimkovi 
 	objektové programování usnadňuje spolupráci a~čtení kódu ostatními programátory. Jelikož rozšiřuji svobodný software, je pravděpodobné že na něm někdo bude v~budoucnu pracovat
 	a~rozšiřovat jej. Díky použití objektů bude mít usnadněnou práci.
 	
-\section{Třída texttt{Visualiser}}
-	Hlavní třída mého programu je nazvaná texttt{Visualizer}, obsahuje základní atributy a~metody potřebné pro chod aplikace. Můžeme si ji představit jako centrální řídící jednotku. Ostatní
+\section{Třída \texttt{Visualiser}}
+	Hlavní třída mého programu je nazvaná \texttt{Visualizer}, obsahuje základní atributy a~metody potřebné pro chod aplikace. Můžeme si ji představit jako centrální řídící jednotku. Ostatní
 	třídy na ni navazují, ať už přímo nebo nepřímo (přes jinou třídu). 
 
 	Třída Visualiser obsahuje seznam uzlů a~seznam hran. S~oběma seznamy pracují hlavně funkce v~jiných třídách. Nejdůležitější funkcí
-	je funkce texttt{create\_graph}. Její argumenty jsou jméno a~cesta ke grafu a~výsledkem je soubor SVG obsahující graf. 
-	Třída texttt{Visualiser} též obsahuje funkci texttt{view}, která slouží pro otevření okna a okamžitému zobrazení vygenerovaného grafu. Při integraci mého programu do programu Blivet-gui bude dostačující,
+	je funkce \texttt{create\_graph}. Její argumenty jsou jméno a~cesta ke grafu a~výsledkem je soubor SVG obsahující graf. 
+	Třída \texttt{Visualiser} též obsahuje funkci \texttt{view}, která slouží pro otevření okna a okamžitému zobrazení vygenerovaného grafu. Při integraci mého programu do programu Blivet-gui bude dostačující,
 	volat tyto dvě funkce a zbytek zařídí můj vizualizační program.
 	V~případě spouštění z~grafického rozhraní okamžitě dojde k~zobrazení grafu v~okně aplikace, v~případě spuštění z~příkazové řádky jen k~jeho uložení v~definovaném adresáři. 
 
-	Třída obsahuje i~pomocnou funkci texttt{prepare\_nodes}, která prochází jednotlivě uzly v~seznamu uzlů, a~na každém spouští funkci texttt{prepare}. Detailně funkci prepare rozebírám u~popisu uzlu.
-	Funkce texttt{prepare\_nodes}
+	Třída obsahuje i~pomocnou funkci \texttt{prepare\_nodes}, která prochází jednotlivě uzly v~seznamu uzlů, a~na každém spouští funkci \texttt{prepare}. Detailně funkci prepare rozebírám u~popisu uzlu.
+	Funkce \texttt{prepare\_nodes}
 	přemění data z~Blivetu na data vhodná pro graphviz. Funkci jsem přidal do této třídy proto, že seznam uzlů je její atribut, a i funkce s tímto atributem pracující by měla náležet do stejné třídy.
 
 \section{Třída pro načítání dat}
 	Třída pro načítání dat, GvInput, slouží k~načítání dat z~Blivetu, naimportuje si Blivet jako modul a vytvoří si instanci objektu obsahující veškeré informace
 	o~blokových zařízeních. Verze knihovny Blivet 2.0.0 vyžaduje před 
-	každým načítáním dat spustit funkci texttt{reset}. Tato funkce projde dostupné úložné kapacity a~vytvoří strom zařízení (texttt{devicetree}). Stejně tak naplní i~seznam těmi
+	každým načítáním dat spustit funkci \texttt{reset}. Tato funkce projde dostupné úložné kapacity a~vytvoří strom zařízení (\texttt{devicetree}). Stejně tak naplní i~seznam těmi
 	samými objekty. Můj program projde tímto seznamem (Blivet.devices).
 
 	Dalším krokem je vytvoření objektu reprezentujícho uzel grafu, jeho zpracování a~přidání do vlastního seznamu uzlů, který funguje jako převodník mezi Blivetem a~graphvizem. Při
@@ -424,46 +424,46 @@ Zde chci poděkovat Marku Grácovi za vedení mé práce, Vratislavu Podzimkovi 
 	Knihovna Blivet nemá jiné propojení mezi zařízeními než seznam rodičů. Stále ale stačí projít seznam zařízení jen jednou. Hrana se vytváří pomocí koncových uzlů, které má spojovat.
 	Pokud jeden chybí, je vytvořen. Opět nedochází k~havárii programu. Pokud už uzel existuje je k~němu hrana připojena. Pokud uzel neexistuje, je později, až přijde na řadu, obarven.
 
-\section{Třída texttt{Node}}
+\section{Třída \texttt{Node}}
 	Třída pro uzly je poměrně jednoduchá, obsahuje převážně metody pro nastavení vzhledu. Nejdůležitější informace se ukládají už v~konstruktoru, jako ochrana opět slouží nastavení
-	prázdných řetězců tam, kde by vstupní informace chyběly. Kromě konstruktoru obsahuje třída Node také funkce texttt{change\_color} a~texttt{change\_shape} nastavující vzhled. K~funkci 
-	texttt{change\_shape} 
-	jsem vytvořil i~pomocnou funkci texttt{change\_style\_safely}. Pomáhá vytvořit styl uzlu se zakulacenými rohy. Graphviz řeší tuto situaci přidáním klíčového slova rounded k~už 
+	prázdných řetězců tam, kde by vstupní informace chyběly. Kromě konstruktoru obsahuje třída Node také funkce \texttt{change\_color} a~\texttt{change\_shape} nastavující vzhled. K~funkci 
+	\texttt{change\_shape} 
+	jsem vytvořil i~pomocnou funkci \texttt{change\_style\_safely}. Pomáhá vytvořit styl uzlu se zakulacenými rohy. Graphviz řeší tuto situaci přidáním klíčového slova rounded k~už 
 	existujícímu stylu. Pokud je styl nastavený na obdélník s~ostrými rohy (box), je třeba přidat slovo rounded a~obě slova oddělit čárkou. Výsledek musí vypadat takto \uv{box, rounded},
 	přičemž na pořadí slov nezáleží.
 
-	Ukládání atributů a~texttt{gv\_atributů} (atributů pro graphviz) je řešeno pomocí slovníků. Použití slovníků umožňuje libovolně přidávat a~ubírat počty atributů. 
+	Ukládání atributů a~\texttt{gv\_atributů} (atributů pro graphviz) je řešeno pomocí slovníků. Použití slovníků umožňuje libovolně přidávat a~ubírat počty atributů. 
 	Atributy rozumíme informace o~nastavení úložných zařízení, které se později vypisují ke každému uzlu. Jedinou výjimku tvoří jméno a~typ zařízení, neboť jde
 	o~identifikační atributy a~jejich neexistence by znemožnila fungování programu. Rozhodl jsem se oddělit atributy pro knihovnu graphviz do samostatného slovníku. Díky tomu je při
 	vykreslování grafu možné jen projít záznamy a~vytvořit z~párů klíč, hodnota páry atribut ulzu hodnota v~grafu. 
 
-	Poslední pomocnou funkcí nacházející se v~tříde Node je fukce texttt{prepare}. Připravuje textová data pro prezentaci ve formě grafu. Projde všechny záznamy ve slovníku texttt{attributes} a~spojí je do 
-	jednoho řetězce obsahujícího znaky nového řádku. Před spojením je možné flexibilně měnit počet a~obsah textových informací. Po spuštění funkce texttt{prepare} jsou data uložena do štítku a už není možné
+	Poslední pomocnou funkcí nacházející se v~tříde Node je fukce \texttt{prepare}. Připravuje textová data pro prezentaci ve formě grafu. Projde všechny záznamy ve slovníku \texttt{attributes} a~spojí je do 
+	jednoho řetězce obsahujícího znaky nového řádku. Před spojením je možné flexibilně měnit počet a~obsah textových informací. Po spuštění funkce \texttt{prepare} jsou data uložena do štítku a už není možné
 	s nimi manipulovat.
 
-\section{Třída texttt{Edge}}
+\section{Třída \texttt{Edge}}
 	Třída pro hrany obsahuje konstruktor a~funkce pro získání počátečního a~koncového uzlu. Konstruktor bere za své argumenty právě tyto dvě 
-	proměnné. Proměnnou texttt{node\_from}, počáteční uzel a~proměnnou texttt{node\_to}, koncový uzel. I~přesto, že neobsahuje moc funkcí, jsem se rozhodl vytvořit dedikovanou třídu pro hrany. 
+	proměnné. Proměnnou \texttt{node\_from}, počáteční uzel a~proměnnou \texttt{node\_to}, koncový uzel. I~přesto, že neobsahuje moc funkcí, jsem se rozhodl vytvořit dedikovanou třídu pro hrany. 
 	Takto je pro každý element v~grafu dedikovaná třída, se kterou lze pracovat při dalším možném rozšiřování mé práce.
 
 \section{Třída pro vytváření grafů}
 	Samotné vytváření grafu také není ničím zvlášť složitým, nicméně pro použití v~mé aplikaci je potřeba výsledný graf dále upravit. Rozeberme funkce ve ve třídě output chronologicky,
-	tak, jak jsou použity. Tradičně konstruktor přebírá seznam uzlů a~hran. Volá funkci vytvářející graf se jménem texttt{create\_gv\_graph} a~předává jí své argumenty. 
+	tak, jak jsou použity. Tradičně konstruktor přebírá seznam uzlů a~hran. Volá funkci vytvářející graf se jménem \texttt{create\_gv\_graph} a~předává jí své argumenty. 
 
-	Funkce texttt{create\_gv\_graph} nejprve vytvoří orientovaný graf pomocí graphvizu. Poté projde seznam uzlů a~pomocí graphvizu vytvoří všechny uzly v~nově utvořeném orientovaném grafu. To samé udělá i
+	Funkce \texttt{create\_gv\_graph} nejprve vytvoří orientovaný graf pomocí graphvizu. Poté projde seznam uzlů a~pomocí graphvizu vytvoří všechny uzly v~nově utvořeném orientovaném grafu. To samé udělá i
 	s~hranami. Funkce pro vytváření uzlů graphviz.node bere jako první argument jméno uzlu. První argument je povinný, jméno uzlu. Povinný je argument jména
 	i~při vytváření v~seznamu uzlů. Druhý argument ze tří je atribut label. Jde o~dlouhý řetězec rozdělený znaky dalších řádků, jak je vysvětleno výše v~částí věnující se třídě Node.
 	Poslední argument je seznam zbylých atributů, které dokáže graphviz zobrazovat. Je předán jako celý seznam a~po jeho rozbalení se aplikují nastavení vzhledu uzlu. Na konci je celý
 	graf vrácen návratovou hodnotou.
 
-	Druhá funkce se nazývá texttt{create\_svg}. Jejím úkolem je přepsat graf do formátu SVG. Používá funkci pipe z knihovny Graphviz. Pipe dokáže vytvářet i~jiné formáty, ale ty nejsou v~tuto
+	Druhá funkce se nazývá \texttt{create\_svg}. Jejím úkolem je přepsat graf do formátu SVG. Používá funkci pipe z knihovny Graphviz. Pipe dokáže vytvářet i~jiné formáty, ale ty nejsou v~tuto
 	chvíli důležité. Formát svg byl vybrán proto, že v~něm lze použít JavaScript, a~tím dosáhnout interaktivity. Konkrétně se jedná o~možnost zvětšovat uzly, posouvat a~přibližovat graf.
 	Popis funkcí následuje později, níže rozebírám postup implementace.
 
-	Skript v JavaScriptu vkládá pomocná funkce texttt{insert\_JS\_to\_graph}, přebírající jeden argument, a~to řetězec obsahující SVG strukturu grafu, do kterého se má vložit zmíněný skript. 
+	Skript v JavaScriptu vkládá pomocná funkce \texttt{insert\_JS\_to\_graph}, přebírající jeden argument, a~to řetězec obsahující SVG strukturu grafu, do kterého se má vložit zmíněný skript. 
 	Kromě vložení JavaScriptu se funkce též stará o drobné úpravy atributů SVG elementů tak aby JavaScript fungoval. 
 
-\section{Třída texttt{Gui}}
+\section{Třída \texttt{Gui}}
 	Můj program lze používat jak dávkově z~příkazové řádky, tak interaktivně s~pomocí grafického uživatelského prostředí. Dávkový režim nabízí pouze možnost vygenerovat graf v~určitém 
 	umístění. Interaktivní režim nabízí možnost graf ihned prohlížet. Variací na interaktivní režim je také okno s~grafem, které by se mohlo zobrazit při instalaci, jako vizualizace změn prováděných
 	instalátorem. 
