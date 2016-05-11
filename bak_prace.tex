@@ -295,15 +295,15 @@ Zde chci poděkovat Marku Grácovi za vedení mé práce, Vratislavu Podzimkovi 
 	Graphviz nabízí různé možnosti rozložení grafu. Základních je pět, dot, neato, fdp, twopi, circo. Ke každému rozložení přikládám obrázek a~rozebírám jej 
 	podrobněji. U~každého příkladu je použit stejný vstupní zápis, ale výsledky se velmi liší. Vstupní data vypadají takto:
 	\begin{quotation}
-		\texttt{graph\{/n
-		A~-- B/n
-		B -- C/n
-		C -- D/n
-		D -- A/n
-		D -- E/n
-		D -- F/n
-		G -- B/n
-		G -- E/n
+		\texttt{graph\{\\
+		A~-- B\\
+		B -- C\\
+		C -- D\\
+		D -- A\\
+		D -- E\\
+		D -- F\\
+		G -- B\\
+		G -- E\\
 	\}}
 	\end{quotation}
 
@@ -313,11 +313,11 @@ Zde chci poděkovat Marku Grácovi za vedení mé práce, Vratislavu Podzimkovi 
 	své uzly do stromu, a~proto by mohl být kandidátem na použití v~mé práci. Lidé jsou zvyklí vnímat data ohledně úložného prostoru ve formě stromů. Tím pádem jde o~intiutivnější
 	reprezentaci.
 
-\begin{figure}
+\begin{figure}[h!]
 	\label{fig:Ukázka rozložení dot}
 	\caption{Ukázka rozložení dot}
 	\centering
-	\includegraphics[width=0.6\textwidth]{pictures/dot_example.png} 
+	\includegraphics[width=0.4\textwidth]{pictures/dot_example.png} 
 \end{figure}
 
 	Druhé rozložení, \uv{neato - 'spring model' layouts.  This is the default tool to use if the graph is not too large (about 100 nodes) and you don't know anything else about it. Neato attempts to
@@ -343,7 +343,7 @@ Zde chci poděkovat Marku Grácovi za vedení mé práce, Vratislavu Podzimkovi 
 	\label{fig:Ukázka rozložení fdp}
 	\caption{Ukázka rozložení fdp}
 	\centering
-	\includegraphics[width=0.6\textwidth]{pictures/fdp_example.png} 
+	\includegraphics[width=0.4\textwidth]{pictures/fdp_example.png} 
 \end{figure}
 
 	Čtvrté rozložení, \uv{twopi - radial layouts.  Nodes are placed on concentric circles depending their distance from a~given root node.}\cite{graphviz_layout}
@@ -502,11 +502,11 @@ Zde chci poděkovat Marku Grácovi za vedení mé práce, Vratislavu Podzimkovi 
   Na obrázku č. 7 je vidět rozdíl mezi přiblíženým a nepřiblíženým uzlem. Rozdíl ve velikosti písma není markantní spíše si lze všimnout rozdílu ve velikosti 
 	uzlu.
 
-\begin{figure}[hb]
+\begin{figure}[]
 	\label{fig:Rozdíly uzlů}
 	\caption{Vlevo přiblížený graf v pravo nepřiblížený}
 	\centering
-	\includegraphics[width=.6\columnwidth]{}
+	\includegraphics[width=1.0\columnwidth]{pictures/node_zoom.jpg}
 \end{figure}
   
 \section{Netextové informace}
@@ -519,11 +519,11 @@ Zde chci poděkovat Marku Grácovi za vedení mé práce, Vratislavu Podzimkovi 
 	barvy na odlišení různých akcí, které byly naplánované předem. Akce u kterých dochází ke smazaní zařízení jsou zobrazeny červeně. Naproti tomu akce
 	u kterých je zařízení vytvořeno jsou zobrazeny zeleně. Při akcích typu formátování, zvětšení či zmenšení oddílu je barva modrá. Příklady jsou uvedeny na obrázku č. 8.
 
-\begin{figure}[hb]
+\begin{figure}[]
 	\label{fig:Reprezentace naplánované akce}
 	\caption{Ukázky reprezentace akcí}
 	\centering
-	\includegraphics[width=.6\columnwidth]{}
+	\includegraphics[width=.9\columnwidth]{pictures/actions.jpg}
 \end{figure}
   
 \section{Informace předávané symboly -- emoji}
@@ -538,8 +538,9 @@ Zde chci poděkovat Marku Grácovi za vedení mé práce, Vratislavu Podzimkovi 
 	oba typy dat odděleně ale kvůli limitům Graphvizu jsem byl nucen zvolit umístění na vrchu grafu.
 
 \chapter{Závěr}
-  Hlavní cíle mé práce byly splněny. Jsou jimi, vizualizace dat z Blivetu do samostatného okna GTK aplikace a zobrazení připravených změn. Kromě použití Blivetu byl
-	výběr technologií na mě. Preferovaným programovacím jazykem byl jazyk Python. S tímto výběrem jsem problém neměl a tak je práce psána v Pythonu. Bohužel jsem rozšiřující úkoly musel
+  Hlavní cíle mé práce byly splněny. Jsou jimi, vizualizace dat z Blivetu do samostatného okna GTK aplikace a zobrazení připravených změn. Stejně tak jsou připraveny funkce pro snadnou integraci
+	do dalších programů. Kromě použití Blivetu nebyl
+	výběr technologií nijak omezen. Preferovaným programovacím jazykem byl jazyk Python. S tímto výběrem jsem problém neměl a tak je práce psána v Pythonu. Bohužel jsem rozšiřující úkoly musel
 	ponechat nesplněné. Neboť se ukázaly nad mé možnosti, uvádím je proto v kapitole Další možnosti rozšiřování.
 
 	Největší výzvou v průběhu vypracování pro mě zcela určitě byla práce s JavaScriptem. Tato bakalářská práce je prvním větším projektem, u kterého jsem JavaScript používal. Musel jsem se
