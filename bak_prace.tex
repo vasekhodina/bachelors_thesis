@@ -10,15 +10,15 @@
 		gender = m,
 		advisor = Marek Grác,
 		title = {Vizualizace rozdělování disků},
-		keywords = {vizualizace, instalace, rozdělení disků, linux, LVM, RAID},
+		keywords = {vizualizace, instalace, rozdělení disků, linux, LVM, RAID, graf},
 }
 \thesislong{abstract}{
 	Práce popisuje vývoj modulu do knihovny Blivet, nástroje pro správu blokových zařízení.
-	Tuto knihovnu je možné pužívat v linuxových distribucích vycházejících z~distribuce Red Hat Enterprise Linux. Má práce se zaobírá hlavně vizualizací dat,
+	Tuto knihovnu je možné používat v~linuxových distribucích, které vycházejí z~distribuce Red Hat Enterprise Linux. Má práce se zaobírá zejména vizualizací dat,
 	se kterými knihovna pracuje.
 }
 \thesislong{thanks}{
-Zde chci poděkovat Marku Grácovi za vedení mé práce, Vratislavu Podzimkovi a Vojtěchu Trefnému za konzultace technických aspektů výsledného programu a Marii Staré za korektury.
+Zde chci poděkovat Marku Grácovi za vedení mé práce, Vratislavu Podzimkovi a~Vojtěchu Trefnému za konzultace technických aspektů výsledného programu a~Marii Staré za korektury.
 }
 \usepackage{csquotes}
 \usepackage[plainpages=false,pdfpagelabels,unicode]{hyperref}
@@ -40,59 +40,51 @@ Zde chci poděkovat Marku Grácovi za vedení mé práce, Vratislavu Podzimkovi 
 \usepackage{amsfonts} 
 \usepackage{url} 
 \usepackage{menukeys}
-\hyphenation{graph-viz}
+\hyphenation{graph-viz knihov-ny}
 \begin{document}
 \chapter{Úvod}
-	Cílem mé  práce je vytvořit pochopitelnou grafickou nápovědu pro administrátory počítačů, zvláště serverů s~mnoha disky. 
-	Konkrétněji se jedná o~rozšíření knihovny Blivet, která zpracovává informace o~jednotlivých blokových zařízeních, jako je název, velikost, typ 
-	a~další podrobnější informace. Blokovým zařízením rozumíme jakýkoliv počítačový disk či jiné médium sloužící k dlouhodobému uchování dat.
-	Data jsou uložena ve vlastních třídách tak, aby programování případné další funcionality 
-	nepředstavovalo problém. Program vytváří graf podobný stromové struktuře a~zobrazuje jej uživateli. Graf se během instalace tvoří dvakrát, poprvé
-	před rozdělením disků a~podruhé pro kontrolu, zda jsou předložené změny korektní, než se provedou. V~současnosti je k~tomuto účelu využíván pouze textový 
+	Cílem mé  práce je vytvořit pochopitelnou grafickou nápovědu pro administrátory počítačů, zvláště serverů s~mnoha disky. Práce se zabývá 
+	způsoby jak zlepšit tak uživatelskou přívětivost nástrojů, které slouží k~instalaci a~konfiguraci datových úložišť.
+	Konkrétněji se jedná o~rozšíření knihovny Blivet, která zpracovává informace jako je název, velikost, typ atp.
+	o~jednotlivých blokových zařízeních. Blokovým zařízením rozumíme jakýkoliv počítačový disk či jiné médium sloužící k~dlouhodobému uchování dat.
+	Program vytváří graf podobný stromové struktuře a~zobrazuje jej uživateli.  V~současnosti je k~tomuto účelu využíván pouze textový 
 	seznam změn, který je nedostatečný. Člověk dokáže mnohem lépe a~rychleji kontrolovat obrázková data než homogenní text. 
-
+	
 	Práce vznikala nejen na Fakultě informatiky Masarykovy univerzity (FI MUNI), ale i~ve společnosti Red Hat. Tam budou využity její výsledky,
-	integrované do instalátoru Anaconda, který je v~současnosti používán v~linuxových distribucích Red Hat Enterprise Linux (RHEL), CentOS, Fedora a všech
+	integrované do instalátoru Anaconda, který je v~současnosti používán v~linuxových distribucích Red Hat Enterprise Linux (RHEL), CentOS, Fedora a~všech
 	odvozených\cite{anaconda-rhel}.
 
-	Práci jsem si vybral z~několika důvodů.  Možnost podílet se na vývoji svobodného softwaru je pro mě velmi důležitým hlediskem 
+	Práci jsem si vybral ze dvou důvodů.  Možnost podílet se na vývoji svobodného softwaru je pro mě velmi důležitým hlediskem 
 	při psaní jakéhokoliv programu. Druhý důvod je možný rozsah uplatnitelnosti výsledků mé práce. Každý systém je třeba nejprve nainstalovat, výsledky
-	této práce tedy uvidí velké množství lidí, což je bezpochyby velká motivace pro každého, kdo něco tvoří. Třetím důvodem je výběr programovacího jazyka, který je vyžadován 
-	v~zadání. Jedná se o~jazyk Python, který považuji za velmi flexibilní, aniž by byly kladeny přílišné nároky na výkon systému. 
+	této práce tedy uvidí velké množství lidí, což je bezpochyby velká motivace pro každého, kdo něco tvoří. 
 
 	Jak jsem zmínil výše, hlavním cílem práce je naprogramování aplikace, která vytváří graf stromové struktury blokových zařízení. Jako zdroj dat
-	využívá knihovnu Blivet. 
-	Druhým cílem je funkcionalita umožňující porovnat stav před instalací a~po ní v~případě, že je systém přeinstalováván.
+	využívá knihovnu Blivet.  
 
-	Z~cílů vychází také struktura práce. Před popisem je přidána přehledová kapitola.
-	První kapitola popisuje použité knihovny. První knihovna, Blivet\cite{blivet}, poskytuje data a~mimo jiné může sloužit i~pro změny 
-	nastavení disků (tato funkcionalita je v~mé práci zmíněna jen okrajově). Druhou je knihovna graphviz-python\cite{graphviz-python}, Graphviz je program pro tvorbu grafů. Kromě
-	jednoduchého spojování uzlů hranami dokáže uzly automaticky třídit a~logicky rozmisťovat podle různých přednastavených pravidel. 
-	Výsledek mé práce operuje především s~formátem škálovatelné vektorové grafiky (SVG), což je formát používaný nejen na webu. 
+	Z~cílů vychází také struktura práce. První kapitola popisuje použité knihovny.  
 
-	Druhá kapitola je o~mém návrhu jednotlivých tříd programu, jejich dokumentaci a~popisu funkcí. Nejdůležitější z~tříd jsou ty pro uzly a~hrany. Zmíněny jsou také pomocné třídy 
-	pro načítání z~jiných formátů vstupních dat, jako je již zmiňované XML.
+	Druhá kapitola je o~mém návrhu jednotlivých tříd programu, jejich dokumentaci a~popisu funkcí. 
 
 	Třetí kapitola obdobně popisuje návrh vzhledu aplikace a~její chování. Zdůvodňuje, proč jsem se rozhodl pro jednotlivé grafické prvky a~barevná odlišení.
 
-	Závěrem zmiňuji další možná rozšíření mého programu. 
+	V~závěru zmiňuji další možná rozšíření mého programu. 
 
 \chapter{Přehledová kapitola}
 \section{Současný stav vizualizačních nápověd zobrazovaných při instalaci}
-	V~současné době je vizualizace rozdělení disků při instalaci systému použita v~minimu případů. Dále v~kapitole rozebírám jednotlivé ukázky programů, které jsem vybral, avšak souhrnně je vidět, 
+	V~současné době je vizualizace rozdělení disků při instalaci systému použita v~minimu případů. Dále v~kapitole rozebírám jednotlivé ukázky programů, ze kterých je patrné, 
 	že instalátory se drží textového seznamu diskových oddílů uspořádaných do stromové struktury. Systémy jsem vybíral tak, aby bylo možné porovnat alespoň nějakou vizuální stránku. Proto jsem vynechal
-	příklady typu Archlinux či Gentoo, které používají pouze instalaci z~příkazové řádky.  Dále uvádím příklady vizualizace, kterou používají nástroje na práci s~blokovými zařízenímy, jako je 
-	například program GParted.
+	příklady typu Archlinux či Gentoo, které používají pouze instalaci z~příkazové řádky.  Dále uvádím příklady vizualizace, kterou používají nástroje na práci s~blokovými zařízeními, 
+	jako je například program GParted.
 
-\section{Příklady v~různých operačních systémech}
+\section{Příklady v~různých operačních systémech a~distribucích}
 
 \subsection{Debian}
 
 	Prvním příkladem je Debian, velmi konzervativní distribuce udržující osvědčené postupy a~programy, snažící se o~maximální stabilitu i~za cenu zastaralosti. 
-	Tato distribuce má grafický instalátor, spoléhá ovšem na zkušenosti a~znalosti uživatele. Během instalace se k~žádnému schématu nedostaneme. Jak je vidět na obrázku č.~2.1, jediný způsob předání 
-	informace o~plánovaném stavu zařízení je textový strom diskových oddílů obohacený o~možnost výběru a~ovládání myší.
+	Tato distribuce má grafický instalátor, spoléhá ovšem na zkušenosti a~znalosti uživatele. Během instalace není žádné schéma k~dispozici. Jak je vidět na obrázku č.~2.1, jediný způsob předání 
+	informace o~plánovaném stavu zařízení je textový strom diskových oddílů obohacený o~možnost výběru zařízení s~pomocí počítačové myši.
 
-\begin{figure}[hb]
+\begin{figure}[h!]
 	\caption{Distribuce Debian}
 	\centering
 	\includegraphics[width=.8\columnwidth]{pictures/debian1.png}
@@ -100,13 +92,13 @@ Zde chci poděkovat Marku Grácovi za vedení mé práce, Vratislavu Podzimkovi 
 
 \subsection{Ubuntu}
 
-	Ubuntu Linux vychází z~výše zmíněné distribuce Debian\cite{ubuntu}, instalátor však používá svůj vlastní. Je také jediným zástupcem linuxové distribuce, která využívá  schéma 
+	Ubuntu Linux vychází z~výše zmíněné distribuce Debian\cite{ubuntu}, používá však svůj vlastní instalátor. Je také jediným zástupcem linuxové distribuce, která využívá  schéma 
 	pro znázornění stavu rozděleného disku. Dříve využívané schéma programu GParted, které detailně rozebírám dále, bylo nahrazeno jednoduchou linkou v~horní oblasti okna instalátoru. Na této lince 
 	jsou barevně znázorněny diskové 
 	oddíly vytvořené uživatelem. Stejné barvy jsou poté použity u~každého ze záznamů v~seznamu oddílů, jak je možné vidět na obrázku č.~2.2. Tento jednoduchý diagram umožňuje rychlý odhad poměrů různých 
 	částí, které budou vytvořeny.
 
-\begin{figure}[hb]
+\begin{figure}[h!]
 	\label{fig:ubuntu}
 	\caption{Distribuce Ubuntu}
 	\centering
@@ -115,14 +107,14 @@ Zde chci poděkovat Marku Grácovi za vedení mé práce, Vratislavu Podzimkovi 
 
 \subsection{CentOS}
 
-	Jako příklad systémů, které využívají instalátor Anaconda, jsem vybral systém CentOS. Tato zkratka znamená Community ENterprise Operating System. Na svých stránkách uvádějí \uv{The CentOS Linux
-	distribution is a~stable, predictable, manageable and reproducible platform derived from the sources of Red Hat Enterprise Linux (RHEL).}\cite{centos}. Jedná se v~podstatě o~systém Red Hat Enterprise 
-	Linux, ovšem bez podpory a~oprav od společnosti Red Hat. V~současné době instalátor Anaconda používá také pouze textovou reprezentaci rozdělení blokových zařízení. 
+	Jako příklad systémů, které využívají instalátor Anaconda, jsem vybral systém CentOS, Community ENterprise Operating System. Na svých stránkách uvádějí \uv{The CentOS Linux
+	distribution is a~stable, predictable, manageable and reproducible platform derived from the sources of Red Hat Enterprise Linux (RHEL).}\cite{centos}. Jedná se v~podstatě o~systém 
+	RHEL, ovšem bez podpory a~oprav od společnosti Red Hat. V~současné době instalátor Anaconda používá také pouze textovou reprezentaci rozdělení blokových zařízení. 
 	Rozdíl oproti ostatním distribucím tvoří 
-	seznam změn, který je zobrazen před finálním potvrzením a~započetím formátování. Na obrázku č.~2.3. můžeme vidět příklad tohoto seznamu. Situaci zpřehledňuje ale pouze pro malý počet změn, seznam s~mnoha 
-	záznamy o~změnách je nepřehledný. Zlepšením uživatelské přívětivosti při finální kontrole před instalací se zabývá tato práce.
+	seznam změn, který je zobrazen před finálním potvrzením a~započetím formátování. Na obrázku č.~2.3 můžeme vidět příklad tohoto seznamu. Situaci zpřehledňuje ale pouze pro malý počet změn, seznam s~mnoha 
+	záznamy o~změnách je nepřehledný. 
 
-\begin{figure}[h]
+\begin{figure}[h!]
 	\label{fig:centos2}
 	\caption{Distribuce CentOS příklad souhrné tabulky}
 	\centering
@@ -142,13 +134,13 @@ Zde chci poděkovat Marku Grácovi za vedení mé práce, Vratislavu Podzimkovi 
 	\includegraphics[width=.8\columnwidth]{pictures/win1.jpg}
 \end{figure}
 
-\section{Programy sloužící pro manipulaci s~zařízenímy}
+\section{Programy sloužící pro manipulaci se zařízeními}
 
 \subsection{GParted}
 	Program GParted je zástupcem programů, které je možné spouštět i~mimo fázi instalace systému. Dříve byl součástí instalátoru systému Ubuntu\cite{ubuntu-gparted}, ale je možné jej spouštět 
 	i~samostatně, například 
-	zvětšovat úložnou kapacitu virtuálních blokových zařízení či disků, jejichž souborový systém umožňuje pozdější modifikaci. Opět je využito dříve zmíněné schéma obdélníku. Každé zařízení je reprezentovaný
-	obdélníkem a~další informace jsou zobrazovány barevnými rámci uvnitř těchto obdélníků. Narozdíl od ostatních zmíněných programů obsahuje GParted i~grafické aplikace pro manipulaci s~disky 
+	zvětšovat úložnou kapacitu virtuálních blokových zařízení či disků, jejichž souborový systém umožňuje pozdější modifikaci. Opět je využito dříve zmíněné schéma obdélníku. Každé zařízení je reprezentované
+	obdélníkem a~další informace jsou zobrazovány barevnými rámci uvnitř těchto obdélníků. Stejně jak Blivet-gui (zmíněno dále) obsahuje GParted i~grafické aplikace pro manipulaci s~disky 
 	a~tím dosahuje efektu WYSIWYG editoru (What You See Is What You Get, editor, který přímo ukazuje aktuální změny). Příkladem je aplikace pro zvětšení diskového oddílu, kterou vidíme na obrázku č.~2.5.
 
  \begin{figure}[h!]
@@ -160,8 +152,8 @@ Zde chci poděkovat Marku Grácovi za vedení mé práce, Vratislavu Podzimkovi 
 
  \subsection{Blivet-gui}
 
- Druhým příkladem je program na manipulaci s~blokovými zařízeními, využívá knihovnu nazvanou Blivet. Knihovna Blivet je dostupná ve všech systéch vycházejících ze systému RHEL. Autoři 
- se zprvu rozhodli použít známé schéma, avšak brzy narazili na problém s~větším počtem zařízení včetně virtuálních. Na obrázku č.~2.6 vidíme, že současné řešení je nedostatečné, jednotlivé úrovně 
+ Druhým příkladem je modul knihovny Blivet, který přidává grafické uživatelké rozhraní. Modul Blivet-gui je dostupný ve všech systémech vycházejících ze systému RHEL. Autoři 
+ se zprvu rozhodli použít podobné schéma jako používají ostatní programy, avšak brzy narazili na problém s~větším počtem zařízení včetně virtuálních. Na obrázku č.~2.6 vidíme, že současné řešení je nedostatečné, jednotlivé úrovně 
  barevných rámců 
  jsou znázorněny samostatnými uzly grafu s~hranami vyznačujícími vztahy mezi nimi. Mnoho těchto rámců uživatele spíše zmate a~použití grafu by situaci zpřehlednilo.
 
@@ -172,26 +164,26 @@ Zde chci poděkovat Marku Grácovi za vedení mé práce, Vratislavu Podzimkovi 
 	 \includegraphics[width=.8\columnwidth]{pictures/blivet-gui-1.png}\\
  \end{figure}
 
-\chapter{Použité knihovny a technologie}
+\chapter{Použité knihovny a~technologie}
 \section{Knihovna Blivet}
 	První a~nejdůležitější knihovou, která je v~mé práci využívána, je knihovna Blivet. Vznikla jako projekt
 	ve firmě Red Hat, původně pod jménem pyanaconda.storage\cite{blivet}. Slouží k~rozšíření již zmiňovaného instalátoru Anaconda. Použití této knihovny je součástí zadání, 
-	a~proto nebudu diskutovat o jejích výhodách a~nevýhodách oproti ostatním knihovnám. 
+	a~proto nebudu diskutovat o~jejích výhodách a~nevýhodách oproti ostatním knihovnám. 
 
 	Mezi její funkce patří i~konfigurace různých datových úložišť, nemusí se jednat pouze o~pevné disky.
 	Blivet ovládá i~mnohé další technologie, se kterými se lze v~dnešní době setkat. Příkladem jsou vícenásobná pole nezávislých disků (RAID), technologie logických svazků disku (LVM) či 
-	ovládání zašifrovaných modulů pomocí technologie LUKS (Linux Unified Key System, systém pro správu klíčů v Linuxu). Všechny tři příklady rozebírám níže.
+	ovládání zašifrovaných modulů pomocí technologie LUKS (Linux Unified Key System, systém pro správu klíčů v~Linuxu). Všechny tři příklady rozebírám níže.
 
 	Dále Blivet obsahuje nástroje pro práci se souborovými systémy diskových oddílů od starších, a~již dlouho používaných, jako jsou žurnálovací souborové systémy ext2 až ex4 či ReiserFS\cite{journalFS}, 
-	po novější, jakým je Btrfs . Také se stará o~bootovací oddíly, čili master boot record (MBR) a~GUID partition table (GPT), tedy o~všechny součásti procesu přípravy úložíšť v rámci instalace 
+	po novější, jakým je Btrfs . Také se stará o~bootovací oddíly, čili master boot record (MBR) a~GUID partition table (GPT), tedy o~všechny součásti procesu přípravy úložíšť v~rámci instalace 
 	nového systému na počítač.
 
 \subsection{RAID}
 	Vícenásobná pole nezávislých disků jsou velmi elegantní ochranou před selháním disků. Existůjí různé způsoby, jak pole realizovat, ale základní princip zůstává vždy stejný. 
-	Několik disků, které vystupuje jako jediný\cite{RAID}. Jedním z příkladů použití vícenásobného diskového pole může být disk s~kapacitou rovnou součtu disků, ze kterých je tvořen, anebo také
+	Několik disků, které vystupuje jako jediný\cite{RAID}. Jedním z~příkladů použití vícenásobného diskového pole může být disk s~kapacitou rovnou součtu disků, ze kterých je tvořen, anebo také
 	kapacitou jednoho disku, přičemž data jsou zrcadlena na ostatní disky. Cílem tohoto nastavení je ochrana před selháním hardwaru a~ztrátou dat. 
 	
-	Blivet obsahuje nástroje pro práci s programem mdadm, která slouží k~nastavení softwarového pole MD RAID. Při využití hardwarových technologií, zvláště pak proprietárních,
+	Blivet obsahuje nástroje pro práci s~programem mdadm, která slouží k~nastavení softwarového pole MD RAID. Při využití hardwarových technologií, zvláště pak proprietárních,
 	je možné k~tomuto RAIDu přistupovat jako k~obyčejnému disku, čehož i~nesvobodné RAIDy často využívají a~svých mnoho disků skrývají za jednotným rozhraním, které vystupuje jako jeden
 	disk. 
 
@@ -203,20 +195,20 @@ Zde chci poděkovat Marku Grácovi za vedení mé práce, Vratislavu Podzimkovi 
 	a~pokud možno i~přehledně vizualizovat.
 
 \subsection{LVM}
-  LVM neboli Logical Volume Management je metoda, kterou je možné spravovat diskové oddíly. Poskytuje větší flexibilitu volného místa než klasické diskové oddíly a pracuje se třemi
+  LVM neboli Logical Volume Management je metoda, kterou je možné spravovat diskové oddíly. Poskytuje větší flexibilitu volného místa než klasické diskové oddíly a~pracuje se třemi
 	úrovněmi
 	zařízení\cite{LVM}. První úrovní jsou fyzické svazky neboli physical volumes (PV). Fyzický svazek je tvořen buď samotným diskem, včetně například disku RAID, nebo diskovým oddílem. 
 	Fyzické
 	svazky nenabízí o~mnoho více funkcionality než je označení a~příprava svazku pro další práci. Ta spočívá v~rozdělení fyzického svazku na fyzické extenty (physical extents, PE).
 
-	Další úrovní jsou skupiny svazků (volume groups, VG), sdružující jeden nebo více fyzických svazků a logických svazků (LV). Skupiny svazků disponují úložným prostorem svých PV, 
-	který rozdělují mezi LV. Výhodou existence VG je možnost libovolně přidávat svazky, a~to i~za plného chodu systému. Za chodu systému lze místo i~ubírat z VG, ale 
+	Další úrovní jsou skupiny svazků (volume groups, VG), sdružující jeden nebo více fyzických svazků a~logických svazků (LV). Skupiny svazků disponují úložným prostorem svých PV, 
+	který rozdělují mezi LV. Výhodou existence VG je možnost libovolně přidávat svazky, a~to i~za plného chodu systému. Za chodu systému lze místo i~ubírat z~VG, ale 
 	pouze dosud neobsazenou část. 
 
 	Třetí úrovní LVM jsou již zmíněné logické svazky, které jsou dostupné uživateli k~ukládání dat. Z~tohoto pohledu se chovají stejně jako obyčejné diskové oddíly. Jak již ale
 	bylo zmíněno, výhodou oproti obyčejným diskovým oddílům je flexibilita dostupného místa. Na logických svazcích je možné vytvářet souborové systémy a~dále s~nimi pracovat.
 
-	Kromě úprav velikosti oddílů za chodu je také možné přesouvat data v rámci VG. LVM také umí vytvářet snímky, tj. zachycovat stav dat v~čase. Využítí nachází tato 
+	Kromě úprav velikosti oddílů za chodu je také možné přesouvat data v~rámci VG. LVM také umí vytvářet snímky, tj. zachycovat stav dat v~čase. Využítí nachází tato 
 	vlastnost
 	při vytváření záloh a~jako záchytný bod, ke kterému je možné se vrátit. Nevýhodou LVM je skutečnost, že data na fyzických svazcích mohou být fragmentována, a~tak
 	dochází ke snížení výkonu. Také je třeba mít na zřeteli fakt, že pokud zmenšujeme logický svazek, musí tuto funkci obsahovat i~souborový systém, který se na něm nachází.
@@ -228,7 +220,7 @@ Zde chci poděkovat Marku Grácovi za vedení mé práce, Vratislavu Podzimkovi 
 	experienced that arise from deriving the encryption setup from changing user space, and forgotten command line arguments. The result of this changes are an unaccessible encryption
 	storage.}\cite{on-disk-format} V~současné době se LUKS používá společně s~technologií dm-crypt, která slouží jako prostředek k~šifrování.
 
-	Při využití LUKS v~Blivetu lze šifrovat všechna bloková zařízení (disky, diskové oddíly, logické svazky i~fyzické svazky). Celé nastavení LVM může být šifrováno jedním klíčem, v součastnosti se takto 
+	Při využití LUKS v~Blivetu lze šifrovat všechna bloková zařízení (disky, diskové oddíly, logické svazky i~fyzické svazky). Celé nastavení LVM může být šifrováno jedním klíčem, v~součastnosti se takto 
 	standardně šifruje LVM ve Fedora Linuxu, pokud uživatel nastaví automatické rozdělení zařízení s~šifrováním. Nemusí se jednat jen o~pevné disky, ale také o~odstranitelná média jako
 	SD karty nebo USB paměti. Šifrovat lze též odkládací prostor paměti (swap).
 
@@ -237,7 +229,7 @@ Zde chci poděkovat Marku Grácovi za vedení mé práce, Vratislavu Podzimkovi 
 	speciální technologie jako RAID, LVM či šifrování LUKS. Každé zařízení má ale možnost mít i~formát, čímž se myslí formát souborového systému. Podporována je většina známých 
 	souborových
 	systémů, které jsou používány dlouhou dobu. Patří mezi ně souborový systém ext, ReiserFS, XFS. Taktéž existuje podpora pro Btrfs (B-tree FS), experimentální souborový systém 
-	vlastněný společností Oracle. Přestože zatím u~Btrfs neexistuje stabilní verze, je mezi distribucemi podporován, neboť nabízí řešení některých problémů současných souborových systémů.
+	společnosti Oracle. Přestože zatím u~Btrfs neexistuje stabilní verze, je mezi distribucemi podporován, neboť nabízí řešení některých problémů současných souborových systémů.
 
 \section{Graphviz}
 	Graphviz je program, který slouží k~vizualizaci dat formou grafů, orientovaných či neorientovaných\cite{graphviz}. Pomocí Graphvizu je možné generovat grafy sloužící ke znázornění počítačové sítě nebo
@@ -246,33 +238,33 @@ Zde chci poděkovat Marku Grácovi za vedení mé práce, Vratislavu Podzimkovi 
 
 	Program je z~velké části napsán v~jazyce C, ale ve existují obalovací knihovny (wrapper libraries) pro mnoho výšších programovacích jazyků. Vyššímy 
 	programovacímy jazyky myslím jazyky, které jsou pokládány za méně náročné na obstarávání systémových věcí programátorem. Typickým příkladem výššího 
-	programovacího jazyka je jazyk Java. Dalšímy příklady je Python a PHP. Často jsou tyto jazyky označovány jako skriptovací. 
+	programovacího jazyka je jazyk Java. Dalšímy příklady je Python a~PHP. Často jsou tyto jazyky označovány jako skriptovací. 
 	Z~těchto knihoven se budeme soustředit hlavně na knihovnu pro Python 3 která je používána v~mé práci.
 
 	Hlavnímy elementy při vytváření grafu jsou graf (graph), uzel (node) a~hrana (edge). Základní grafy lze tvořit jen pomocí těchto tří klíčových slov.
 
 \subsection{Graf}
 	Klíčové slovo graph uvádí jakýkoliv graf, který bude vytvořen, včetně prvního kořenového grafu. Každý zápis v~jazyce DOT musí začínat slovem graph nebo digraph. Výjimku tvoří užití slova
-	strict, které se uvádí na začátku zápisu a které zamezuje vzniku vícenásobných hran, tedy mezi každým počátečním a koncovým uzlem bude jen jedna hrana. 
+	strict, které se uvádí na začátku zápisu a~které zamezuje vzniku vícenásobných hran, tedy mezi každým počátečním a~koncovým uzlem bude jen jedna hrana. 
 
 	Graph označuje graf neorientovaný, ve kterém jsou hrany bez šipek na koncích. Slovo digraph je zkrácené spojení directed graph (orientovaný
 	graf) a~vyjadřuje graf orientovaný, ve kterém jsou na koncích hran šipky. Při vizualizaci rozdělení diskového prostoru jsem se rozhodl použít právě orientované grafy neboť, považuji za 
-	důležité poskytnout uživateli co nejvíce vodítek ke znázornění vztahu rodič - potomek a~orientované hrany jsou ideální pro tento účel. 
+	důležité poskytnout uživateli co nejvíce vodítek ke znázornění vztahu rodič~-~potomek a~orientované hrany jsou ideální pro tento účel. 
 
-	Speciálním případem grafu je podgraf (subgraph). Grafy mohou být vkládány do sebe a s~pomocí podgrafů lze snížit velikost zdrojového kódu v~jazyce DOT. Příkladem budiž situace, kdy zápisem
-	hrany vedoucí od uzlu k~podgrafu (\texttt{A~-- \{B C\}}) vytvoříme stejný efekt jako při zápisu každé jednotlivé dvojice mezi uzlem A~a~uzly B a~C (\texttt{A~-- B, A~-- C}). Dále je možné podgrafy využít
+	Speciálním případem grafu je podgraf (subgraph). Grafy mohou být vkládány do sebe a~s~pomocí podgrafů lze snížit velikost zdrojového kódu v~jazyce DOT. Příkladem budiž situace, kdy zápisem
+	hrany vedoucí od uzlu k~podgrafu (\texttt{A~--~\{B C\}}) vytvoříme stejný efekt jako při zápisu každé jednotlivé dvojice mezi uzlem A a~uzly B a~C (\texttt{A~--~B, A~--~C}). Dále je možné podgrafy využít
 	pro specifikaci odlišných atributů uzlů či hran. V~podgrafu lze jednoduše nastavit jiné atributy než ve zbytku grafu.
 
 	Poslední situací pro využití podgrafu je situace kdy chceme uzly shlukovat. V~tomto případě je nutné přidat k~názvu podgrafu klíčové slovo cluster a~určité grafovací algoritmy tyto uzly 
 	uspořádají k~sobě do skupiny.
 
 \subsection{Uzly}
-	Uzly jsou základem každého grafu. V~graphvizu jsou definovány svým jménem. Základní graf s~jedním uzlem definujeme v~jazyce DOT jednoduše, a~to : graf \{A\}. Tento zápis vytvoří
+	Uzly jsou základem každého grafu. V~graphvizu jsou definovány svým jménem. Základní graf s~jedním uzlem definujeme v~jazyce DOT jednoduše, a~to: \texttt{graf \{A\}}. Tento zápis vytvoří
 	graf s~jedním uzlem uprostřed. Ve středu grafu bude napsán název uzlu, v~našem případě \uv{A}. Uzly mají mnoho různých atributů od svého jména po url odkazy a~atributy HTML formátování. 
 	Nejdůležitějšími jsou ty které jsou definovány v~základním nastavení. Jsou to tvar uzlu (shape), barva výplně (fillcolor) a~jméno (name) nebo štítek (label). 
 	
 	Standardně je tvar nastaven na elipsu a~barva
-	na bílou. Jméno se bere podle identifikátoru při vytváření uzlu, nálepka je rozšířením jména. Pokud je definována, nálepka nahrazuje jméno a~její obsah je vepsán dovnitř uzlu. Od jména se liší 
+	na bílou. Jméno se bere podle identifikátoru při vytváření uzlu, štítek je rozšířením jména. Pokud je definován, štítek nahrazuje jméno a~její obsah je vepsán dovnitř uzlu. Od jména se liší 
 	tím, že její obsah lze libovolně upravovat, avšak lze do ní ukládat pouze text, jakékoliv speciální formátování nebude zohledněno. Pro vkládání obrázků slouží atribut image a~pro vkládání
 	odkazů atribut url.
 
@@ -280,13 +272,13 @@ Zde chci poděkovat Marku Grácovi za vedení mé práce, Vratislavu Podzimkovi 
 	abstraktnější, tím zaoblenější tvar má. Pevné disky a~jejich oddíly jsou znázorněny čtverci, LVM čtverci se zaoblenými rohy a~zařízení připojené přes síť či šifrování jsou znázorněny elipsou.
 	Pro toto dělení jsem se rozhodl, abych zachoval konzistenci celého grafu a~pomohl uživateli rozlišit rozdíly jen pomocí krátkého shlédnutí tvaru.
 
-	Druhým odlišovacím prvkem je barva, a to jak její odstín, tak sytost. Některé odstíny jsou rezervovány pro odlišení akcí, které budou provedeny při konfiguraci. Zelenou barvou jsou vyznačeny
+	Druhým odlišovacím prvkem je barva, a~to jak její odstín, tak sytost. Některé odstíny jsou rezervovány pro odlišení akcí, které budou provedeny při konfiguraci. Zelenou barvou jsou vyznačeny
 	nově se objevivší prvky, červenou zaniknuvší prvky a~oranžovou prvky, u~kterých došlo ke změnám. Sytost barvy společně s~tvarem jasně definují použitou technologii. Barva pomáhá tam, kde
 	samotný tvar nestačí. Čili pokud používá stejný tvar jak šifrování tak blokové zařízení připojené přes internet, dojde k~jejich jednoznačnému odlišení použitím sytější a~méně syté barvy.
 
 \subsection{Hrany}
 	Hrany nejsou tak komplikovanými elementy jako uzly. Jejich základní atributy jsou počáteční a~koncový uzel. U~neorientovaného grafu se nerozlišuje, který uzel je počáteční. Hrany 
-	nepoužívají tolik atributů jako uzly, avšak například nálepku stále mít mohou. Vzhledem k~jejich tvaru je u~nich zbytečný atribut výplňové barvy (fillcolor) a~používá se jen barva 
+	nepoužívají tolik atributů jako uzly, avšak například štítek stále mít mohou. Vzhledem k~jejich tvaru je u~nich zbytečný atribut výplňové barvy (fillcolor) a~používá se jen barva 
 	\uv{pera}.
 	Jak již bylo zmíněno, v~mé praci jsou všechny grafy orientované, a~tak záleží na pořadí v~jakém jsou uzly předány funkci, která tvoří hrany. Nicméně směr je vždy od rodiče k~potomkovi
 	a~nikdy naopak.
@@ -296,7 +288,7 @@ Zde chci poděkovat Marku Grácovi za vedení mé práce, Vratislavu Podzimkovi 
 	podrobněji. U~každého příkladu je použit stejný vstupní zápis, ale výsledky se velmi liší. Vstupní data vypadají takto:
 	\begin{quotation}
 		\texttt{graph\{\\
-		A~-- B\\
+		A -- B\\
 		B -- C\\
 		C -- D\\
 		D -- A\\
@@ -323,7 +315,7 @@ Zde chci poděkovat Marku Grácovi za vedení mé práce, Vratislavu Podzimkovi 
 	Druhé rozložení, \uv{neato - 'spring model' layouts.  This is the default tool to use if the graph is not too large (about 100 nodes) and you don't know anything else about it. Neato attempts to
 	minimize a~global energy function, which is equivalent to statistical multi-dimensional scaling.}\cite{graphviz_layout}
 	Jinými slovy algoritmus neato se snaží vytvořit celý graf co nejmenší bez ohledu na ostatní faktory. Grafy nejsou hierarchické ani 
-	strukturované. Cílem je co nejmenší zabraná plocha a~zároveň nepřekrývání hran a~uzlů. Kvůli chaotičnosti a~nestrukturalizovanosti se nejedná o~grafový algoritmus který bych mohl
+	strukturované. Cílem je co nejmenší zabraná plocha a~zároveň nepřekrývání hran a~uzlů. Kvůli chaotičnosti a~nestrukturalizovanosti se nejedná o~algoritmus který bych mohl
 	použít. Ostatně neato je přizpůsobeno na neorinetované grafy.
 
 \begin{figure}
@@ -349,7 +341,7 @@ Zde chci poděkovat Marku Grácovi za vedení mé práce, Vratislavu Podzimkovi 
 	Čtvrté rozložení, \uv{twopi - radial layouts.  Nodes are placed on concentric circles depending their distance from a~given root node.}\cite{graphviz_layout}
 	Použitím paprskového rozložení dochází k~strukturalizaci grafu, tím pádem by se algoritmus twopi mohl zdát 
 	dobrou volbou pro uskutečnění cíle, který jsem si vytyčil. Ovšem přidáním dalších dvou uzlů, které způsobí rozvětvení grafu, se strukturalizace začne vyvíjet neakceptovatelným směrem.
-	Oba případy jsou vidět na obrázku. Strukturovanost do kruhů by, dle mého názoru, uživatele zbytečně mátla. Je důležité mít kořenový uzel, ovšem jeho umístění doprostřed je špatnou
+	Oba případy jsou vidět na obrázku č.~3.4 a~3.5. Strukturovanost do kruhů by, dle mého názoru, uživatele zbytečně mátla. Je důležité mít kořenový uzel, ovšem jeho umístění doprostřed je špatnou
 	volbou.
 
 \begin{figure}
@@ -367,7 +359,7 @@ Zde chci poděkovat Marku Grácovi za vedení mé práce, Vratislavu Podzimkovi 
 
 	Poslední rozložení, \uv{circo - circular layout. This is suitable for certain diagrams of multiple cyclic structures, such as certain telecommunications networks.}\cite{graphviz_layout} 
 	Jak už je zmíněno v~dokumentaci, grafy používající rozložení 
-	circo se hodí jen k~nemnoho specifickým účelům. Jak vidíme na obrázku, opět se setkáváme s~nehierarchickým grafem. Algoritmus circo rozhodně má své využití, ale ne v našem případě. V
+	circo se hodí jen k~nemnoho specifickým účelům. Jak vidíme na obrázku č.~3.6, opět se setkáváme s~nehierarchickým grafem. Algoritmus circo rozhodně má své využití, ale ne v~našem případě. V
 	situaci, kdy připojujeme úložná zařízení v~systému Linux, se jen obtížně dostaneme do cyklických odkazů. Samotná podstata připojování úložných jednotek by měla zabraňovat těmto
 	situacím. Pokud bychom už takovou situaci vytvořili, jedná se zcela určitě o~chybu buď používaných nástrojů, nebo chybu uživatelské konfigurace. 
 
@@ -381,36 +373,39 @@ Zde chci poděkovat Marku Grácovi za vedení mé práce, Vratislavu Podzimkovi 
 	Algoritmem, který nakonec zbývá po aplikování vyřazovací metody, je algoritmus dot. 
 	Základem pro mé rozhodnutí je stromová struktura. Ostatní typy rozložení nesplňují tuto podmínku, snad až na rozložení twopi. Twopi ale nelze použít kvůli větvení,
 	ke kterému bude docházet velmi často. Navíc má problémy s~dměma a~více kořenovými uzly, nezařazuje je k~sobě, pokud nejsou spojeny hranou. V~prostředí, kde je využívána technologie
-	RAID, jde o~zcela nepřijatelnou vlastnost. Je potřebné, aby bloková zařízení logicky náležící k~sobě tak také byly vizualizovány. Jen dot splňuje tuto podmínku. Není problém směrovat grafy 
+	RAID, jde o~zcela nepřijatelnou vlastnost. Je potřebné, aby bloková zařízení logicky náležící k~sobě tak také byla vizualizována. Jen dot splňuje tuto podmínku. Není problém směrovat grafy 
 	vytvářené rozložením dot shora dolů či zleva doprava, zmíněné chování lze nakonfigurovat. Tím odpadá poslední argument pro použití twopi, které na prvním příkladě graf situuje jako
 	jdoucí zleva doprava.
 
 \chapter{Aplikace}
-	Aplikace je napsaná v~jazyce Python a částečně využívá objektové paradigma. Důvody, které mě vedly k~výběru programovacího jazyka, jsou zmíněny v~úvodu práce. Za prvé, objekty logicky
+	Aplikace je napsaná v~jazyce Python a~částečně využívá objektové paradigma. Důvody, které mě vedly k~výběru programovacího jazyka, jsou zmíněny v~úvodu práce. Za prvé, objekty logicky
 	dělí program do částí, ve kterých se snadno orientuje a~které spolu souvisí. Tak jsou rozděleny i~mé třídy. Třída pro načítání dat, pro tvorbu grafu, pro uzly, pro hrany atd.
 	Za druhé, objektové programovaní je dnes de facto standartem a~velká část nově vznikajících programů používá jazyky, které podporují objektové programovaní. Za třetí,
 	objektové programování usnadňuje spolupráci a~čtení kódu ostatními programátory. Jelikož rozšiřuji svobodný software, je pravděpodobné že na něm někdo bude v~budoucnu pracovat
 	a~rozšiřovat jej. Díky použití objektů bude mít usnadněnou práci.
 	
 \section{Třída \texttt{Visualiser}}
-	Hlavní třída mého programu je nazvaná \texttt{Visualizer}, obsahuje základní atributy a~metody potřebné pro chod aplikace. Můžeme si ji představit jako centrální řídící jednotku. Ostatní
+	Hlavní třída mého modulu je nazvaná \texttt{Visualizer}, obsahuje základní atributy a~metody potřebné pro chod aplikace. Můžeme si ji představit jako centrální řídící jednotku. Ostatní
 	třídy na ni navazují, ať už přímo nebo nepřímo (přes jinou třídu). 
 
 	Třída Visualiser obsahuje seznam uzlů a~seznam hran. S~oběma seznamy pracují hlavně funkce v~jiných třídách. Nejdůležitější funkcí
 	je funkce \texttt{create\_graph}. Její argumenty jsou jméno a~cesta ke grafu a~výsledkem je soubor SVG obsahující graf. 
-	Třída \texttt{Visualiser} též obsahuje funkci \texttt{view}, která slouží pro otevření okna a okamžitému zobrazení vygenerovaného grafu. Při integraci mého programu do programu Blivet-gui bude dostačující,
-	volat tyto dvě funkce a zbytek zařídí můj vizualizační program.
+	Třída \texttt{Visualiser} též obsahuje funkci \texttt{view}, která slouží pro otevření okna a~okamžitému zobrazení vygenerovaného grafu. Při integraci mého programu do programu Blivet-gui bude dostačující,
+	volat tyto dvě funkce a~zbytek zařídí můj vizualizační program.
 	V~případě spouštění z~grafického rozhraní okamžitě dojde k~zobrazení grafu v~okně aplikace, v~případě spuštění z~příkazové řádky jen k~jeho uložení v~definovaném adresáři. 
 
-	Třída obsahuje i~pomocnou funkci \texttt{prepare\_nodes}, která prochází jednotlivě uzly v~seznamu uzlů, a~na každém spouští funkci \texttt{prepare}. Detailně funkci prepare rozebírám u~popisu uzlu.
-	Funkce \texttt{prepare\_nodes}
-	přemění data z~Blivetu na data vhodná pro graphviz. Funkci jsem přidal do této třídy proto, že seznam uzlů je její atribut, a i funkce s tímto atributem pracující by měla náležet do stejné třídy.
+	Třída obsahuje i~pomocnou funkci \texttt{prepare\_nodes}, která prochází jednotlivě uzly v~seznamu uzlů, a~nad každým spouští funkci \texttt{prepare}. Detailně funkci \texttt{prepare} rozebírám u~popisu uzlu.
+	Pomocná funkce \texttt{prepare\_nodes}
+	přemění data z~Blivetu na data vhodná pro graphviz. Funkci jsem přidal do této třídy proto, že seznam uzlů je její atribut, a~i~funkce s~tímto atributem pracující by měla náležet do stejné třídy.
 
 \section{Třída pro načítání dat}
-	Třída pro načítání dat, GvInput, slouží k~načítání dat z~Blivetu, naimportuje si Blivet jako modul a vytvoří si instanci objektu obsahující veškeré informace
-	o~blokových zařízeních. Verze knihovny Blivet 2.0.0 vyžaduje před 
+	Třída pro načítání dat, \texttt{GvInput}, slouží k~načítání dat z~Blivetu, naimportuje si Blivet jako modul a~vytvoří si instanci objektu obsahující veškeré informace
+	o~blokových zařízeních. Verze knihovny Blivet 1.12.8, se kterou pracuji, vyžaduje před 
 	každým načítáním dat spustit funkci \texttt{reset}. Tato funkce projde dostupné úložné kapacity a~vytvoří strom zařízení (\texttt{devicetree}). Stejně tak naplní i~seznam těmi
-	samými objekty. Můj program projde tímto seznamem (Blivet.devices).
+	samými objekty. Můj program projde tímto seznamem (\texttt{Blivet.devices}) a data z něj si uloží do svých struktur. 
+	
+	V případě že je instance objektu Blivet předána konstruktoru, se počítá s tím, že má data připravena a minimálně funkce \texttt{reset} byla zavolána.
+	Ostatní kroky jsou totožné.
 
 	Dalším krokem je vytvoření objektu reprezentujícho uzel grafu, jeho zpracování a~přidání do vlastního seznamu uzlů, který funguje jako převodník mezi Blivetem a~graphvizem. Při
 	přidávání do seznamu se uzly zároveň třídí pomocí přepínače a~jsou jim nastavovány barvy a~tvary. Vše, co potřebujeme pro zobrazení uzlu, se ukládá ihned při průchodu seznamem. 
@@ -426,9 +421,9 @@ Zde chci poděkovat Marku Grácovi za vedení mé práce, Vratislavu Podzimkovi 
 
 \section{Třída \texttt{Node}}
 	Třída pro uzly je poměrně jednoduchá, obsahuje převážně metody pro nastavení vzhledu. Nejdůležitější informace se ukládají už v~konstruktoru, jako ochrana opět slouží nastavení
-	prázdných řetězců tam, kde by vstupní informace chyběly. Kromě konstruktoru obsahuje třída Node také funkce \texttt{change\_color} a~\texttt{change\_shape} nastavující vzhled. K~funkci 
+	prázdných řetězců tam, kde by vstupní informace chyběly. Kromě konstruktoru obsahuje třída \texttt{Node} také funkce \texttt{change\_color} a~\texttt{change\_shape} nastavující vzhled. K~funkci 
 	\texttt{change\_shape} 
-	jsem vytvořil i~pomocnou funkci \texttt{change\_style\_safely}. Pomáhá vytvořit styl uzlu se zakulacenými rohy. Graphviz řeší tuto situaci přidáním klíčového slova rounded k~už 
+	jsem vytvořil i~funkci \texttt{change\_style\_safely}. Pomáhá vytvořit styl uzlu se zakulacenými rohy. Graphviz řeší tuto situaci přidáním klíčového slova rounded k~už 
 	existujícímu stylu. Pokud je styl nastavený na obdélník s~ostrými rohy (box), je třeba přidat slovo rounded a~obě slova oddělit čárkou. Výsledek musí vypadat takto \uv{box, rounded},
 	přičemž na pořadí slov nezáleží.
 
@@ -438,8 +433,8 @@ Zde chci poděkovat Marku Grácovi za vedení mé práce, Vratislavu Podzimkovi 
 	vykreslování grafu možné jen projít záznamy a~vytvořit z~párů klíč, hodnota páry atribut ulzu hodnota v~grafu. 
 
 	Poslední pomocnou funkcí nacházející se v~tříde Node je fukce \texttt{prepare}. Připravuje textová data pro prezentaci ve formě grafu. Projde všechny záznamy ve slovníku \texttt{attributes} a~spojí je do 
-	jednoho řetězce obsahujícího znaky nového řádku. Před spojením je možné flexibilně měnit počet a~obsah textových informací. Po spuštění funkce \texttt{prepare} jsou data uložena do štítku a už není možné
-	s nimi manipulovat.
+	jednoho řetězce obsahujícího znaky nového řádku. Před spojením je možné flexibilně měnit počet a~obsah textových informací. Po spuštění funkce \texttt{prepare} jsou data uložena do štítku a~už není možné
+	s~nimi manipulovat.
 
 \section{Třída \texttt{Edge}}
 	Třída pro hrany obsahuje konstruktor a~funkce pro získání počátečního a~koncového uzlu. Konstruktor bere za své argumenty právě tyto dvě 
@@ -450,76 +445,83 @@ Zde chci poděkovat Marku Grácovi za vedení mé práce, Vratislavu Podzimkovi 
 	Samotné vytváření grafu také není ničím zvlášť složitým, nicméně pro použití v~mé aplikaci je potřeba výsledný graf dále upravit. Rozeberme funkce ve ve třídě output chronologicky,
 	tak, jak jsou použity. Tradičně konstruktor přebírá seznam uzlů a~hran. Volá funkci vytvářející graf se jménem \texttt{create\_gv\_graph} a~předává jí své argumenty. 
 
-	Funkce \texttt{create\_gv\_graph} nejprve vytvoří orientovaný graf pomocí graphvizu. Poté projde seznam uzlů a~pomocí graphvizu vytvoří všechny uzly v~nově utvořeném orientovaném grafu. To samé udělá i
+	Funkce \texttt{create\_gv\_graph} nejprve vytvoří orientovaný graf pomocí graphvizu. Poté projde seznam uzlů a~pomocí graphvizu vytvoří všechny uzly v~nově utvořeném orientovaném grafu. Totéž udělá i
 	s~hranami. Funkce pro vytváření uzlů graphviz.node bere jako první argument jméno uzlu. První argument je povinný, jméno uzlu. Povinný je argument jména
 	i~při vytváření v~seznamu uzlů. Druhý argument ze tří je atribut label. Jde o~dlouhý řetězec rozdělený znaky dalších řádků, jak je vysvětleno výše v~částí věnující se třídě Node.
 	Poslední argument je seznam zbylých atributů, které dokáže graphviz zobrazovat. Je předán jako celý seznam a~po jeho rozbalení se aplikují nastavení vzhledu uzlu. Na konci je celý
 	graf vrácen návratovou hodnotou.
 
-	Druhá funkce se nazývá \texttt{create\_svg}. Jejím úkolem je přepsat graf do formátu SVG. Používá funkci pipe z knihovny Graphviz. Pipe dokáže vytvářet i~jiné formáty, ale ty nejsou v~tuto
-	chvíli důležité. Formát svg byl vybrán proto, že v~něm lze použít JavaScript, a~tím dosáhnout interaktivity. Konkrétně se jedná o~možnost zvětšovat uzly, posouvat a~přibližovat graf.
+	Druhá funkce se nazývá \texttt{create\_svg}. Jejím úkolem je přepsat graf do formátu SVG. Používá funkci pipe z~knihovny Graphviz. Pipe dokáže vytvářet i~jiné formáty, ale ty nejsou v~tuto
+	chvíli důležité. Formát SVG byl vybrán proto, že v~něm lze použít JavaScript, a~tím dosáhnout interaktivity. Konkrétně se jedná o~možnost zvětšovat uzly, posouvat a~přibližovat graf.
+	Tuto funkcionalitu obstarává knihovna SVGPan\cite{svgpan}, uvolněná pod licencí BSD, je tedy možné ji zahrnout do jakéhokoliv programu.
 	Popis funkcí následuje později, níže rozebírám postup implementace.
 
-	Skript v JavaScriptu vkládá pomocná funkce \texttt{insert\_JS\_to\_graph}, přebírající jeden argument, a~to řetězec obsahující SVG strukturu grafu, do kterého se má vložit zmíněný skript. 
-	Kromě vložení JavaScriptu se funkce též stará o drobné úpravy atributů SVG elementů tak aby JavaScript fungoval. 
+	Skript v~JavaScriptu vkládá pomocná funkce \texttt{insert\_JS\_to\_graph}, přebírající jeden argument, a~to řetězec obsahující SVG strukturu grafu, do kterého se má vložit zmíněný skript. 
+	Kromě vložení JavaScriptu se funkce též stará o~drobné úpravy atributů SVG elementů tak aby JavaScript fungoval. 
 
 \section{Třída \texttt{Gui}}
 	Můj program lze používat jak dávkově z~příkazové řádky, tak interaktivně s~pomocí grafického uživatelského prostředí. Dávkový režim nabízí pouze možnost vygenerovat graf v~určitém 
 	umístění. Interaktivní režim nabízí možnost graf ihned prohlížet. Variací na interaktivní režim je také okno s~grafem, které by se mohlo zobrazit při instalaci, jako vizualizace změn prováděných
 	instalátorem. 
 
-	Třída Gui obsahuje vše potřebné pro obsluhu uživatelského rozhraní. Je naprogramována s~pomocí nejrozšířenější linuxové knihovny pro uživatelská rozhraní Gnome toolkit (GTK). Jde o~
+	Třída \texttt{Gui} obsahuje vše potřebné pro obsluhu uživatelského rozhraní. Je naprogramována s~pomocí nejrozšířenější linuxové knihovny pro uživatelská rozhraní Gnome toolkit (GTK). Jde o~
 	obyčejné okno s~několika tlačítky. Jsou v~ní obsaženy ovládací prvky potřebné pro nastavení umístění grafu, tlačítko pro vyvolání kontextové
 	nápovědy a~plocha zobrazující samotný graf. Pro zobrazení grafu je použita technologie WebKit. WebKit je de facto prohlížeč, který je možné vložit do GTK aplikace.
 	Okno WebKitu je možné vložit do GTK aplikace a~tím dosáhnout stejné základní funkcionality,
 	jakou mají dnešní moderní webové prohlížeče. V~mém případě jde o~schopnost zobrazit SVG a~schopnost spouštět JavaScript.
 
-	Rizikem, které je nutné přijmout, je možná známá zranitelnost prohlížečů a~nutnost ukládat soubor SVG na disku. WebKit totiž zobrazuje svg s~pomocí protokolu file://. Počítač se
+	Rizikem, které je nutné přijmout, je možná známá zranitelnost prohlížečů a~nutnost ukládat soubor SVG na disku. WebKit totiž zobrazuje SVG s~pomocí protokolu file://. Počítač se
 	tak ptá sám sebe na existenci souboru v~určité cestě definované uživatelem, a~pokud jej najde, zobrazí jej uživateli. Pokud by se k~systému dostal útočník, mohl by soubor upravit a~
 	zanechat v~něm škodlivý kód. Nicméně bezpečnost systému není věcí této práce a~vychází se z~předpokladu, že systém, na kterém je vizualizace spouštěna, je buď ve fázi instalace, nebo
 	je již zabezpečen. 
 
 \chapter{Vzhled grafu}
-  Můžeme uvažovat o třech hlavních způsobech uložení informací v grafu. První je ve formě textu, druhá ve formě vzhledu uzlů a třetí ve formě obrázků 
-	u některých druhů blokových zařízení. 
+  Můžeme uvažovat o~třech hlavních způsobech uložení informací v~grafu. První je ve formě textu, druhá ve formě vzhledu uzlů a~třetí ve formě obrázků 
+	u~některých druhů blokových zařízení. 
 
-	Při vygenerování grafu však nejsou všechna data ihned zobrazena, některé informace jsou skryté a ostatní zvýrazněné. Uzly jsou klikatelné a po kliknutí
-	se uzel zvětší a zároveň se zobrazí kompletní informace. Po opětovném klikutí je uzel uveden do předchozího stavu, tj. zmenšen a informace jsou částečně 
-	skryty. Ve zmenšeném stavy jsou taktéž zvýrazněny zbylé řádky. Díky tomu je graf přehlednější a zároveň je možné zjistit o každém uzlu dostatek informací.
+	Při vygenerování grafu však nejsou všechna data ihned zobrazena, některé informace jsou skryté a~ostatní zvýrazněné. Uzly jsou klikatelné a~po kliknutí
+	se uzel zvětší a~zároveň se zobrazí kompletní informace. Po opětovném klikutí je uzel uveden do předchozího stavu, tj. zmenšen a~informace jsou částečně 
+	skryty. Ve zmenšeném stavu jsou taktéž zvýrazněny zbylé řádky. Díky tomu je graf přehlednější a~zároveň je možné zjistit o~každém uzlu dostatek informací.
 
 \section{Textové informace}
-  Převážná většina informací je uložena ve formě textu. Jednotlivé atributy blokových zařízení jsou uspořádáy do řádků a vloženy do uzlu. Výběr velikosti
-	písma a fontu je přenechán programu Graphviz. První je uvedeno jméno zařízení, následované jeho typem a formátem. Dále jsou přidány další řádky, 
-	obsahující dodatečné informace. Jméno, typ a formát jsou řádky zbýrazněné pomocí JavaScriptu neboť se jedná o informace sloužící k okamžitému rozpoznání
+  Převážná většina informací je uložena ve formě textu. Jednotlivé atributy blokových zařízení jsou uspořádáy do řádků a~vloženy do uzlu. Výběr velikosti
+	písma a~fontu je přenechán programu Graphviz. První je uvedeno jméno zařízení, následované jeho typem a~formátem. Dále jsou přidány další řádky, 
+	obsahující dodatečné informace. Jméno, typ a~formát jsou řádky zbýrazněné pomocí JavaScriptu neboť se jedná o~informace sloužící k~okamžitému rozpoznání
 	jaké zařízení daný uzel reprezentuje.
 
-	Dále jsou uvedeny další informace které jsou nutné pro přehled o zařízeních ale nejsou nutné pro rozeznání uzlů. Jde o informace o velikosti blokového
-	zařízení, různé identifikátory a adresářová cesta k umístění zařízení. V případě že se jedná o graf reprezentující chystané akce, které jsou připravené
-	k provedení, je u každého dotčeného uzlu uvedeno jaké akce jsou s ním naplánované. Naplánovaných akcí může být i více než jedna, v tom připadě jsou
-	řazeny za sebe na stejný řádek. Například při změně formátu je nejdříve starý formát zničen a poté je nový formát vytvořen, jde tedy o dvě akce a 
-	uživatel je o obou informován.
+	Dále jsou uvedeny další informace, které jsou nutné pro přehled o~zařízeních, ale nejsou nutné pro rozeznání uzlů. Jde o~informace o~velikosti blokového
+	zařízení, různé identifikátory a~adresářová cesta k~umístění zařízení. V~případě, že se jedná o~graf reprezentující chystané akce, které jsou připravené
+	k~provedení, je u~každého dotčeného uzlu uvedeno, jaké akce jsou s~ním naplánované. Naplánovaných akcí může být i~více než jedna, v~tom případě jsou
+	řazeny za sebe na stejný řádek. Například při změně formátu je nejdříve starý formát zničen a~poté je nový formát vytvořen, jde tedy o~dvě akce a~
+	uživatel je o~obou informován.
 
-  Na obrázku č. 7 je vidět rozdíl mezi přiblíženým a nepřiblíženým uzlem. Rozdíl ve velikosti písma není markantní spíše si lze všimnout rozdílu ve velikosti 
+  Na obrázku č.~5.1 je vidět rozdíl mezi přiblíženým a~nepřiblíženým uzlem. Rozdíl ve velikosti písma není markantní, spíše si lze všimnout rozdílu ve velikosti 
 	uzlu.
 
 \begin{figure}[]
 	\label{fig:Rozdíly uzlů}
-	\caption{Vlevo přiblížený graf v pravo nepřiblížený}
+	\caption{Vlevo přiblížený graf v~pravo nepřiblížený}
 	\centering
 	\includegraphics[width=1.0\columnwidth]{pictures/node_zoom.jpg}
 \end{figure}
   
 \section{Netextové informace}
-  Informace jsou kromě textu uloženy též ve formě vzhledu uzlů. Kromě hierarchie uzlů to je jejich barva a tvar. Uzly mají různé tvary podle toho
-	jaké zařízení reprezentují. Fyzické disky a jejich oddíly jsou reprezentovány obdélníkem, naopak věci jako je šifrování a raid jsou reprezentovány
-	elipsou. Idea je taková, že čím je objekt reprezentovaný uzlem abstraktnější tím je uzel zaoblenější. Existuje i mezistupeň obdélníku se zaoblenými
-	rohy jakožto i jiné použité tvary. Na obrázku uvádím příklad fyzického disku vlevo a šifrování technologií LUKS vpravo.
+  Informace jsou kromě textu uloženy též ve formě vzhledu uzlů. Kromě hierarchie uzlů to je jejich barva a~tvar. Uzly mají různé tvary podle toho
+	jaké zařízení reprezentují. Fyzické disky a~jejich oddíly jsou reprezentovány obdélníkem, naopak věci jako je šifrování a~RAID jsou reprezentovány
+	elipsou. Idea je taková, že čím je objekt reprezentovaný uzlem abstraktnější, tím je uzel zaoblenější. Existuje i~mezistupeň obdélníku se zaoblenými
+	rohy, jakožto i~jiné použité tvary. Na obrázku č.~5.2 uvádím příklad fyzického disku vlevo a~šifrování technologií LUKS vpravo.
 
-	Druhým vodítkem je barva. Respektive odstíny jedné barvy. Opět platí, čím abstraktnější blokové zařízení tím je barva světlejší. Dále využívám
-	barvy na odlišení různých akcí, které byly naplánované předem. Akce u kterých dochází ke smazaní zařízení jsou zobrazeny červeně. Naproti tomu akce
-	u kterých je zařízení vytvořeno jsou zobrazeny zeleně. Při akcích typu formátování, zvětšení či zmenšení oddílu je barva modrá. Příklady jsou uvedeny na obrázku č. 8.
+	Druhým vodítkem je barva, Respektive odstíny jedné barvy. Opět platí čím abstraktnější blokové zařízení, tím je barva světlejší. Dále využívám
+	barvy na odlišení různých akcí, které byly naplánované předem. Akce, u~kterých dochází ke smazaní zařízení, jsou zobrazeny červeně. Naproti tomu akce,
+	u~kterých je zařízení vytvořeno, jsou zobrazeny zeleně. Při akcích typu formátování, zvětšení či zmenšení oddílu je barva modrá. Příklady jsou uvedeny na obrázku č.~5.3.
 
-\begin{figure}[]
+\begin{figure}
+	\label{fig:Rozdíly zařízení}
+	\caption{Ukázka rozdílné reprezentace různých zařízení}
+	\centering
+	\includegraphics[width=.9\columnwidth]{pictures/disk_and_luks.jpg}
+\end{figure}
+\begin{figure}
 	\label{fig:Reprezentace naplánované akce}
 	\caption{Ukázky reprezentace akcí}
 	\centering
@@ -527,35 +529,29 @@ Zde chci poděkovat Marku Grácovi za vedení mé práce, Vratislavu Podzimkovi 
 \end{figure}
   
 \section{Informace předávané symboly -- emoji}
-  Informace jsou uchovávané také v podobě malých symbolů, známých pod jménem emoji, jak můžeme vidět na obrázku č. 8.
-	Původně vznikli v Japonsku, jako nápad na rozšíření emotikonů. Internetem se pak rozšířili do
-	celého světa. Dnes jsou již zahrnuty do standartní znakové sady Unicode. Nicméně to neznamená, že jsou na všech platformách všechny znaky standardizované. Různé platformy mají různou
-	podporu pro znaky a například v Japonsku platí, že symboly jednoho operátora se nemusí správně zobrazovat na přístroji jiného. V mé práci ale používám pár základních symbolů, které 
-	jsou součástí standartní sady unicode a proto by měli být podporovány všude.
+  Informace jsou uchovávané také v~podobě malých symbolů, známých pod jménem emoji, jak můžeme vidět na obrázcích č.~5.2 a~5.3.
+	Původně vznikly v~Japonsku jako rozšíření emotikonů. Internetem se pak rozšířily do
+	celého světa. Dnes jsou již zahrnuty do standardní znakové sady Unicode. Nicméně to neznamená, že jsou na všech platformách všechny znaky standardizované. Různé platformy mají různou
+	podporu pro znaky a~například v~Japonsku platí, že symboly jednoho operátora se nemusí správně zobrazovat na přístroji jiného. Ve své práci používám několik základních symbolů, které 
+	jsou součástí standartní sady Unicode a~proto by měly být podporovány všude.
 
-  Jak je vidět na obrázku symboly jsou použity pro rychlejší rozpoznání které akce jsou připravené. Barva uzlu je jen jedna ale emoji symbolů může být u jednoho uzlu i více. Symboly jsou
-	zobrazované na vrchu ještě před jménem. Z hlediska dostupných možností to byla nejlepší volba. Uvažoval jsem i o možnosti graf rozdělit na textovou a obrázkovou část a zobrazovat
-	oba typy dat odděleně ale kvůli limitům Graphvizu jsem byl nucen zvolit umístění na vrchu grafu.
+  Jak je vidět na obrázku č.~5.3, symboly jsou použity pro rychlejší rozpoznání, které akce jsou připravené. Barva uzlu je jen jedna, ale emoji symbolů může být u~jednoho uzlu i~více. Symboly jsou
+	zobrazované na vrchu uzlu ještě před jménem. Z~hlediska dostupných možností to byla nejlepší volba. Uvažoval jsem i~o~možnosti uzel rozdělit na textovou a~obrázkovou část a~zobrazovat
+	oba typy dat odděleně, ale kvůli limitům Graphvizu zvolil umístění na vrchu uzlu.
 
 \chapter{Závěr}
-  Hlavní cíle mé práce byly splněny. Jsou jimi, vizualizace dat z Blivetu do samostatného okna GTK aplikace a zobrazení připravených změn. Stejně tak jsou připraveny funkce pro snadnou integraci
-	do dalších programů. Kromě použití Blivetu nebyl
-	výběr technologií nijak omezen. Preferovaným programovacím jazykem byl jazyk Python. S tímto výběrem jsem problém neměl a tak je práce psána v Pythonu. Bohužel jsem rozšiřující úkoly musel
-	ponechat nesplněné. Neboť se ukázaly nad mé možnosti, uvádím je proto v kapitole Další možnosti rozšiřování.
+  Hlavními cíli mé byly vizualizace dat z~Blivetu do samostatného okna GTK aplikace a~zobrazení připravených změn. Stejně tak jsou připraveny funkce pro snadnou integraci
+	do dalších programů.   
 
-	Největší výzvou v průběhu vypracování pro mě zcela určitě byla práce s JavaScriptem. Tato bakalářská práce je prvním větším projektem, u kterého jsem JavaScript používal. Musel jsem se
-	tedy učit nový jazyk \uv{za pochodu}. Naštěstí jsem v minulosti střídal a zkoušel různé jazyky a tak už mi dnes nedělá problém se některý programovací jazyk rychle naučit. Navíc 
-	JavaScript není moc vzdálen klasickým jazykům vycházejícím z jazyka C. Paradigra je pořád stejné (procedurální či objektové). Nejedná se o nezvyklý jazyk jakým mohou být například
-	jazyku logické či funkcionální.
+	Vizualizační program čte data z~knihovny Blivet a~s~pomocí knihovny Graphviz z~nich vytváří graf. Ten zobrazuje s~pomocí programu WebKit ve vlastním okně aplikace. Program lze
+	použít i~jen k~vytvoření grafu bez jeho zobrazení. Grafy se dělí na dva druhy, graf se zvýrazněním naplánovaných akcí a~bez něj.
 
-	Samotná práce s daty knihovny Blivet byla bezproblémová, dle mého názoru je Blivet dobře navržená knihovna s logicky uspořádanými daty. Jediným háčkem bylo nalezení funkcí poskytujících
-	připravené akce, čekal bych, že budou na podobném místě jako data o zařízeních ale není tomu tak. Jsou o úroveň níže v samostatném objektu. Po uvědomění si tohoto rozdílu však bylo vše
-	v pořádku.
-  
-\section{Další možnosti rozšiřování}
-	Zadání mé práce je schváleno jako dostatečné pro bakalářskou práci. Přesto jsem během vypracování diskutoval o dalších možných nadstavbách a~pokračování v~práci.
+	Se zobrazeným grafem je možno manipulovat pomocí JavaScriptu. Graf je možno posouvat a~přibližovat. JavaScript také zajišťuje funkci přiblížení uzlů. Přiblížené uzly zobrazují
+	více informací. Nepřiblížené zpřehledňují graf.
 
-	První rozšíření by byla možnost vytvářet XML soubory obsahující informace z~grafů. Již existuje aplikace schopná vytvářet XML soubory z~Blivetu a~zase je zpět nahrávat. Jeho zamýšlené
+	Na výsledek mé práce je možné dále navázat na několika místech.
+	Prvním rozšířením je funkcionalita zajišťující schopnost  vytvářet XML soubory obsahující informace z~grafů. 
+	Již existuje aplikace schopná vytvářet XML soubory z~Blivetu a~zase je zpět nahrávat. Její zamýšlené
 	použití je vytváření záchytných bodů, ke kterým je možné se vrátit v~případě havárie instalátoru, přerušení dodávky elektrického proudu či jiné fatální chyby systému. Ideou pro export
 	XML z~grafu je možnost na systém přenést tu konfiguraci, která je prezentována.
 
@@ -564,8 +560,8 @@ Zde chci poděkovat Marku Grácovi za vedení mé práce, Vratislavu Podzimkovi 
 	přetažením myší stejně, jako dnes kopírujeme soubory přetažením jejich ikony. Nové oddíly by byly vytvářeny také přetažením z~nějaké nabídky předpřipravených uzlů. Konkrétní velikosti
 	a~jména zařízení by se editovaly s~pomocí textových polí v~každém uzlu.
 	
-	Největším problémem, který by bylo třeba vyřešit, je načítání svg a~informací z~něj zpět zároveň s~ukládáním informací z~prohlížeče. 
-	Jedním z~možných postupů by byla úprava XML načítače tak, aby fungoval i~pro svg graf zobrazovaný uživateli. Uživatel by přetvořil graf podle svých představ, poté spustil 
+	Největším problémem, který by bylo třeba vyřešit, je načítání SVG a~informací z~něj zpět zároveň s~ukládáním informací z~prohlížeče. 
+	Jedním z~možných postupů by byla úprava XML načítače tak, aby fungoval i~pro SVG graf zobrazovaný uživateli. Uživatel by přetvořil graf podle svých představ, poté spustil 
 	konfiguraci, a~ta by přenesla stav do Blivetu a~provedla změny v~úložném prostoru systému. 
 
 	\printbibliography
