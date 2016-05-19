@@ -300,7 +300,7 @@ Tato práce vznikla ve spolupráci se společností Red Hat Czech s.r.o., za co 
 	\end{quotation}
 
 	Prvním rozložením je rozložení dot. Oficiální dokumentace k~němu říká:
-	\uv{dot -- 'hierarchical' or layered drawings of directed graphs. This is the default tool to use if edges have directionality.}\cite{graphviz_layout} 
+	\uv{dot -- hierarchical or layered drawings of directed graphs. This is the default tool to use if edges have directionality.}\cite{graphviz_layout} 
 	Rozhraní dot přehledně udržuje hierarchii mezi rodiči a~potomky. Skládá
 	své uzly do stromu, a~proto by mohl být kandidátem na použití v~mé práci. Lidé jsou zvyklí vnímat data ohledně úložného prostoru ve formě stromů. Tím pádem jde o~intuitivnější
 	reprezentaci.
@@ -312,7 +312,7 @@ Tato práce vznikla ve spolupráci se společností Red Hat Czech s.r.o., za co 
 	\includegraphics[width=0.4\textwidth]{pictures/dot_example.png} 
 \end{figure}
 
-	Druhé rozložení, \uv{neato -- 'spring model' layouts.  This is the default tool to use if the graph is not too large (about 100 nodes) and you don't know anything else about it. Neato attempts to
+	Druhé rozložení, \uv{neato -- spring model layouts.  This is the default tool to use if the graph is not too large (about 100 nodes) and you don't know anything else about it. Neato attempts to
 	minimize a~global energy function, which is equivalent to statistical multi-dimensional scaling.}\cite{graphviz_layout}
 	Jinými slovy algoritmus neato se snaží vytvořit celý graf co nejmenší bez ohledu na ostatní faktory. Grafy nejsou hierarchické ani 
 	strukturované. Cílem je co nejmenší zabraná plocha a~zároveň nepřekrývání hran a~uzlů. Kvůli chaotičnosti a~nestrukturalizovanosti se nejedná o~algoritmus, který bych mohl
@@ -325,7 +325,7 @@ Tato práce vznikla ve spolupráci se společností Red Hat Czech s.r.o., za co 
 	\includegraphics[width=0.6\textwidth]{pictures/neato_example.png} 
 \end{figure}
 
-	Třetí rozložení, \uv{fdp -- 'spring model' layouts similar to those of neato, but does this by reducing forces rather than working with energy.}\cite{graphviz_layout} 
+	Třetí rozložení, \uv{fdp -- spring model layouts similar to those of neato, but does this by reducing forces rather than working with energy.}\cite{graphviz_layout} 
 	Fdp je další z~rozložení pro neorientované grafy, ještě více zmenšuje plochu grafu, tentokrát i~s~ústupkem ohledně překrývání
 	uzlů hranami. Pro grafy, které potřebuji vytvořit, se jedná o~ten nejhorší algoritmus z~pěti zde zmíněných. V~uzlech jsou zapsána data o~zařízeních a~hrany překrývající tyto uzly
 	působí rušivě. Zároveň není třeba šetřit místem, neboť ve výsledné aplikaci je možné přibližovat a~posouvat graf dle libosti uživatele. Fdp tedy není algoritmus vhodný pro tuto
@@ -540,10 +540,10 @@ Tato práce vznikla ve spolupráci se společností Red Hat Czech s.r.o., za co 
 	oba typy dat odděleně, ale kvůli limitům Graphvizu jsem zvolil umístění na vrchu uzlu.
 
 \chapter{Závěr}
-  Hlavními cíli mé práce byla vizualizace dat z~Blivetu do samostatného okna GTK aplikace a~zobrazení připravených změn. Stejně tak jsou připraveny funkce pro snadnou integraci
+  Hlavním cílem mé práce byla vizualizace dat z~Blivetu do samostatného okna GTK aplikace a~zobrazení připravených změn. Dalším cílem příprava funkcí pro snadnou integraci
 	do dalších programů.   
 
-	Vizualizační program čte data z~knihovny Blivet a~s~pomocí knihovny Graphviz z~nich vytváří graf. Ten zobrazuje s~pomocí programu WebKit ve vlastním okně aplikace. Program lze
+	Vizualizační program čte data z~knihovny Blivet a~s~pomocí knihov\-ny Graphviz z~nich vytváří graf. Ten zobrazuje s~pomocí programu WebKit ve vlastním okně aplikace. Program lze
 	použít také k~vytvoření grafu bez jeho zobrazení. Grafy se dělí na dva druhy, graf se zvýrazněním naplánovaných akcí a~bez něj.
 
 	Se zobrazeným grafem je možno manipulovat pomocí JavaScrip\-tu\cite{javascript}, graf je možno posouvat a~přibližovat. JavaScript také zajišťuje funkci \uv{rozklikávání} uzlů. Přiblížené uzly zobrazují
